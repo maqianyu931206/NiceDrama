@@ -1,5 +1,6 @@
 package com.maqianyu.nicedrama.video;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
@@ -12,6 +13,12 @@ import com.maqianyu.nicedrama.R;
  */
 public class VideoFragment extends AbsFragment{
 
+    public static VideoFragment newInstance() {
+        Bundle args = new Bundle();
+        VideoFragment fragment = new VideoFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     private TabLayout videoTl;
     private ViewPager videoVp;
 

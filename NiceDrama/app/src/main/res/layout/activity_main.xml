@@ -8,15 +8,16 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
+        android:padding="5dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -35,6 +36,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:button="@null"
+            android:background="@null"
             android:text="视频" />
         <RadioButton
             android:id="@+id/main_my_rbt"
@@ -46,4 +48,9 @@
             android:button="@null"
             android:text="我的" />
     </RadioGroup>
+    <View
+       android:layout_alignTop="@id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c4c0c0"/>
 </RelativeLayout>
