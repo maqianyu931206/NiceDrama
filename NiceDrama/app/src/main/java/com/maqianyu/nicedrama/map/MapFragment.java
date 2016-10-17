@@ -1,12 +1,6 @@
 package com.maqianyu.nicedrama.map;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.maqianyu.nicedrama.AbsFragment;
 import com.maqianyu.nicedrama.R;
 
@@ -36,6 +30,7 @@ public class MapFragment extends AbsFragment{
 
     @Override
     protected void initDatas() {
-
+        getToolbarTitle().setText("地图");
+        getSubTitle().setText("更多");
     }
 }

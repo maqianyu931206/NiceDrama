@@ -28,6 +28,11 @@ public class MainActivity extends AbsActivity {
     }
 
     @Override
+    protected boolean isShowBacking() {
+        return true;
+    }
+
+    @Override
     protected void initDatas() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

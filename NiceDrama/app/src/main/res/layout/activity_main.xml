@@ -9,48 +9,50 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="wrap_content" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <RadioButton
             android:id="@+id/main_map_rbt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@null"
             android:button="@null"
+            android:gravity="center"
             android:text="定位" />
+
         <RadioButton
             android:id="@+id/main_video_rbt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:button="@null"
             android:background="@null"
+            android:button="@null"
+            android:gravity="center"
             android:text="视频" />
+
         <RadioButton
             android:id="@+id/main_my_rbt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@null"
             android:button="@null"
+            android:gravity="center"
             android:text="我的" />
     </RadioGroup>
+
     <View
-       android:layout_alignTop="@id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#c4c0c0"/>
+        android:layout_alignTop="@id/radioGroup"
+        android:background="#c4c0c0" />
 </RelativeLayout>
