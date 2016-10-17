@@ -1,6 +1,7 @@
 package com.maqianyu.nicedrama;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -53,9 +54,9 @@ public abstract class AbsFragment extends Fragment{
     protected <T extends View> T byView(int resId) {
         return (T) getView().findViewById(resId);
     }
-//
-//    protected void goTo(Class<? extends AbsBaseActivity> to) {
-//        context.startActivity(new Intent(context, to));
-//    }
+
+    protected void goTo(Class<? extends AbsActivity> to) {
+        context.startActivity(new Intent(context, to));
+    }
 
 }

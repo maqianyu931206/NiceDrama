@@ -9,16 +9,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.maqianyu.nicedrama.map.MapFragment;
+import com.maqianyu.nicedrama.myset.SettingFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbsActivity {
     private FrameLayout frameLayout;
     private RadioGroup radioGroup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+    protected int setLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initViews() {
+        frameLayout = byView(R.id.frameLayout);
+        radioGroup = byView(R.id.radioGroup);
+    }
+
+    @Override
+    protected void initDatas() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -32,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.frameLayout, MapFragment.newInstance());
                         break;
                     case R.id.main_my_rbt:
-                        transaction.replace(R.id.frameLayout, MapFragment.newInstance());
+                        transaction.replace(R.id.frameLayout, SettingFragment.newInstance());
                         break;
                 }
                 transaction.commit();
