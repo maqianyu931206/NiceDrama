@@ -7,21 +7,21 @@ import com.maqianyu.nicedrama.R;
 
 /**
  * Created by dllo on 16/10/17.
- * 网易新闻的视频界面
+ * 剧好看的界面
  */
-public class NENewsVideoFragment extends AbsFragment {
+public class NiceDramaFragment extends AbsFragment{
 
-    public static NENewsVideoFragment newInstance() {
+    public static NiceDramaFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        NENewsVideoFragment fragment = new NENewsVideoFragment();
+        NiceDramaFragment fragment = new NiceDramaFragment();
         fragment.setArguments(args);
         return fragment;
     }
     @Override
     protected int setLayout() {
-        return R.layout.fragment_news_video;
+        return R.layout.fragment_drama_video;
     }
 
     @Override
