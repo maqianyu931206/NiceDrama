@@ -12,6 +12,7 @@ import com.maqianyu.nicedrama.R;
 
 /**
  * Created by dllo on 16/10/17.
+ * 地图页面的Fragment
  */
 public class MapFragment extends AbsFragment{
 

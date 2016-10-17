@@ -2,20 +2,39 @@ package com.maqianyu.nicedrama;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 
 /**
  * Created by dllo on 16/10/17.
  * Activity的基类
  */
 public abstract class AbsActivity extends AppCompatActivity {
+    private  Toolbar toolbar;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.toolbar_layout);
+//        View view = LayoutInflater.from(this).inflate(R.layout.toolbar_layout,null);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar.setTitle("标题2");
+        toolbar.setTitleTextColor(Color.YELLOW);
+        toolbar.setSubtitle("Sub title");
+        toolbar.setSubtitleTextColor(Color.parseColor("#9d9d9d"));
+//
+        setSupportActionBar(toolbar);
+
+
         /**
          * 绑定布局
          */
@@ -58,6 +77,9 @@ public abstract class AbsActivity extends AppCompatActivity {
         intent.putExtras(extras);
         startActivity(intent);
     }
+
+
+
 
 
 }

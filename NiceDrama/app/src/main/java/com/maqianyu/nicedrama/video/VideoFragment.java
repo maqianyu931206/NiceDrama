@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-
 import com.maqianyu.nicedrama.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.video.adapter.VideoFraAdapter;
@@ -20,6 +19,7 @@ import java.util.List;
  * 视频界面的Fragment
  */
 public class VideoFragment extends AbsFragment{
+
 
     private TabLayout videoTl;
     private ViewPager videoVp;

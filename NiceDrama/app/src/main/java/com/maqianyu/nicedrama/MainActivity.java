@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 import com.maqianyu.nicedrama.map.MapFragment;
 import com.maqianyu.nicedrama.myset.SettingFragment;
+import com.maqianyu.nicedrama.video.VideoFragment;
 
 public class MainActivity extends AbsActivity {
     private FrameLayout frameLayout;
@@ -38,7 +39,7 @@ public class MainActivity extends AbsActivity {
                         transaction.replace(R.id.frameLayout, MapFragment.newInstance());
                         break;
                     case R.id.main_video_rbt:
-                        transaction.replace(R.id.frameLayout, MapFragment.newInstance());
+                        transaction.replace(R.id.frameLayout, VideoFragment.newInstance());
                         break;
                     case R.id.main_my_rbt:
                         transaction.replace(R.id.frameLayout, SettingFragment.newInstance());
