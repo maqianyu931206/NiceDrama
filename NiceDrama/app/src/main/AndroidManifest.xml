@@ -15,6 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".myset.ScanActivity"/>
+        <activity android:name="com.karics.library.zxing.android.CaptureActivity"/>
+        <activity android:name="com.karics.library.zxing.android.PreferencesActivity"/>
     </application>
 
 </manifest>
