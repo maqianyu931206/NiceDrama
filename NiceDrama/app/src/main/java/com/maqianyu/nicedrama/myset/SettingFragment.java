@@ -28,6 +28,7 @@ public class SettingFragment extends AbsFragment {
 
     @Override
     protected void initDatas() {
-
+        getToolbarTitle().setText("设置");
+        getSubTitle().setText("更多");
     }
 }

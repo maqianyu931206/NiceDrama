@@ -48,6 +48,8 @@ public class VideoFragment extends AbsFragment{
 
     @Override
     protected void initDatas() {
+        getToolbarTitle().setText("视频");
+        getSubTitle().setText("更多");
         fragments = new ArrayList<>();
         videoFraAdapter = new VideoFraAdapter(getFragmentManager(), fragments);
         buildFragments();
