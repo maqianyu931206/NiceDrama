@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/ECoder_image"
         android:layout_width="180dp"
@@ -20,37 +27,56 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_main_edit"
         android:hint="输入Url,生成二维码" />
-
-    <LinearLayout
+    <com.maqianyu.nicedrama.myset.ArcMenuView
+        android:id="@+id/arcmenu2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ECoder_input"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
 
-        <Button
-            android:id="@+id/ECoder_creator"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="根据网址生成二维码"
-            android:textColor="#ff646464"
-            android:textSize="14sp" />
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/composer_button" >
 
-        <Button
-            android:id="@+id/ECoder_scaning"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="扫描二维码"
-            android:textColor="#ff646464"
-            android:textSize="14sp" />
-        <Button
-            android:id="@+id/save_img_btn"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="保存图片"
-            android:textColor="#ff646464"
-            android:textSize="14sp"/>
+            <ImageView
+                android:id="@+id/id_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/composer_icn_plus" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/id_button_save"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/btn_signin_sucess"
+            android:tag="sleep"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+        <ImageView
+            android:id="@+id/id_button_saomiao"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_more_contribution"
+            android:tag="thought" />
+        <ImageView
+            android:id="@+id/id_button_create"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_more_credit"
+            android:tag="thought" />
+        <ImageView
+            android:id="@+id/id_button_write"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_more_feedback"
+            android:tag="with" />
+    </com.maqianyu.nicedrama.myset.ArcMenuView>
+    </RelativeLayout>
+
+
+
+
     </LinearLayout>
-
-</RelativeLayout>

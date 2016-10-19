@@ -11,6 +11,8 @@ import com.maqianyu.nicedrama.R;
 
 /**
  * Created by dllo on 16/10/17.
+ * @author 庞美
+ * 设置页面
  */
 public class SettingFragment extends AbsFragment implements View.OnClickListener {
     private TextView scanTv;

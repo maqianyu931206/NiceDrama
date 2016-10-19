@@ -24,8 +24,10 @@ import java.io.IOException;
 /**
  * Created by dllo on 16/10/17.
  * 扫描二维码页面
+ *
+ * @author 庞美
  */
-public class ScanActivity extends AbsActivity{
+public class ScanActivity extends AbsActivity {
 
     private static final int REQUEST_CODE_SCAN = 0x0000;
 
@@ -33,11 +35,10 @@ public class ScanActivity extends AbsActivity{
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
     private Bitmap bitmap = null;
 
-    //	TextView qrCoded;
     ImageView qrCodeImage;
-    Button creator, scanner;
     EditText qrCodeUrl;
-    private Button saveBtn;
+    private ArcMenuView arcMenuView;
+
     @Override
     protected int setLayout() {
         return R.layout.activity_scan_code;
@@ -46,51 +47,42 @@ public class ScanActivity extends AbsActivity{
     @Override
     protected void initViews() {
         qrCodeImage = byView(R.id.ECoder_image);
-        creator = byView(R.id.ECoder_creator);
-        scanner = byView(R.id.ECoder_scaning);
         qrCodeUrl = byView(R.id.ECoder_input);
-        saveBtn = byView(R.id.save_img_btn);
-
+        arcMenuView = byView(R.id.arcmenu2);
     }
 
     @Override
     protected void initDatas() {
-        creator.setOnClickListener(new View.OnClickListener() {
-
+        getToolbarTitle().setText("二维码的生成与扫描");
+        getSubTitle().setText("");
+        qrCodeUrl.setVisibility(View.INVISIBLE);
+        arcMenuView.setOnMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View view, int pos) {
+                //1  保存    2  扫描     3 生成     4写地址
+                if (pos == 1) {
+                    saveQrCodePicture(bitmap);
 
-                String url = qrCodeUrl.getText().toString();
-                try {
-                    bitmap = CodeCreator.createQRCode(url);
-                    qrCodeImage.setImageBitmap(bitmap);
-                } catch (WriterException e) {
-                    e.printStackTrace();
+                } else if (pos == 2) {
+                    Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                } else if (pos == 3) {
+                    String url = qrCodeUrl.getText().toString();
+                    try {
+                        bitmap = CodeCreator.createQRCode(url);
+                        qrCodeImage.setImageBitmap(bitmap);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+
+                } else if (pos == 4) {
+                    qrCodeUrl.setVisibility(View.VISIBLE);
+                    qrCodeUrl.setText("");
                 }
-
-            }
-
-        });
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveQrCodePicture(bitmap);
             }
         });
-
-        scanner.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(ScanActivity.this,
-                        CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_SCAN);
-            }
-        });
-
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -100,11 +92,10 @@ public class ScanActivity extends AbsActivity{
 
                 String content = data.getStringExtra(DECODED_CONTENT_KEY);
                 Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
-
-//				qrCoded.setText(content);
-
-//				qrCoded.setMovementMethod(LinkMovementMethod.getInstance());
                 qrCodeImage.setImageBitmap(bitmap);
+                /**
+                 * 跳转到该地址
+                 */
                 Intent intent = new Intent();
                 intent.setData(Uri.parse(content));//Url 就是你要打开的网址
                 intent.setAction(Intent.ACTION_VIEW);
@@ -119,9 +110,8 @@ public class ScanActivity extends AbsActivity{
      * 保存生成的二維碼圖片
      */
     private void saveQrCodePicture(Bitmap bitmap) {
-        final File qrImage = new File(Environment.getExternalStorageDirectory(), qrCodeUrl.getText().toString()+".jpg");
-        if(qrImage.exists())
-        {
+        final File qrImage = new File(Environment.getExternalStorageDirectory(), qrCodeUrl.getText().toString() + ".jpg");
+        if (qrImage.exists()) {
             qrImage.delete();
         }
         try {
@@ -135,9 +125,7 @@ public class ScanActivity extends AbsActivity{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        if(bitmap == null)
-        {
-//			Toast.makeText(this,R.string.image_not_exist, Toast.LENGTH_SHORT).show();
+        if (bitmap == null) {
             Toast.makeText(this, "无图片", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -145,7 +133,7 @@ public class ScanActivity extends AbsActivity{
         try {
             fOut.flush();
             fOut.close();
-            Toast.makeText(this,"完毕", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "保存完毕", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
