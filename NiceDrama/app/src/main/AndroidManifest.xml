@@ -50,15 +50,15 @@
         <activity android:name=".myset.ScanActivity" />
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />
-        <activity android:name=".map.MapActivity"/>
+        <activity android:name=".map.map_aty.MapActivity"/>
         =======
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="8b4541e278725d876724534ee953360f" />
         <service android:name="com.amap.api.location.APSService" />
-        <code class="hljs xml">
-            <service android:name="com.amap.api.location.APSService" />
-        </code>
+        <!--<code class="hljs xml">-->
+            <!--<service android:name="com.amap.api.location.APSService" />-->
+        <!--</code>-->
         >>>>>>> feature/马迁宇
     </application>
 

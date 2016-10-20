@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.maqianyu.nicedrama.map;
+package com.maqianyu.nicedrama.map.map_aty;
 
 import android.text.Html;
 import android.text.Spanned;

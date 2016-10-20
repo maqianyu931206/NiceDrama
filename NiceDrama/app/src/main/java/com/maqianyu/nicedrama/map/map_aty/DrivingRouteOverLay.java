@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.map;
+package com.maqianyu.nicedrama.map.map_aty;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 导航路线图层类。
  */
-public class DrivingRouteOverLay extends RouteOverlay{
+public class DrivingRouteOverLay extends RouteOverlay {
 
 	private DrivePath drivePath;
     private List<LatLonPoint> throughPointList;

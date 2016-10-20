@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.map;
+package com.maqianyu.nicedrama.map.map_aty;
 
 public class ChString {
 	public static final String Kilometer = "\u516c\u91cc";// "公里";

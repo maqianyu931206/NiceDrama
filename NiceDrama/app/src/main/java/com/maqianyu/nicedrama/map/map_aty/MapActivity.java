@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.map;
+package com.maqianyu.nicedrama.map.map_aty;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ import com.amap.api.services.help.Tip;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.maqianyu.nicedrama.R;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;

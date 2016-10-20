@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.map;
+package com.maqianyu.nicedrama.map.map_aty;
 
 import com.amap.api.maps2d.model.LatLng;
 
