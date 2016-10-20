@@ -23,15 +23,17 @@ import static com.maqianyu.nicedrama.R.id.toolbar;
  */
 public abstract class AbsFragment extends Fragment{
     protected Context context;
-    private static final String TAG = AbsActivity.class.getSimpleName();
-    private  Toolbar mToolbar;
-    private TextView mToolbarTitle;
-    private TextView mToolbarSubTitle;
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        this.context = context;
+//    }
+
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context =activity;
     }
 
     @Nullable
@@ -45,16 +47,6 @@ public abstract class AbsFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
-        mToolbar =  byView(R.id.toolbar);
-        mToolbarTitle =  byView(R.id.toolbar_title);
-        mToolbarSubTitle =  byView(R.id.toolbar_subtitle);
-        if (mToolbar != null) {
-            ((AppCompatActivity)context).setSupportActionBar(mToolbar);
-        }
-        if (mToolbarTitle != null) {
-            mToolbarTitle.setText( ((AppCompatActivity)context).getTitle());
-            ((AppCompatActivity)context).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
 
     }
 
@@ -83,51 +75,11 @@ public abstract class AbsFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        if (null != getToolbar() && isShowBacking()){
-            showBack();
-        }
+
     }
 
-
-    public TextView getToolbarTitle() {
-        return mToolbarTitle;
-    }
-
-    public TextView getSubTitle() {
-        return mToolbarSubTitle;
-    }
-
-    public Toolbar getToolbar() {
-        return (Toolbar) byView(toolbar);
-    }
-
-    public void setToolbarTitle(CharSequence title) {
-        if(mToolbarTitle != null){
-            mToolbarTitle.setText(title);
-        }else{
-            getToolbar().setTitle(title);
-            ((AppCompatActivity)context).setSupportActionBar(getToolbar());
-        }
-    }
-
-
-    private void showBack() {
-        //setNavigationIcon必须在setSupportActionBar(toolbar);方法后面加入
-        getToolbar().setNavigationIcon(R.mipmap.back);
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((AppCompatActivity)context).onBackPressed();
-            }
-        });
-    }
-
-    protected boolean isShowBacking(){
-        return true;
-    }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.v(TAG, "onDestroy...");
     }
 }

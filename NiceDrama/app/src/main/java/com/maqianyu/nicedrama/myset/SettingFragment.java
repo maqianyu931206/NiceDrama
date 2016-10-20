@@ -36,8 +36,6 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-        getToolbarTitle().setText("设置");
-        getSubTitle().setText("更多");
         scanTv.setOnClickListener(this);
 
     }

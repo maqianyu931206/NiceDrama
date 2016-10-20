@@ -9,7 +9,7 @@
     <!--视频界面-->
     <string name="action_settings">Settings</string>
     <!--设置页面-->
-=======
+    =======
 
     <string name="animate">Animate</string>
     <string name="basic_map">基本地图</string>
@@ -202,5 +202,5 @@
     <string name="routepoisearch_demo">沿途搜索</string>
     <string name="route_ride">骑行路径规划</string>
 
->>>>>>> feature/马迁宇
+    >>>>>>> feature/马迁宇
 </resources>
