@@ -1,6 +1,11 @@
 package com.maqianyu.nicedrama.myset;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,7 +20,7 @@ import com.maqianyu.nicedrama.R;
  * 设置页面
  */
 public class SettingFragment extends AbsFragment implements View.OnClickListener {
-    private TextView scanTv;
+    private TextView scanTv,translateTv,voiceTv,voiceCreateTv;
 
     public static SettingFragment newInstance() {
         Bundle args = new Bundle();
@@ -31,6 +36,9 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
     @Override
     protected void initViews() {
         scanTv = byView(R.id.setting_scan);
+        translateTv = byView(R.id.setting_translate);
+        voiceTv = byView(R.id.setting_voice);
+        voiceCreateTv = byView(R.id.setting_voicecreate);
 
     }
 
@@ -39,6 +47,9 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
         getToolbarTitle().setText("设置");
         getSubTitle().setText("更多");
         scanTv.setOnClickListener(this);
+        translateTv.setOnClickListener(this);
+        voiceTv.setOnClickListener(this);
+        voiceCreateTv.setOnClickListener(this);
 
     }
 
@@ -48,6 +59,23 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
             case R.id.setting_scan:
                 goTo(ScanActivity.class);
                 break;
+            case R.id.setting_translate:
+                Intent intent = new Intent();
+                intent.setData(Uri.parse("http://fanyi.baidu.com/?aldtype=16047#auto/zh/"));//Url 就是你要打开的网址
+                intent.setAction(Intent.ACTION_VIEW);
+                this.startActivity(intent); //启动浏览器
+                break;
+            case R.id.setting_voice:
+                Intent intent1 = new Intent(context,LisAndWriActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.setting_voicecreate:
+                Log.d("SettingFragment", "22222");
+                Intent intent2 = new Intent(context,TtsActivity.class);
+                startActivity(intent2);
+                Log.d("SettingFragment", "111111");
+                break;
+
         }
     }
 }
