@@ -10,11 +10,9 @@
     <string name="action_settings">Settings</string>
     <!--设置页面-->
 
-    =======
     <string name="no_result">对不起，没有搜索到相关数据！</string>
 
 
-=======
     <!-- 听写 -->
     <string name="app_id">58087ef2</string>
     <string name="text_begin">请开始说话…</string>
@@ -133,5 +131,10 @@
         <item>关闭</item>
     </string-array>
     <!--设置页面-->
->>>>>>> feature/庞美
+
+    <!--视频界面-->
+         <!--网易视频界面-->
+    <string name="dlna_device_title">"%s"正在播放中</string>
+         <!--网易视频界面-->
+    <!--视频界面-->
 </resources>

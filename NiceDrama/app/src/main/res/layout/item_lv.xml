@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--网易视频的行布局-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:minHeight="200dp"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/fl_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@mipmap/ic_launcher"
+                android:scaleType="fitXY"
+                />
+
+            <ImageView
+                android:id="@+id/play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/biz_video_list_play_icon_big" />
+
+            <com.zhang.videob.wkvideoplayer.view.SuperVideoPlayer
+                android:id="@+id/video_player_item_1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/title_tv_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#FFF"
+                android:text="嗯哼"
+                android:textSize="20sp" />
+        </FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/author_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/author_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哈哈"
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/author_img"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/item_count_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:text="123"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/item_length_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/item_count_tv"
+                android:layout_centerVertical="true"
+                android:layout_margin="20dp"
+                android:text="123"
+                android:textSize="18sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

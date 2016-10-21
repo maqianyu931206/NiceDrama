@@ -4,11 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--新闻视频界面的布局-->
-    <ListView
-        android:id="@+id/lv"
+    <com.zhang.videob.wkvideoplayer.view.SuperVideoPlayer
+        android:id="@+id/pw_svp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="5dp"
-        android:divider="#fff"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>
