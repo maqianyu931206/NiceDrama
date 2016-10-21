@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:src="@mipmap/biz_video_list_play_icon_big" />
 
-            <com.zhang.videob.wkvideoplayer.view.SuperVideoPlayer
+            <com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer
                 android:id="@+id/video_player_item_1"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

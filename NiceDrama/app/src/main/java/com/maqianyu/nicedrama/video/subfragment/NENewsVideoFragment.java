@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,9 +44,6 @@ public class NENewsVideoFragment extends AbsFragment {
 
     private int p;
     private String mp4;
-    private boolean isScroll = false;
-    private boolean isisisi = false;
-    private PEntity pEntity;
     private ListView listView;
     private List<ENNEntity.视频Bean> datas;
     private NENewsAdapter adapter;
@@ -55,7 +53,6 @@ public class NENewsVideoFragment extends AbsFragment {
             "g%3D%3D&lat=&lon=&version=14.2&net=wifi&ts=1474540981&sign=CSZnTDA7E%2B%2FpWniX0HR" +
             "2j2%2F%2FmXOcKxmUgk8uLzb6ohx48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=wandoujia" +
             "_news&mac=3Fg2bhJMR1xtVeOmVPRkSIe1A3IUPLLdoCiqBVf2Go0%3D";
-    private PopupWindow pw;
     private SuperVideoPlayer svp;
     private int width, height;
     private VideoView pwVp;
@@ -77,11 +74,15 @@ public class NENewsVideoFragment extends AbsFragment {
     @Override
     protected void initViews() {
         listView = byView(R.id.lv);
+        svp = byView(R.id.news_svp);
     }
 
     @Override
     protected void initDatas() {
         EventBus.getDefault().register(this);
+
+        datas = new ArrayList<>();
+        adapter = new NENewsAdapter(context);
 
         queue = Volley.newRequestQueue(context);
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
@@ -109,29 +110,10 @@ public class NENewsVideoFragment extends AbsFragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                width = ScreenSizeUtils.getScreenState(ScreenSizeUtils.ScreenState.WIDTH);
-                height = ScreenSizeUtils.getScreenState(ScreenSizeUtils.ScreenState.HEIGHT);
-                pw = new PopupWindow(context);
-                pw.setWidth(width / 2);
-                pw.setHeight(height / 4);
-                View v = LayoutInflater.from(context).inflate(R.layout.fra_pw, null);
-                svp = (SuperVideoPlayer) v.findViewById(R.id.pw_svp);
-                svp.setVideoPlayCallback(mVideoPlayCallback);
-                Uri uri = Uri.parse(mp4 + "");
-                svp.loadAndPlay(uri, 0);
-
-                pw.setContentView(v);
-                pw.setOutsideTouchable(true);
-                if (firstVisibleItem == p + 1) {
-                    if (isScroll == false) {
-                        Toast.makeText(context, "开始", Toast.LENGTH_SHORT).show();
-                        pw.showAtLocation(v, Gravity.NO_GRAVITY, width, height);
-                        isScroll = true;
-                    }
-                } else if (isScroll == true) {
-                    Toast.makeText(context, "lllll-----", Toast.LENGTH_SHORT).show();
-                    isScroll = false;
-                    pw.dismiss();
+                if (firstVisibleItem > p) {
+                    svp.setVisibility(View.VISIBLE);
+                } else {
+                    svp.setVisibility(View.GONE);
                 }
             }
         });

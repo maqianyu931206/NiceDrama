@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,8 +35,9 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
     private int height;
     private int minute;
     private int s;
-    private MyHolder myHolder;
     private String finalLength;
+    private MyHolder myHolder;
+
     /**
      * 存储点击播放的状态, 用来解决listView的复用混淆
      */
@@ -43,6 +45,11 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
 
     public NENewsAdapter(Context context) {
         super(context);
+    }
+
+    @Override
+    public void setDatas(List<ENNEntity.视频Bean> newList) {
+        super.setDatas(newList);
         isPlay = new HashMap<>();
         for (int i = 0; i < datas.size(); i++) {
             isPlay.put(i, false);
@@ -62,6 +69,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
 
     @Override
     protected void onBindViewHolder(MyHolder myHolder, ENNEntity.视频Bean itemData, final int position) {
+        this.myHolder = myHolder;
         myHolder.titleTv.setText(itemData.getTitle());
         Picasso.with(context).load(itemData.getCover()).into(myHolder.flBg);
         Picasso.with(context).load(itemData.getTopicImg()).into(myHolder.authorImg);
@@ -71,22 +79,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
         /**
          * 整理得到的视频时长
          */
-        int length = itemData.getLength();
-        minute = length / 60;
-        s = length % 60;
-        if (minute >= 0 && minute < 10 && s > 9) {
-            finalLength = "0" + minute + ":" + s;
-            myHolder.lengthTv.setText(finalLength + "");
-        } else if (minute >= 0 && minute < 10 && s < 10) {
-            finalLength = "0" + minute + ":0" + s;
-            myHolder.lengthTv.setText(finalLength + "");
-        } else if (minute >= 10 && s > 9) {
-            finalLength = minute + ":" + s;
-            myHolder.lengthTv.setText(finalLength + "");
-        } else if (minute >= 10 && s < 10) {
-            finalLength = minute + ":0" + s;
-            myHolder.lengthTv.setText(finalLength + "");
-        }
+        cleanTime(myHolder, itemData);
 
         myHolder.playImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +94,10 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             }
         });
 
+        playVideo(myHolder, itemData, position);
+    }
+
+    private void playVideo(MyHolder myHolder, ENNEntity.视频Bean itemData, int position) {
         if (isPlay.get(position) == true) {
             myHolder.superVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
             myHolder.playImg.setVisibility(View.GONE);
@@ -124,6 +121,25 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
         if (isPlay.get(position) == true) {
             isPlay.put(position, false);
             notifyDataSetChanged();
+        }
+    }
+
+    private void cleanTime(MyHolder myHolder, ENNEntity.视频Bean itemData) {
+        int length = itemData.getLength();
+        minute = length / 60;
+        s = length % 60;
+        if (minute >= 0 && minute < 10 && s > 9) {
+            finalLength = "0" + minute + ":" + s;
+            myHolder.lengthTv.setText(finalLength + "");
+        } else if (minute >= 0 && minute < 10 && s < 10) {
+            finalLength = "0" + minute + ":0" + s;
+            myHolder.lengthTv.setText(finalLength + "");
+        } else if (minute >= 10 && s > 9) {
+            finalLength = minute + ":" + s;
+            myHolder.lengthTv.setText(finalLength + "");
+        } else if (minute >= 10 && s < 10) {
+            finalLength = minute + ":0" + s;
+            myHolder.lengthTv.setText(finalLength + "");
         }
     }
 
@@ -213,6 +229,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             countTv = (TextView) itemView.findViewById(R.id.item_count_tv);
         }
     }
+
     /**
      * 播放器的回调函数
      */
