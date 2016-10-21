@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f7f4f4">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f1ebeb"
+        android:background="#fff"
         android:layout_marginTop="20dp">
 
         <TextView
@@ -14,6 +15,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="扫一扫"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/setting_translate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="百度翻译"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/setting_voice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="语音听写"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/setting_voicecreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="语音合成"
             android:layout_margin="5dp"/>
     </LinearLayout>
 

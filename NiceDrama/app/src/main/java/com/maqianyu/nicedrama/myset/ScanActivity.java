@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.WriterException;
@@ -37,6 +38,7 @@ public class ScanActivity extends AbsActivity {
 
     ImageView qrCodeImage;
     EditText qrCodeUrl;
+
     private ArcMenuView arcMenuView;
 
     @Override
@@ -49,6 +51,7 @@ public class ScanActivity extends AbsActivity {
         qrCodeImage = byView(R.id.ECoder_image);
         qrCodeUrl = byView(R.id.ECoder_input);
         arcMenuView = byView(R.id.arcmenu2);
+
     }
 
     @Override
