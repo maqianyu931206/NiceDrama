@@ -2,13 +2,16 @@ package com.maqianyu.nicedrama.myset;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.AlarmClock;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -16,7 +19,6 @@ import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.LexiconListener;
 import com.iflytek.cloud.RecognizerListener;
 import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
@@ -25,7 +27,6 @@ import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
-import com.iflytek.cloud.util.ContactManager;
 import com.iflytek.sunflower.FlowerCollector;
 import com.maqianyu.nicedrama.AbsActivity;
 import com.maqianyu.nicedrama.R;
@@ -43,12 +44,18 @@ import java.util.LinkedHashMap;
 /**
  * Created by dllo on 16/10/20.
  * 语音听写页面
- * @author  庞美
+ *
+ * @author 庞美
  */
 
 public class LisAndWriActivity extends AbsActivity implements View.OnClickListener {
-    private static String TAG = LisAndWriActivity.class.getSimpleName();
+    private String TAG = LisAndWriActivity.class.getSimpleName();
+
     private Button startBtn, stopBtn, cancelBtn;
+    private String[] setAlarmClock = {"闹钟", "设闹钟", "设置闹钟", "定闹钟", "去闹钟页面", "去闹钟界面", "我想定闹钟", "我要定闹钟", "定个闹钟"};
+    private String[] call = {"打电话", "拨打电话", "去电话页面", "去拨打电话页面", "打个电话", "电话", "去打电话", "去打个电话", "去拨号"};
+    private String[] liulan = {"去浏览器页面", "打开浏览器", "百度", "我想百度一下", "我想搜索东西", "我要搜索东西", "去搜索", "浏览器", "来个百度", "去百度"};
+
     private RadioGroup group;
     int ret = 0; // 函数调用返回值
     // 语音听写对象
@@ -85,6 +92,8 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
+        getToolbarTitle().setText(R.string.voice_lis_wri);
+        getSubTitle().setText("");
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
@@ -129,6 +138,7 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
                 }
             }
         });
+
     }
 
     @Override
@@ -155,22 +165,21 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
                     // 不显示听写对话框
                     ret = mIat.startListening(mRecognizerListener);
                     if (ret != ErrorCode.SUCCESS) {
-                        showTip("听写失败,错误码：" + ret);
+                        showTip(getResources().getString(R.string.lwfailed_code) + ret);//听写失败,错误码
                     } else {
                         showTip(getString(R.string.text_begin));
                     }
                 }
                 break;
-
             // 停止听写
             case R.id.iat_stop:
                 mIat.stopListening();
-                showTip("停止听写");
+                showTip(getResources().getString(R.string.lw_stop));//停止听写
                 break;
             // 取消听写
             case R.id.iat_cancel:
                 mIat.cancel();
-                showTip("取消听写");
+                showTip(getResources().getString(R.string.lw_stop));//取消听写
                 break;
             default:
                 break;
@@ -184,24 +193,8 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
 
         @Override
         public void onInit(int code) {
-            Log.d(TAG, "SpeechRecognizer init() code = " + code);
             if (code != ErrorCode.SUCCESS) {
-                showTip("初始化失败，错误码：" + code);
-            }
-        }
-    };
-
-    /**
-     * 上传联系人/词表监听器。
-     */
-    private LexiconListener mLexiconListener = new LexiconListener() {
-
-        @Override
-        public void onLexiconUpdated(String lexiconId, SpeechError error) {
-            if (error != null) {
-                showTip(error.toString());
-            } else {
-                showTip(getString(R.string.text_upload_success));
+                showTip(getResources().getString(R.string.lw_start_fail_code) + code);//初始化失败的错误码
             }
         }
     };
@@ -214,7 +207,7 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
         @Override
         public void onBeginOfSpeech() {
             // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            showTip("开始说话");
+            showTip(getResources().getString(R.string.lw_start_say));//开始说话
         }
 
         @Override
@@ -228,12 +221,11 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            showTip("结束说话");
+            showTip(getResources().getString(R.string.lw_end));//结束说话
         }
 
         @Override
         public void onResult(RecognizerResult results, boolean isLast) {
-            Log.d(TAG, results.getResultString());
             printResult(results);
 
             if (isLast) {
@@ -241,10 +233,10 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
             }
         }
 
+        //getResources().getString(R.string.app_id)
         @Override
         public void onVolumeChanged(int volume, byte[] data) {
-            showTip("当前正在说话，音量大小：" + volume);
-            Log.d(TAG, "返回音频数据：" + data.length);
+            showTip(getResources().getString(R.string.lw_voice_size) + volume);//音量
         }
 
         @Override
@@ -279,6 +271,81 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
 
         mResultText.setText(resultBuffer.toString());
         mResultText.setSelection(mResultText.length());
+        String str = mResultText.getText().toString().substring(0, mResultText.getText().toString().length() - 1);//将字符串后面的符号去掉
+        /**
+         * 闹钟
+         */
+        boolean clock = useLoop(setAlarmClock, str);
+        if (clock == true) {
+            createDialog(getResources().getString(R.string.lw_alarmclock), AlarmClock.ACTION_SET_ALARM, null);
+        }
+        /**
+         * 拨打电话
+         */
+        boolean calling = useLoop(call, str);
+        if (calling == true) {
+            createDialog(getResources().getString(R.string.lw_call), Intent.ACTION_CALL_BUTTON, null);
+        }
+        /**
+         * 打开浏览器
+         */
+        boolean search = useLoop(liulan, str);
+        if (search == true) {
+            createDialog(getResources().getString(R.string.lw_search), Intent.ACTION_VIEW, StaticUtil.baiduUrl);
+        }
+    }
+
+    private void createDialog(String what, final String goTo, final String url) {
+        /**
+         * 判断关键词是什么
+         */
+        String title = "";
+        if (what.equals(getResources().getString(R.string.lw_alarmclock))) {
+            title = getResources().getString(R.string.lw_set_alarmclock);//闹钟
+        } else if (what.equals(getResources().getString(R.string.lw_call))) {
+            title = getResources().getString(R.string.lw_set_call);//拨号
+        } else if (what.equals(getResources().getString(R.string.lw_search))) {
+            title = getResources().getString(R.string.lw_set_search);//浏览器
+        }
+        new AlertDialog.Builder(this).setIcon(android.R.drawable.btn_star)
+                .setTitle(title)
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        Intent intent = new Intent(goTo, Uri.parse(url));
+                        startActivity(intent);
+                    }
+                })
+                .setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+
+                    }
+                }).show();// show很关键
+    }
+
+    /**
+     * 判断数组中是否含有某一字符串
+     *
+     * @param arr
+     * @param targetValue
+     * @return
+     */
+    public static boolean useLoop(String[] arr, String targetValue) {
+        for (String s : arr) {
+            if (s.equals(targetValue))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -296,32 +363,6 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
             showTip(error.getPlainDescription(true));
         }
 
-    };
-
-    /**
-     * 获取联系人监听器。
-     */
-    private ContactManager.ContactListener mContactListener = new ContactManager.ContactListener() {
-
-        @Override
-        public void onContactQueryFinish(final String contactInfos, boolean changeFlag) {
-            // 注：实际应用中除第一次上传之外，之后应该通过changeFlag判断是否需要上传，否则会造成不必要的流量.
-            // 每当联系人发生变化，该接口都将会被回调，可通过ContactManager.destroy()销毁对象，解除回调。
-            // if(changeFlag) {
-            // 指定引擎类型
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    mResultText.setText(contactInfos);
-                }
-            });
-
-            mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-            mIat.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
-            ret = mIat.updateLexicon("contact", contactInfos, mLexiconListener);
-            if (ret != ErrorCode.SUCCESS) {
-                showTip("上传联系人失败：" + ret);
-            }
-        }
     };
 
     private void showTip(final String str) {

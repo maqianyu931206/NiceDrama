@@ -25,15 +25,9 @@ import java.io.IOException;
 /**
  * Created by dllo on 16/10/17.
  * 扫描二维码页面
- *
  * @author 庞美
  */
 public class ScanActivity extends AbsActivity {
-
-    private static final int REQUEST_CODE_SCAN = 0x0000;
-
-    private static final String DECODED_CONTENT_KEY = "codedContent";
-    private static final String DECODED_BITMAP_KEY = "codedBitmap";
     private Bitmap bitmap = null;
 
     ImageView qrCodeImage;
@@ -56,7 +50,7 @@ public class ScanActivity extends AbsActivity {
 
     @Override
     protected void initDatas() {
-        getToolbarTitle().setText("二维码的生成与扫描");
+        getToolbarTitle().setText(R.string.scan_title);
         getSubTitle().setText("");
         qrCodeUrl.setVisibility(View.INVISIBLE);
         arcMenuView.setOnMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
@@ -68,7 +62,7 @@ public class ScanActivity extends AbsActivity {
 
                 } else if (pos == 2) {
                     Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                    startActivityForResult(intent, StaticUtil.REQUEST_CODE_SCAN);
                 } else if (pos == 3) {
                     String url = qrCodeUrl.getText().toString();
                     try {
@@ -90,11 +84,11 @@ public class ScanActivity extends AbsActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 扫描二维码/条码回传
-        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+        if (requestCode == StaticUtil.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
 
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
+                String content = data.getStringExtra(StaticUtil.DECODED_CONTENT_KEY);
+                Bitmap bitmap = data.getParcelableExtra(StaticUtil.DECODED_BITMAP_KEY);
                 qrCodeImage.setImageBitmap(bitmap);
                 /**
                  * 跳转到该地址
@@ -129,14 +123,14 @@ public class ScanActivity extends AbsActivity {
             e.printStackTrace();
         }
         if (bitmap == null) {
-            Toast.makeText(this, "无图片", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.scan_none_img, Toast.LENGTH_SHORT).show();
             return;
         }
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
         try {
             fOut.flush();
             fOut.close();
-            Toast.makeText(this, "保存完毕", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.scan_save_finish, Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
