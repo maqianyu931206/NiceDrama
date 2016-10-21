@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,9 +34,8 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
     private int height;
     private int minute;
     private int s;
-    private String finalLength;
     private MyHolder myHolder;
-    private ENNEntity.视频Bean entity;
+    private String finalLength;
     /**
      * 存储点击播放的状态, 用来解决listView的复用混淆
      */
@@ -115,12 +113,12 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             EventBus eventBus = EventBus.getDefault();
             PEntity pEntity = new PEntity();
             pEntity.setPosition(position);
-            pEntity.setUrl(entity.getMp4_url());
+            pEntity.setUrl(itemData.getMp4_url());
             eventBus.post(pEntity);
 
         } else if (isPlay.get(position) == false) {
             mVideoPlayCallback.onCloseVideo();
-            myHolder.title.setText(entity.getTitle());
+            myHolder.title.setText(itemData.getTitle());
             myHolder.titleTv.setVisibility(View.VISIBLE);
         }
         if (isPlay.get(position) == true) {
@@ -129,9 +127,75 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
         }
     }
 
+//    @Override
+//    protected void onBindViewHolder(BaseViewHolder baseViewHolder, ENNEntity.视频Bean itemData, final int position) {
+//        MyHolder myHolder = (MyHolder) baseViewHolder;
+//        myHolder.titleTv.setText(itemData.getTitle());
+//        Picasso.with(context).load(itemData.getCover()).into(myHolder.flBg);
+//        Picasso.with(context).load(itemData.getTopicImg()).into(myHolder.authorImg);
+//        myHolder.authorTv.setText(itemData.getTopicName());
+//        myHolder.countTv.setText(itemData.getReplyCount() + "播放");
+//        myHolder.lengthTv.setText(finalLength);
+//        /**
+//         * 整理得到的视频时长
+//         */
+//        int length = itemData.getLength();
+//        minute = length / 60;
+//        s = length % 60;
+//        if (minute >= 0 && minute < 10 && s > 9) {
+//            finalLength = "0" + minute + ":" + s;
+//            myHolder.lengthTv.setText(finalLength + "");
+//        } else if (minute >= 0 && minute < 10 && s < 10) {
+//            finalLength = "0" + minute + ":0" + s;
+//            myHolder.lengthTv.setText(finalLength + "");
+//        } else if (minute >= 10 && s > 9) {
+//            finalLength = minute + ":" + s;
+//            myHolder.lengthTv.setText(finalLength + "");
+//        } else if (minute >= 10 && s < 10) {
+//            finalLength = minute + ":0" + s;
+//            myHolder.lengthTv.setText(finalLength + "");
+//        }
+//
+//        myHolder.playImg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isPlay.get(position) == true) {
+//                    isPlay.put(position, false);
+//                    notifyDataSetChanged();
+//                } else if (isPlay.get(position) == false) {
+//                    isPlay.put(position, true);
+//                    notifyDataSetChanged();
+//                }
+//            }
+//        });
+//
+//        if (isPlay.get(position) == true) {
+//            myHolder.superVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
+//            myHolder.playImg.setVisibility(View.GONE);
+//            myHolder.titleTv.setVisibility(View.GONE);
+//            myHolder.superVideoPlayer.setVisibility(View.VISIBLE);
+//            myHolder.superVideoPlayer.setAutoHideController(true);
+//            Uri uri = Uri.parse(itemData.getMp4_url());
+//            myHolder.superVideoPlayer.loadAndPlay(uri, 0);
+//            //================
+//            EventBus eventBus = EventBus.getDefault();
+//            PEntity pEntity = new PEntity();
+//            pEntity.setPosition(position);
+//            pEntity.setUrl(entity.getMp4_url());
+//            eventBus.post(pEntity);
+//
+//        } else if (isPlay.get(position) == false) {
+//            mVideoPlayCallback.onCloseVideo();
+//            myHolder.title.setText(entity.getTitle());
+//            myHolder.titleTv.setVisibility(View.VISIBLE);
+//        }
+//        if (isPlay.get(position) == true) {
+//            isPlay.put(position, false);
+//            notifyDataSetChanged();
+//        }
+//    }
 
-
-    class MyHolder extends NENewsAdapter.BaseViewHolder{
+    protected class MyHolder extends AbsBaseAdapter.BaseViewHolder{
         TextView title, titleTv, lengthTv, authorTv, countTv;
         ImageView playImg, authorImg;
         SuperVideoPlayer superVideoPlayer;
