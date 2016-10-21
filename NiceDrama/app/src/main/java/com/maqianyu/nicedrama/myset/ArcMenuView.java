@@ -22,7 +22,7 @@ import com.maqianyu.nicedrama.R;
  * @author 庞美
  * 卫星菜单的自定义View
  */
-public class ArcMenuView extends ViewGroup implements View.OnClickListener{
+public class ArcMenuView extends ViewGroup implements View.OnClickListener {
     private static final int POS_LEFT_TOP = 0;
     private static final int POS_LEFT_BOTTOM = 1;
     private static final int POS_RIGHT_TOP = 2;

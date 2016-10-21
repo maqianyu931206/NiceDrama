@@ -5,23 +5,12 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <include
+        layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="语音听写"
-            android:textSize="30sp" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/iat_text"
@@ -36,8 +25,10 @@
         android:id="@+id/radioGroup1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="听写类型"
-        android:orientation="horizontal" >
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/xml_lw_radio_name"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/iatRadioCloud"
@@ -45,32 +36,32 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="云端" >
-        </RadioButton>
+            android:text="@string/xml_lw_radio_first_btn" />
 
         <RadioButton
             android:id="@+id/iatRadioLocal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="本地" >
-        </RadioButton>
+            android:text="@string/xml_lw_radio_second_btn" />
     </RadioGroup>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/iat_recognize"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="开始"
+            android:text="@string/xml_lw_start"
             android:textSize="20sp" />
 
         <Button
@@ -78,7 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="停止"
+            android:text="@string/xml_lw_stop"
             android:textSize="20sp" />
 
         <Button
@@ -86,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="取消"
+            android:text="@string/xml_lw_cancel"
             android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>
