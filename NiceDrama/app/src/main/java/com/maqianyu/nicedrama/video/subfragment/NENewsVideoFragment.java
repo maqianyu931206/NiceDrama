@@ -27,6 +27,7 @@ import com.maqianyu.nicedrama.video.Entity.ENNEntity;
 import com.maqianyu.nicedrama.video.Entity.PEntity;
 import com.maqianyu.nicedrama.video.adapter.NENewsAdapter;
 import com.maqianyu.nicedrama.video.util.ScreenSizeUtils;
+import com.maqianyu.nicedrama.video.util.Values;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,15 +49,7 @@ public class NENewsVideoFragment extends AbsFragment {
     private List<ENNEntity.视频Bean> datas;
     private NENewsAdapter adapter;
     private RequestQueue queue;
-    private String url = "http://c.3g.163.com/recommend/getChanListNews?channel=T" +
-            "1457068979049&size=10&offset=0&fn=2&passport=&devId=44t6%2B5mG3ACAOlQOCLuIH" +
-            "g%3D%3D&lat=&lon=&version=14.2&net=wifi&ts=1474540981&sign=CSZnTDA7E%2B%2FpWniX0HR" +
-            "2j2%2F%2FmXOcKxmUgk8uLzb6ohx48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=wandoujia" +
-            "_news&mac=3Fg2bhJMR1xtVeOmVPRkSIe1A3IUPLLdoCiqBVf2Go0%3D";
     private SuperVideoPlayer svp;
-    private int width, height;
-    private VideoView pwVp;
-    private MediaController controller;
 
     public static NENewsVideoFragment newInstance() {
 
@@ -85,7 +78,7 @@ public class NENewsVideoFragment extends AbsFragment {
         adapter = new NENewsAdapter(context);
 
         queue = Volley.newRequestQueue(context);
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Values.NEWSURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
