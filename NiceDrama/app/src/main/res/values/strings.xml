@@ -10,11 +10,9 @@
     <string name="action_settings">Settings</string>
     <!--设置页面-->
 
-    =======
     <string name="no_result">对不起，没有搜索到相关数据！</string>
 
 
-=======
     <!-- 听写 -->
     <string name="app_id">58087ef2</string>
     <string name="text_begin">请开始说话…</string>
@@ -132,6 +130,51 @@
         <item>开启</item>
         <item>关闭</item>
     </string-array>
+    <string name="setting">设置</string>
+    <string name="voice_create">语音合成</string>
+    <string name="voice_lis_wri">语音听写</string>
+    <string name="lwfailed_code">"听写失败,错误码:"</string>
+    <string name="lw_stop">停止听写</string>
+    <string name="lw_start_say">开始说话</string>
+    <string name="lw_fail_code">听写失败,错误码:</string>
+    <string name="lw_start_fail_code">初始化失败，错误码:</string>
+    <string name="lw_end">结束说话</string>
+    <string name="lw_voice_size">当前正在说话，音量大小:</string>
+    <string name="lw_alarmclock">闹钟</string>
+    <string name="lw_call">拨打电话</string>
+    <string name="lw_search">浏览器</string>
+    <string name="lw_set_alarmclock">是否前往闹钟页面?</string>
+    <string name="lw_set_call">是否前往拨号页面?</string>
+    <string name="lw_set_search">是否前往浏览器页面?</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="cancel">取消</string>
+    <string name="vc_fail_code">语音合成失败,错误码: </string>
+    <string name="vc_voicer">在线合成发音人选项</string>
+    <string name="vc_start">开始播放</string>
+    <string name="vc_zanting">暂停播放</string>
+    <string name="vc_continue">继续播放</string>
+    <string name="vc_finish">播放完成</string>
+    <string name="scan_none_img">无图片</string>
+    <string name="scan_save_finish">保存完毕</string>
+    <string name="scan_title">二维码的生成与扫描</string>
+    <string name="xml_lw_radio_name">听写类型</string>
+    <string name="xml_lw_radio_first_btn">云端</string>
+    <string name="xml_lw_radio_second_btn">本地</string>
+    <string name="xml_lw_start">开始</string>
+    <string name="xml_lw_stop">停止</string>
+    <string name="xml_lw_cancel">取消</string>
+    <string name="xml_lw_et">输入Url,生成二维码</string>
+    <string name="xml_tts_text">点击下方空白处输入您要合成语音的文字      ↓↓↓↓</string>
+    <string name="xml_tts_et">点我</string>
+    <string name="xml_tts_first_rb">在线合成</string>
+    <string name="xml_tts_second_rb">本地合成</string>
+    <string name="xml_tts_voicer">发言人</string>
     <!--设置页面-->
->>>>>>> feature/庞美
+
+    <!--视频界面-->
+         <!--网易视频界面-->
+    <string name="dlna_device_title">"%s"正在播放中</string>
+         <!--网易视频界面-->
+    <!--视频界面-->
 </resources>

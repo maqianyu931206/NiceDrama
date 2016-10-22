@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.maqianyu.nicedrama">
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -12,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -32,7 +32,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -65,7 +64,6 @@
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />
         <activity android:name=".map.map_aty.MapActivity"/>
-        =======
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="8b4541e278725d876724534ee953360f" />
@@ -73,14 +71,8 @@
         <!--<code class="hljs xml">-->
             <!--<service android:name="com.amap.api.location.APSService" />-->
         <!--</code>-->
-        >>>>>>> feature/马迁宇
-=======
-        <activity android:name=".myset.ScanActivity"/>
-        <activity android:name="com.karics.library.zxing.android.CaptureActivity"/>
-        <activity android:name="com.karics.library.zxing.android.PreferencesActivity"/>
         <activity android:name=".myset.TtsActivity"/>
         <activity android:name=".myset.LisAndWriActivity"/>
->>>>>>> feature/庞美
     </application>
 
 </manifest>

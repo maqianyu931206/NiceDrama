@@ -2,9 +2,11 @@ package com.maqianyu.nicedrama.myset;
 
 /**
  * Created by dllo on 16/10/20.
+ * * 语音合成界面
+ * @author 庞美
  */
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -13,7 +15,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -34,14 +35,9 @@ import com.maqianyu.nicedrama.myset.speech.setting.TtsSettings;
 import com.maqianyu.nicedrama.myset.speech.util.ApkInstaller;
 
 
-/**
- * 语音合成界面
- */
-
-
 public class TtsActivity extends AbsActivity implements OnClickListener {
     private static String TAG = TtsActivity.class.getSimpleName();
-    private Button startBtn,stopBtn,cancelBtn,continueBtn,personSelect;
+    private Button startBtn, stopBtn, cancelBtn, continueBtn, personSelect;
     private RadioGroup radioGroup;
     // 语音合成对象
     private SpeechSynthesizer mTts;
@@ -50,7 +46,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
     private String voicer = "xiaoyan";
 
     private String[] mCloudVoicersEntries;
-    private String[] mCloudVoicersValue ;
+    private String[] mCloudVoicersValue;
 
     // 缓冲进度
     private int mPercentForBuffering = 0;
@@ -61,7 +57,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
     // 引擎类型
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
     // 语记安装助手类
-    ApkInstaller mInstaller ;
+    ApkInstaller mInstaller;
 
     private Toast mToast;
     private SharedPreferences mSharedPreferences;
@@ -79,11 +75,13 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         cancelBtn = byView(R.id.tts_cancel);
         continueBtn = byView(R.id.tts_resume);
         personSelect = byView(R.id.tts_btn_person_select);
-        radioGroup=byView(R.id.tts_rediogroup);
+        radioGroup = byView(R.id.tts_rediogroup);
     }
 
     @Override
     protected void initDatas() {
+        getToolbarTitle().setText(R.string.voice_create);
+        getSubTitle().setText("");
         startBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
@@ -97,9 +95,9 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         mCloudVoicersValue = getResources().getStringArray(R.array.voicer_cloud_values);
 
         mSharedPreferences = getSharedPreferences(TtsSettings.PREFER_NAME, MODE_PRIVATE);
-        mToast = Toast.makeText(this,"", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
-        mInstaller = new  ApkInstaller(TtsActivity.this);
+        mInstaller = new ApkInstaller(TtsActivity.this);
         radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
@@ -109,7 +107,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
                         mEngineType = SpeechConstant.TYPE_CLOUD;
                         break;
                     case R.id.tts_radioLocal:
-                        mEngineType =  SpeechConstant.TYPE_LOCAL;
+                        mEngineType = SpeechConstant.TYPE_LOCAL;
                         /**
                          * 选择本地合成
                          * 判断是否安装语记,未安装则跳转到提示安装页面
@@ -121,14 +119,13 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
                     default:
                         break;
                 }
-
             }
-        } );
-
+        });
     }
+
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             // 开始合成
             // 收到onCompleted 回调时，合成结束、生成合成音频
             // 合成的音频格式：只支持pcm格式
@@ -141,11 +138,11 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
                 setParam();
                 int code = mTts.startSpeaking(text, mTtsListener);
                 if (code != ErrorCode.SUCCESS) {
-                    if(code == ErrorCode.ERROR_COMPONENT_NOT_INSTALLED){
+                    if (code == ErrorCode.ERROR_COMPONENT_NOT_INSTALLED) {
                         //未安装则跳转到提示安装页面
                         mInstaller.install();
-                    }else {
-                        showTip("语音合成失败,错误码: " + code);
+                    } else {
+                        showTip(getResources().getString(R.string.vc_fail_code) + code);//语音合成失败的错误码
                     }
                 }
                 break;
@@ -167,7 +164,9 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
                 break;
         }
     }
+
     private int selectedNum = 0;
+
     /**
      * 发音人选择。
      */
@@ -175,7 +174,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         switch (radioGroup.getCheckedRadioButtonId()) {
             // 选择在线合成
             case R.id.tts_radioCloud:
-                new AlertDialog.Builder(this).setTitle("在线合成发音人选项")
+                new AlertDialog.Builder(this).setTitle(R.string.vc_voicer)
                         .setSingleChoiceItems(mCloudVoicersEntries, // 单选框有几项,各是什么名字
                                 selectedNum, // 默认的选项
                                 new DialogInterface.OnClickListener() { // 点击单选框后的处理
@@ -184,7 +183,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
                                         voicer = mCloudVoicersValue[which];
                                         if ("catherine".equals(voicer) || "henry".equals(voicer) || "vimary".equals(voicer)) {
                                             ((EditText) findViewById(R.id.tts_text)).setText("");
-                                        }else {
+                                        } else {
                                             ((EditText) findViewById(R.id.tts_text)).setText("");
                                         }
                                         selectedNum = which;
@@ -197,7 +196,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
             case R.id.tts_radioLocal:
                 if (!SpeechUtility.getUtility().checkServiceInstalled()) {
                     mInstaller.install();
-                }else {
+                } else {
                     SpeechUtility.getUtility().openEngineSettings(SpeechConstant.ENG_TTS);
                 }
                 break;
@@ -214,7 +213,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         public void onInit(int code) {
             Log.d(TAG, "InitListener init() code = " + code);
             if (code != ErrorCode.SUCCESS) {
-                showTip("初始化失败,错误码："+code);
+                showTip(getResources().getString(R.string.lw_start_fail_code) + code);//初始化失败错误码
             } else {
                 // 初始化成功，之后可以调用startSpeaking方法
                 // 注：有的开发者在onCreate方法中创建完合成对象之后马上就调用startSpeaking进行合成，
@@ -230,17 +229,17 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
 
         @Override
         public void onSpeakBegin() {
-            showTip("开始播放");
+            showTip(getResources().getString(R.string.vc_start));//开始播放
         }
 
         @Override
         public void onSpeakPaused() {
-            showTip("暂停播放");
+            showTip(getResources().getString(R.string.vc_zanting));//暂停播放
         }
 
         @Override
         public void onSpeakResumed() {
-            showTip("继续播放");
+            showTip(getResources().getString(R.string.vc_continue));//继续播放
         }
 
         @Override
@@ -263,7 +262,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         @Override
         public void onCompleted(SpeechError error) {
             if (error == null) {
-                showTip("播放完成");
+                showTip(getResources().getString(R.string.vc_finish));//播放完成
             } else if (error != null) {
                 showTip(error.getPlainDescription(true));
             }
@@ -287,14 +286,15 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
 
     /**
      * 参数设置
+     *
      * @param
      * @return
      */
-    private void setParam(){
+    private void setParam() {
         // 清空参数
         mTts.setParameter(SpeechConstant.PARAMS, null);
         // 根据合成引擎设置相应参数
-        if(mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
+        if (mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
             mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
             // 设置在线合成发音人
             mTts.setParameter(SpeechConstant.VOICE_NAME, voicer);
@@ -304,7 +304,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
             mTts.setParameter(SpeechConstant.PITCH, mSharedPreferences.getString("pitch_preference", "50"));
             //设置合成音量
             mTts.setParameter(SpeechConstant.VOLUME, mSharedPreferences.getString("volume_preference", "50"));
-        }else {
+        } else {
             mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_LOCAL);
             // 设置本地合成发音人 voicer为空，默认通过语记界面指定发音人。
             mTts.setParameter(SpeechConstant.VOICE_NAME, "");
@@ -321,10 +321,8 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
         // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
         mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
-        mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory()+"/msc/tts.wav");
+        mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts.wav");
     }
-
-
 
     @Override
     protected void onDestroy() {
@@ -341,6 +339,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         FlowerCollector.onPageStart(TAG);
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         //移动数据统计分析
@@ -348,6 +347,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
         FlowerCollector.onPause(TtsActivity.this);
         super.onPause();
     }
-
 }
+
+
 
