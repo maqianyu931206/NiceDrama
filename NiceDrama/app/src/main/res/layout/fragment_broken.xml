@@ -5,6 +5,7 @@
 
     <com.maqianyu.nicedrama.map.graph.BrokenView
         android:id="@+id/brokenView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:background="#b1aeab"
+        android:layout_height="200dp" />
 </LinearLayout>

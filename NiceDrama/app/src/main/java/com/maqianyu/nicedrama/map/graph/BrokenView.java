@@ -1,668 +1,266 @@
 package com.maqianyu.nicedrama.map.graph;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import com.maqianyu.nicedrama.R;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
 /**
- * Created by dllo on 16/10/20.
+ *
+ *@auther 马迁宇对你说!
  */
 public class BrokenView extends View {
 
-    private int bgColor = Color.rgb(Integer.parseInt("4d", 16),
-            Integer.parseInt("af", 16), Integer.parseInt("ea", 16));
+    private int width;// 宽
+    private int height;// 高
+    private int spacing;// 纵线间距
+    private int leftRightMargin;
+    private int topMargin;
+    private int bottomMargin;
+    private Paint alphaLinePaint;// 半透明画笔
+    private Paint linePaint;// 线条画笔
+    private Paint textPaint;// 横坐标画笔
+    private Paint textEmptyPaint;// 空提示
 
-    private int singleColumnFillColor = Color.rgb(Integer.parseInt("e7", 16),
-            Integer.parseInt("e7", 16), Integer.parseInt("e9", 16));
+    private List<String> xValues = new ArrayList<String>();
+    private List<String> yValues = new ArrayList<String>();
+    private List<Point> points = new ArrayList<Point>();
+    private List<Rect> rects = new ArrayList<Rect>();
 
-    private int doubleColumnFillColor = Color.rgb(Integer.parseInt("4d", 16),
-            Integer.parseInt("af", 16), Integer.parseInt("ea", 16));
+    // private LineChartPop lineChartPop;
 
-    private int fillDownColor = Color.rgb(Integer.parseInt("45", 16),
-            Integer.parseInt("64", 16), Integer.parseInt("bf", 16));
+    private String popTitle;
 
-    private int xyLineColor = Color.rgb(Integer.parseInt("a9", 16),
-            Integer.parseInt("d8", 16), Integer.parseInt("f5", 16));
+    private Context context;
 
-    private int chartLineColor = Color.WHITE;
-
-    private int shadowLineColor = Color.rgb(Integer.parseInt("1a", 16),
-            Integer.parseInt("49", 16), Integer.parseInt("84", 16));
-
-    private String yUnit = "";
-
-    private boolean isDrawY = false;
-
-    private boolean isDrawX = true;
-
-    private boolean isDrawInsideX = true;
-
-    private boolean isDrawInsedeY = false;
-
-    private boolean isFillDown = false;
-
-    private boolean isFillUp = false;
-
-    private boolean isAppendX = true;
-
-    private boolean isDemo = true;
-
-    private int ScreenX;
-
-    private int ScreenY;
-
-    private int numberOfX = 6;
-
-    private int numberOfY = 5;
-
-    private int paddingTop = 30;
-
-    private int paddingLeft = 70;
-
-    private int paddingRight = 30;
-
-    private int paddingDown = 50;
-
-    private int appendXLength = 10;
-
-    private float maxNumber = 0;
-
-    private List<List<Float>> pointList;
-
-    private List<Integer> bitmapList;
-    private List<Integer> lineColorList;
-
-    private List<String> titleXList;
-
-    private List<String> titleYList;
-
-    public BrokenView(Context context) {
-        super(context);
-        demo();
-
+    /**
+     * 设置value的提示标语
+     *
+     * @param popTitle
+     */
+    public void setPopTitle(String popTitle) {
+        this.popTitle = popTitle;
     }
 
-    public BrokenView(Context context, AttributeSet attr) {
-        super(context, attr);
-        demo();
+    public void setData(List<String> xValues, List<String> yValues) {
+        this.xValues.clear();
+        this.yValues.clear();
+        points.clear();
+        rects.clear();
+
+        this.xValues.addAll(xValues);
+        this.yValues.addAll(yValues);
+        for (int i = 0; i < xValues.size(); i++) {
+            Point point = new Point();
+            points.add(point);
+
+            Rect rect = new Rect();
+            rects.add(rect);
+        }
+        invalidate();
     }
 
-    private void demo() {
-        if (!isDemo) {
-            return;
-        }
-        pointList = new ArrayList<List<Float>>();
-        titleXList = new ArrayList<String>();
-        lineColorList = new ArrayList<Integer>();
-        lineColorList.add(Color.WHITE);
-        lineColorList.add(Color.GREEN);
-        lineColorList.add(Color.YELLOW);
-        for (int i = 0; i < 3; i++) {
-            List<Float> pointInList = new ArrayList<Float>();
-            for (int j = 0; j < 6; j++) {
-                Random r = new Random();
-                Float z = r.nextFloat()*100;
-                pointInList.add(z);
-                titleXList.add("12." + (i + 1) + "1");
-            }
-            pointList.add(pointInList);
-        }
+    public BrokenView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        init(context);
+    }
+
+    private void init(Context context) {
+        alphaLinePaint = new Paint();
+        alphaLinePaint.setStyle(Paint.Style.FILL);
+        alphaLinePaint.setColor(context.getResources().getColor(
+                android.R.color.white));
+        alphaLinePaint.setAntiAlias(true);
+        alphaLinePaint.setAlpha(150);
+
+        linePaint = new Paint();
+        linePaint.setStyle(Paint.Style.FILL);
+        linePaint.setColor(context.getResources().getColor(android.R.color.holo_blue_dark));
+        linePaint.setAntiAlias(true);
+        linePaint.setStrokeWidth((float) 2.0);
+
+        textPaint = new Paint();
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setColor(context.getResources().getColor(
+                android.R.color.holo_green_dark));
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(Tool.dip2px(context, 10));
+
+        textEmptyPaint = new Paint();
+        textEmptyPaint.setTextAlign(Paint.Align.CENTER);
+        textEmptyPaint.setStyle(Paint.Style.FILL);
+        textEmptyPaint.setColor(context.getResources().getColor(android.R.color.holo_orange_light));
+        textEmptyPaint.setAntiAlias(true);
+        textEmptyPaint.setTextSize(Tool.dip2px(context, 20));
+
+        leftRightMargin = Tool.dip2px(context, 15);
+        topMargin = Tool.dip2px(context, 5);
+        bottomMargin = Tool.dip2px(context, 20);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        int measuredHeight = measureHeight(heightMeasureSpec);
-
-        int measuredWidth = measureWidth(widthMeasureSpec);
-
-        setMeasuredDimension(measuredWidth, measuredHeight);
-
-        ScreenX = measuredWidth;
-
-        ScreenY = measuredHeight;
-
-    }
-
-    private int measureHeight(int measureSpec) {
-
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        int result = 300;
-        if (specMode == MeasureSpec.AT_MOST) {
-
-            result = specSize;
-        }
-        else if (specMode == MeasureSpec.EXACTLY) {
-
-            result = specSize;
-        }
-
-        return result;
-    }
-
-    private int measureWidth(int measureSpec) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        int result = 450;
-        if (specMode == MeasureSpec.AT_MOST) {
-            result = specSize;
-        }
-
-        else if (specMode == MeasureSpec.EXACTLY) {
-
-            result = specSize;
-        }
-
-        return result;
+        width = MeasureSpec.getSize(widthMeasureSpec);
+        height = MeasureSpec.getSize(heightMeasureSpec);
+        int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        int heightSpec = MeasureSpec.makeMeasureSpec(height,
+                MeasureSpec.EXACTLY);
+        setMeasuredDimension(widthSpec, heightSpec);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        maxNumber = 0;
-        List<Point> listX = initNumberOfX();
-        List<Point> listY = initNumberOfY();
-        canvas.drawColor(bgColor);
-        fillColor(listX, canvas);
-
-        Paint paint = new Paint();
-        paint.setColor(xyLineColor);
-        if (isDrawX) {
-            int appendX = 0;
-            if (isAppendX) {
-                appendX = appendXLength;
-            }
-            canvas.drawLine(paddingLeft - appendX, paddingTop + listY.get(0).y, listY.get(0).x
-                            + paddingLeft,
-                    paddingTop + listY.get(0).y, paint);
-        }
-        if (isDrawY) {
-            canvas.drawLine(listX.get(0).x, paddingTop, listX.get(0).x, listX.get(0).y + paddingTop
-                    , paint);
-        }
-        if (isDrawInsedeY) {
-            for (Point point : listX) {
-                if (!isDrawX) {
-                    isDrawX = !isDrawX;
-                    continue;
-                }
-                canvas.drawLine(point.x, paddingTop, point.x, point.y + paddingTop, paint);
-            }
-        }
-        if (isDrawInsideX) {
-            for (Point point : listY) {
-                if (!isDrawY) {
-                    isDrawY = !isDrawY;
-                    continue;
-                }
-                int appendX = 0;
-                if (isAppendX) {
-                    appendX = appendXLength;
-                }
-                canvas.drawLine(paddingLeft - appendX, paddingTop + point.y, point.x + paddingLeft,
-                        paddingTop + point.y, paint);
-            }
-        }
-
-        setYTitle(listY, canvas);
-
-        List<List<Point>> positionList = countListPosition(listX);
-        drawFill(canvas, positionList);
-        drawChart(canvas, positionList);
-        drawCicle(canvas, positionList);
-
-        setXTitle(listX, canvas);
-
-    }
-
-    private void drawFill(Canvas canvas, List<List<Point>> positionList) {
-        if (!isFillDown) {
-            return;
-        }
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(fillDownColor);
-        paint.setAlpha(76);
-        for (int i = 0; i < positionList.size(); i++) {
-            Path path = new Path();
-            path.moveTo(paddingLeft, ScreenY - paddingDown);
-            for (int j = 0; j < positionList.get(i).size(); j++) {
-                path.lineTo(positionList.get(i).get(j).x, positionList.get(i).get(j).y);
-            }
-            path.lineTo(ScreenX - paddingRight, ScreenY - paddingDown);
-            path.close();
-            canvas.drawPath(path, paint);
-        }
-    }
-
-    private void drawCicle(Canvas canvas, List<List<Point>> positionList) {
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.GREEN);
-        // Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-        // R.drawable.comm_chart_point);
-        int resouceId;
-        for (int i = 0; i < positionList.size(); i++) {
-            // canvas.drawCircle(positionList.get(i).x, positionList.get(i).y,
-            // 7, paint);
-
-            if (bitmapList != null && bitmapList.get(i) != null) {
-                resouceId = bitmapList.get(i);
-            } else {
-                resouceId = R.drawable.comm_chart_point;
-            }
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                    resouceId);
-            for (int j = 0; j < positionList.get(i).size(); j++) {
-                canvas.drawBitmap(bitmap, positionList.get(i).get(j).x + 0.5f - bitmap.getWidth()
-                                / 2,
-                        positionList.get(i).get(j).y + 0.5f - bitmap.getHeight() / 2, paint);
-            }
-        }
-    }
-
-    private List<List<Point>> countListPosition(List<Point> listX) {
-        List<List<Point>> positionList = new ArrayList<List<Point>>();
-        if (pointList == null) {
-            pointList = new ArrayList<List<Float>>();
-            List<Float> pointInList = new ArrayList<Float>();
-            for (int i = 0; i < numberOfX; i++) {
-                pointInList.add(0f);
-            }
-            pointList.add(pointInList);
-        }
-        for (int i = 0; i < pointList.size(); i++) {
-            List<Point> positionInList = new ArrayList<Point>();
-            for (int j = 0; j < pointList.get(i).size(); j++) {
-                Point point = new Point();
-                Float z = pointList.get(i).get(j);
-                point.x = listX.get(j).x;
-                point.y = listX.get(j).y + paddingTop
-                        - (int) ((listX.get(j).y) * (float) z / (float) maxNumber);
-                positionInList.add(point);
-            }
-            positionList.add(positionInList);
-        }
-        return positionList;
-    }
-
-    private void drawChart(Canvas canvas, List<List<Point>> positionList) {
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(chartLineColor);
-        paint.setStrokeWidth(3);// ƒ¨»œœﬂøÌŒ™3£¨µΩ ±∫ÚÃ·…˝µΩ»´æ÷±‰¡ø£¨”√”⁄…Ë÷√
-        Paint shadowPaint = new Paint();
-        shadowPaint.setAntiAlias(true);
-        shadowPaint.setColor(shadowLineColor);
-        shadowPaint.setStrokeWidth(1);// ƒ¨»œœﬂøÌŒ™3£¨µΩ ±∫ÚÃ·…˝µΩ»´æ÷±‰¡ø£¨”√”⁄…Ë÷√
-        shadowPaint.setAlpha(178);
-        for (int i = 0; i < positionList.size(); i++) {
-            if (lineColorList != null && lineColorList.get(i) != null) {
-                paint.setColor(lineColorList.get(i));
-            }
-            for (int j = 0; j < positionList.get(i).size() - 1; j++) {
-                canvas.drawLine(positionList.get(i).get(j).x, positionList.get(i).get(j).y + 2,
-                        positionList.get(i).get(j + 1).x, positionList.get(i).get(j + 1).y + 2,
-                        shadowPaint);
-                canvas.drawLine(positionList.get(i).get(j).x, positionList.get(i).get(j).y,
-                        positionList.get(i).get(j + 1).x, positionList.get(i).get(j + 1).y, paint);
-            }
-        }
-    }
-
-    private void fillColor(List<Point> listX, Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        for (int i = 0; i < numberOfX - 1; i++) {
-            if (i % 2 == 0) {
-                paint.setColor(singleColumnFillColor);
-                paint.setAlpha(102);
-            } else {
-                paint.setColor(doubleColumnFillColor);
-                paint.setAlpha(255);
-            }
-            canvas.drawRect(listX.get(i).x, paddingTop, listX.get(i + 1).x, ScreenY - paddingDown,
-                    paint);
-        }
-    }
-
-    private void setYTitle(List<Point> listY, Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        if (pointList == null) {
-            titleYList = new ArrayList<String>();
-            for (int i = 1; i <= numberOfY; i++) {
-                titleYList.add(String.valueOf(100 / i));
-            }
+        if (!xValues.isEmpty() && !yValues.isEmpty()) {
+            spacing = (width - 60) / (xValues.size() - 1);
+            drawRect(canvas);
+            drawHorizontalAxis(canvas);
+            drawValues(canvas);
+            drawLine(canvas);
         } else {
-            for (int i = 0; i < pointList.size(); i++) {
-                for (int j = 0; j < pointList.get(i).size(); j++) {
+            canvas.drawText("暂无数据", width / 2, (topMargin + height - bottomMargin) / 2, textEmptyPaint);
+        }
+    }
 
-                    if (pointList.get(i).get(j) > maxNumber) {
-                        maxNumber = pointList.get(i).get(j);
+    private void drawRect(Canvas canvas) {
+        // 画横坐标
+        canvas.drawLine(0, topMargin, width, topMargin, alphaLinePaint);
+        canvas.drawLine(0, (topMargin + height - bottomMargin) / 2, width,
+                (topMargin + height - bottomMargin) / 2, alphaLinePaint);
+        canvas.drawLine(0, height - bottomMargin, width, height - bottomMargin,
+                alphaLinePaint);
+        // 画纵坐标
+        for (int i = 0; i < xValues.size(); i++) {
+            canvas.drawLine(leftRightMargin + spacing * i, topMargin,
+                    leftRightMargin + spacing * i, height - bottomMargin,
+                    alphaLinePaint);
+        }
+    }
+
+    private void drawHorizontalAxis(Canvas canvas) {
+        for (int i = 0; i < xValues.size(); i++) {
+            canvas.drawText(xValues.get(i), leftRightMargin + spacing * i,
+                    height - bottomMargin / 4, textPaint);
+        }
+    }
+
+    /**
+     * 画代表数值的小圆点
+     *
+     * @param canvas
+     */
+    private void drawValues(Canvas canvas) {
+        List<Float> list = new ArrayList<Float>();
+        for (int i = 0; i < yValues.size(); i++) {
+            list.add(Float.parseFloat(yValues.get(i)));
+        }
+        float maxValue = Collections.max(list);
+        for (int i = 0; i < yValues.size(); i++) {
+            int cx = 30 + spacing * i;
+            int cy = 0;
+            if (maxValue == 0.0) {
+                cy = (int) (height - bottomMargin);
+            } else if (Float.parseFloat(yValues.get(i)) < 0) {
+                cy = (int) (height - bottomMargin);
+            } else {
+                cy = (int) (height - (height - topMargin - bottomMargin)
+                        / maxValue * Float.parseFloat(yValues.get(i)) - bottomMargin);
+            }
+
+            Point point = points.get(i);
+            point.x = cx;
+            point.y = cy;
+            canvas.drawCircle(cx, cy, 5, linePaint);
+
+            Rect rect = rects.get(i);
+            rect.left = cx - 20;
+            rect.top = cy - 20;
+            rect.right = cx + 20;
+            rect.bottom = cy + 20;
+        }
+    }
+
+    /**
+     * 画小圆点间的连线
+     *
+     * @param canvas
+     */
+    private void drawLine(Canvas canvas) {
+        for (int i = 0; i < yValues.size() - 1; i++) {
+            Point pointOne = points.get(i);
+            Point pointTwo = points.get(i + 1);
+            canvas.drawLine(pointOne.x, pointOne.y, pointTwo.x, pointTwo.y, linePaint);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            for (int i = 0; i < rects.size(); i++) {
+                Rect rect = rects.get(i);
+                if (rect.contains(x, y)) {
+                    LineChartPop lineChartPop = new LineChartPop(context);
+                    lineChartPop.setText(popTitle, yValues.get(i));
+                    if (height - rect.bottom < lineChartPop.getHeight()) {
+                        lineChartPop.showAsDropDown(BrokenView.this,
+                                (rect.left + rect.right) / 2 - lineChartPop.getWidth() / 2, -height + rect.top - lineChartPop.getHeight());
+                    } else {
+                        lineChartPop.showAsDropDown(BrokenView.this, (rect.left + rect.right) / 2 - lineChartPop.getWidth() / 2, -height + rect.bottom);
                     }
+
                 }
             }
-            maxNumber = maxNumber + maxNumber / 3;
-            titleYList = new ArrayList<String>();
-            for (int i = 0; i < numberOfY; i++) {
-                titleYList.add(String.valueOf((int) (0 + i * (maxNumber / (numberOfY - 1)))));
-            }
+            return true;
         }
-        for (int i = 0; i < numberOfY; i++) {
-            int appendX = 0;
-            if (isAppendX) {
-                appendX = appendXLength;
-            }
-            if (i != 0) {
-                canvas.drawText(titleYList.get(i), paddingLeft - appendX - paddingLeft / 3,
-                        paddingTop
-                                + listY.get(i).y, paint);
+        return super.onTouchEvent(event);
+    }
+
+    public class LineChartPop extends PopupWindow {
+
+        private TextView tvValue;
+        private TextView tvDesc;
+
+        public LineChartPop(Context context) {
+            super(context);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.layout_chart_valule_pop, null);
+            tvValue = (TextView) view.findViewById(R.id.tv_value);
+            tvDesc = (TextView) view.findViewById(R.id.tv_desc);
+            this.setContentView(view);
+            int width = 0;
+            if (TextUtils.isEmpty(popTitle)) {
+                width = Tool.dip2px(context, 46);
             } else {
-                canvas.drawText(titleYList.get(i) + yUnit,
-                        paddingLeft - appendX - paddingLeft / 3, paddingTop
-                                + listY.get(i).y, paint);
+                width = (int) Tool.getTextWidth(context, popTitle) + 6;
             }
+            this.setWidth(width);
+            this.setHeight(Tool.dip2px(context, 30));
+            this.setOutsideTouchable(true);
+            this.setFocusable(true);
+            ColorDrawable dw = new ColorDrawable(0x05600500);
+            this.setBackgroundDrawable(dw);
         }
-    }
 
-    private void setXTitle(List<Point> listX, Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        if (titleXList == null) {
-            titleXList = new ArrayList<String>();
-            for (int i = 1; i <= numberOfX; i++) {
-                titleXList.add("title" + i);
-            }
+        public void setText(String desc, String textValue) {
+            tvDesc.setText(desc);
+            tvValue.setText(textValue);
         }
-        for (int i = 0; i < numberOfX; i++) {
-            canvas.save();
-            canvas.rotate(30, listX.get(i).x,
-                    listX.get(i).y + paddingTop + paddingDown / 2);
-            canvas.drawText(titleXList.get(i), listX.get(i).x,
-                    listX.get(i).y + paddingTop + paddingDown / 2
-                    , paint);
-            canvas.restore();
-        }
-    }
-
-    private List<Point> initNumberOfX() {
-        int num = (ScreenX - paddingLeft - paddingRight) / (numberOfX - 1);
-        List<Point> list = new ArrayList<Point>();
-        for (int i = 0; i < numberOfX; i++) {
-            Point point = new Point();
-            point.y = ScreenY - paddingDown - paddingTop;
-            point.x = paddingLeft + num * i;
-            list.add(point);
-        }
-        return list;
-    }
-
-    private List<Point> initNumberOfY() {
-        int num = (ScreenY - paddingDown - paddingTop) / (numberOfY - 1);
-        List<Point> list = new ArrayList<Point>();
-        for (int i = 0; i < numberOfY; i++) {
-            Point point = new Point();
-            point.x = ScreenX - paddingLeft - paddingRight;
-            point.y = ScreenY - paddingDown - paddingTop - num * i;
-            list.add(point);
-        }
-        return list;
-    }
-
-    public boolean isDrawY() {
-        return isDrawY;
-    }
-
-    public void setDrawY(boolean isDrawY) {
-        this.isDrawY = isDrawY;
-    }
-
-    public boolean isDrawX() {
-        return isDrawX;
-    }
-
-    public void setDrawX(boolean isDrawX) {
-        this.isDrawX = isDrawX;
-    }
-
-    public boolean isFillDown() {
-        return isFillDown;
-    }
-
-    public void setFillDown(boolean isFillDown) {
-        this.isFillDown = isFillDown;
-    }
-
-    public boolean isFillUp() {
-        return isFillUp;
-    }
-
-    public void setFillUp(boolean isFillUp) {
-        this.isFillUp = isFillUp;
-    }
-
-    public int getScreenX() {
-        return ScreenX;
-    }
-
-    public void setScreenX(int screenX) {
-        ScreenX = screenX;
-    }
-
-    public int getScreenY() {
-        return ScreenY;
-    }
-
-    public void setScreenY(int screenY) {
-        ScreenY = screenY;
-    }
-
-    public int getNumberOfX() {
-        return numberOfX;
-    }
-
-    public void setNumberOfX(int numberOfX) {
-        this.numberOfX = numberOfX;
-    }
-
-    public int getNumberOfY() {
-        return numberOfY;
-    }
-
-    public void setNumberOfY(int numberOfY) {
-        this.numberOfY = numberOfY;
-    }
-
-    public boolean isDrawInsideX() {
-        return isDrawInsideX;
-    }
-
-    public void setDrawInsideX(boolean isDrawInsideX) {
-        this.isDrawInsideX = isDrawInsideX;
-    }
-
-    public boolean isDrawInsedeY() {
-        return isDrawInsedeY;
-    }
-
-    public void setDrawInsedeY(boolean isDrawInsedeY) {
-        this.isDrawInsedeY = isDrawInsedeY;
-    }
-
-    public boolean isAppendX() {
-        return isAppendX;
-    }
-
-    public void setAppendX(boolean isAppendX) {
-        this.isAppendX = isAppendX;
-    }
-
-    public int getPaddingTop() {
-        return paddingTop;
-    }
-
-    public void setPaddingTop(int paddingTop) {
-        this.paddingTop = paddingTop;
-    }
-
-    public int getPaddingLeft() {
-        return paddingLeft;
-    }
-
-    public void setPaddingLeft(int paddingLeft) {
-        this.paddingLeft = paddingLeft;
-    }
-
-    public int getPaddingRight() {
-        return paddingRight;
-    }
-
-    public void setPaddingRight(int paddingRight) {
-        this.paddingRight = paddingRight;
-    }
-
-    public int getPaddingDown() {
-        return paddingDown;
-    }
-
-    public void setPaddingDown(int paddingDown) {
-        this.paddingDown = paddingDown;
-    }
-
-    public int getAppendXLength() {
-        return appendXLength;
-    }
-
-    public void setAppendXLength(int appendXLength) {
-        this.appendXLength = appendXLength;
-    }
-
-    public float getMaxNumber() {
-        return maxNumber;
-    }
-
-    public void setMaxNumber(float maxNumber) {
-        this.maxNumber = maxNumber;
-    }
-
-    public List<String> getTitleXList() {
-        return titleXList;
-    }
-
-    public void setTitleXList(List<String> titleXList) {
-        this.titleXList = titleXList;
-    }
-
-    public List<String> getTitleYList() {
-        return titleYList;
-    }
-
-    public void setTitleYList(List<String> titleYList) {
-        this.titleYList = titleYList;
-    }
-
-    public int getBgColor() {
-        return bgColor;
-    }
-
-    public void setBgColor(int bgColor) {
-        this.bgColor = bgColor;
-    }
-
-    public int getSingleColumnFillColor() {
-        return singleColumnFillColor;
-    }
-
-    public void setSingleColumnFillColor(int singleColumnFillColor) {
-        this.singleColumnFillColor = singleColumnFillColor;
-    }
-
-    public int getDoubleColumnFillColor() {
-        return doubleColumnFillColor;
-    }
-
-    public void setDoubleColumnFillColor(int doubleColumnFillColor) {
-        this.doubleColumnFillColor = doubleColumnFillColor;
-    }
-
-    public int getFillDownColor() {
-        return fillDownColor;
-    }
-
-    public void setFillDownColor(int fillDownColor) {
-        this.fillDownColor = fillDownColor;
-    }
-
-    public int getXyLineColor() {
-        return xyLineColor;
-    }
-
-    public void setXyLineColor(int xyLineColor) {
-        this.xyLineColor = xyLineColor;
-    }
-
-    public int getShadowLineColor() {
-        return shadowLineColor;
-    }
-
-    public void setShadowLineColor(int shadowLineColor) {
-        this.shadowLineColor = shadowLineColor;
-    }
-
-    public int getChartLineColor() {
-        return chartLineColor;
-    }
-
-    public void setChartLineColor(int chartLineColor) {
-        this.chartLineColor = chartLineColor;
-    }
-
-    public String getyUnit() {
-        return yUnit;
-    }
-
-    public void setyUnit(String yUnit) {
-        this.yUnit = yUnit;
-    }
-
-    public List<List<Float>> getPointList() {
-        return pointList;
-    }
-
-    public void setPointList(List<List<Float>> pointList) {
-        this.pointList = pointList;
-    }
-
-    public List<Integer> getBitmapList() {
-        return bitmapList;
-    }
-
-    public void setBitmapList(List<Integer> bitmapList) {
-        this.bitmapList = bitmapList;
-    }
-
-    public List<Integer> getLineColorList() {
-        return lineColorList;
-    }
-
-    public void setLineColorList(List<Integer> lineColorList) {
-        this.lineColorList = lineColorList;
     }
 }

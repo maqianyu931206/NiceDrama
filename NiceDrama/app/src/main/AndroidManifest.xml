@@ -60,6 +60,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".map.graph.ChartActivity"/>
         <activity android:name=".myset.ScanActivity" />
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />

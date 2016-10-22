@@ -2,13 +2,10 @@ package com.maqianyu.nicedrama;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.FrameLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.maqianyu.nicedrama.map.MapFragment;
+import com.maqianyu.nicedrama.map.quickhead.QuickHeadFragment;
 import com.maqianyu.nicedrama.myset.SettingFragment;
 import com.maqianyu.nicedrama.video.VideoFragment;
 
@@ -41,7 +38,7 @@ public class MainActivity extends AbsActivity {
                 FragmentTransaction transaction = manager.beginTransaction();
                 switch (checkedId) {
                     case R.id.main_map_rbt:
-                        transaction.replace(R.id.frameLayout, MapFragment.newInstance());
+                        transaction.replace(R.id.frameLayout, QuickHeadFragment.newInstance());
                         break;
                     case R.id.main_video_rbt:
                         transaction.replace(R.id.frameLayout, VideoFragment.newInstance());

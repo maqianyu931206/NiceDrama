@@ -44,7 +44,6 @@ public abstract class AbsActivity extends AppCompatActivity {
             //设置默认的标题不显示
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
         /**
          * 初始化组件
          */
@@ -127,14 +126,11 @@ public abstract class AbsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.v(TAG, "onDestroy...");
 
-
     }
-
 
 }
