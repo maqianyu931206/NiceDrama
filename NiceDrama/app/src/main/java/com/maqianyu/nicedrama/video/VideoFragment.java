@@ -52,8 +52,8 @@ public class VideoFragment extends AbsFragment{
         fragments = new ArrayList<>();
         videoFraAdapter = new VideoFraAdapter(getFragmentManager(), fragments);
         buildFragments();
-        videoTl.setTabTextColors(Color.WHITE, Color.BLUE);
-        videoTl.setSelectedTabIndicatorColor(Color.BLUE);
+        videoTl.setTabTextColors(Color.WHITE, Color.RED);
+        videoTl.setSelectedTabIndicatorColor(Color.RED);
         videoTl.setTabMode(TabLayout.MODE_FIXED);
         videoVp.setAdapter(videoFraAdapter);
         videoTl.setupWithViewPager(videoVp);

@@ -41,4 +41,13 @@
     <dimen name="media_controller_button_width">71dip</dimen>
        <!--网易视频界面-->
     <!--视频界面-->
+
+    <!--剧集视频-->
+    <!--字体大小-->
+    <dimen name="video_cha_middle_more_size">18sp</dimen>
+    <dimen name="video_cha_middle_size">16sp</dimen>
+    <!--边距大小-->
+    <dimen name="video_middle_margin">10dp</dimen>
+    <dimen name="video_big_margin">20dp</dimen>
+    <dimen name="video_small_margin">5dp</dimen>
 </resources>
