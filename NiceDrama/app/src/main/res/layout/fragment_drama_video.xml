@@ -1,13 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!--新闻视频界面的布局-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="剧好看"
-        android:textSize="30sp"/>
-</LinearLayout>
+    <!--剧集视频界面的布局-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/back_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/video_back"
+                android:layout_margin="@dimen/video_middle_margin"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/video_vp"
+                android:layout_width="match_parent"
+                android:layout_height="350dp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/left_" />
+
+                <TextView
+                    android:id="@+id/video_episode_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/video_middle_margin"
+                    android:text="@string/fenji"
+                    android:textSize="@dimen/video_cha_middle_more_size" />
+            </LinearLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/video_episode_tl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/left_" />
+
+                <TextView
+                    android:id="@+id/video_outside_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/video_middle_margin"
+                    android:text="@string/zhoubian"
+                    android:textSize="@dimen/video_cha_middle_more_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/video_middle_margin">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/video_middle_margin"
+                        android:layout_marginLeft="@dimen/video_big_margin"
+                        android:layout_marginRight="@dimen/video_small_margin"
+                        android:layout_marginTop="@dimen/video_middle_margin"
+                        android:src="@mipmap/book" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/yuanzhu"
+                        android:textSize="@dimen/video_cha_middle_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/video_middle_margin">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/video_middle_margin"
+                        android:layout_marginLeft="@dimen/video_middle_margin"
+                        android:layout_marginRight="@dimen/video_small_margin"
+                        android:layout_marginTop="@dimen/video_middle_margin"
+                        android:src="@mipmap/cartoon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/cartoon"
+                        android:textSize="@dimen/video_cha_middle_size" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/left_" />
+
+                <TextView
+                    android:id="@+id/video_intro_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/video_middle_margin"
+                    android:text="@string/jianjie"
+                    android:textSize="@dimen/video_cha_middle_more_size" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/video_middle_margin"
+                android:layout_marginTop="@dimen/video_middle_margin"
+                android:layout_marginBottom="@dimen/video_middle_margin">
+                <TextView
+                    android:id="@+id/former_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jj_yuanzhu"
+                    android:textColor="@color/video_char_color"/>
+                <TextView
+                    android:id="@+id/former_content_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="呵呵"
+                    android:layout_marginLeft="@dimen/video_middle_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/video_middle_margin"
+                android:layout_marginBottom="@dimen/video_middle_margin">
+                <TextView
+                    android:id="@+id/author_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jj_author"
+                    android:textColor="@color/video_char_color"/>
+                <TextView
+                    android:id="@+id/author_content_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="呵呵"
+                    android:layout_marginLeft="@dimen/video_middle_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/video_middle_margin"
+                android:layout_marginBottom="@dimen/video_middle_margin">
+                <TextView
+                    android:id="@+id/story_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jj_jiqing"
+                    android:textColor="@color/video_char_color"/>
+                <TextView
+                    android:id="@+id/story_content_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="呵呵"
+                    android:layout_marginLeft="@dimen/video_middle_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/video_middle_margin"
+                android:layout_marginBottom="@dimen/video_middle_margin">
+                <TextView
+                    android:id="@+id/bg_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jj_bg"
+                    android:textColor="@color/video_char_color"/>
+                <TextView
+                    android:id="@+id/bg_content_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="呵呵"
+                    android:layout_marginLeft="@dimen/video_middle_margin"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
