@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.maqianyu.nicedrama.AbsActivity;
 import com.maqianyu.nicedrama.AbsFragment;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.TitleBuilder;
 import com.maqianyu.nicedrama.map.graph.BrokenFragment;
 import com.maqianyu.nicedrama.map.graph.ColunmarFragment;
 import com.maqianyu.nicedrama.map.graph.SectorFragmert;
@@ -58,6 +59,14 @@ public class ChartActivity extends AbsActivity{
             tabLayout.getTabAt(i).setText(str[i]);
         }
         tabLayout.setTabTextColors(Color.BLACK, Color.BLUE);
+
+        new TitleBuilder(this).setTitle("图形绘制").setViewColor(Color.YELLOW).setBackImg(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
+
 
 }

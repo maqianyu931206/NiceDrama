@@ -24,10 +24,6 @@ public class MainActivity extends AbsActivity {
         radioGroup = byView(R.id.radioGroup);
     }
 
-    @Override
-    protected boolean isShowBacking() {
-        return true;
-    }
 
     @Override
     protected void initDatas() {

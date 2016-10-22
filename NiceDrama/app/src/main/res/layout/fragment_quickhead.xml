@@ -1,58 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_margin="5dp"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-   <android.support.v7.widget.RecyclerView
-       android:id="@+id/quick_recyclerView"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"/>
+    <include layout="@layout/include_view" />
 
-    <com.maqianyu.nicedrama.myset.ArcMenuView
-        android:id="@+id/arcmenu"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/quick_recyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-        <RelativeLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@mipmap/composer_button" >
+        <include
+            android:id="@+id/arcmenu"
+            layout="@layout/arcmenu" />
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/id_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@mipmap/composer_icn_plus" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/id_button_save"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/btn_signin_sucess"
-            android:tag="sleep"
-            android:focusable="true"
-            android:focusableInTouchMode="true"/>
-        <ImageView
-            android:id="@+id/id_button_saomiao"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/ic_more_contribution"
-            android:tag="thought" />
-        <ImageView
-            android:id="@+id/id_button_create"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/ic_more_credit"
-            android:tag="thought" />
-        <ImageView
-            android:id="@+id/id_button_write"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/ic_more_feedback"
-            android:tag="with" />
-    </com.maqianyu.nicedrama.myset.ArcMenuView>
-</FrameLayout>
+</LinearLayout>

@@ -73,6 +73,7 @@
         <!--</code>-->
         <activity android:name=".myset.TtsActivity"/>
         <activity android:name=".myset.LisAndWriActivity"/>
+        <activity android:name=".map.quickhead.QuickInfoActivity"/>
     </application>
 
 </manifest>
