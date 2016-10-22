@@ -80,8 +80,7 @@ public class TtsActivity extends AbsActivity implements OnClickListener {
 
     @Override
     protected void initDatas() {
-        getToolbarTitle().setText(R.string.voice_create);
-        getSubTitle().setText("");
+
         startBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);

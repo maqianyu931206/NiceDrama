@@ -14,4 +14,8 @@
         <attr name="radius" />
     </declare-styleable>
 
+    <declare-styleable name="ArcMenu">
+        <attr name="position"/>
+        <attr name="radius"/>
+    </declare-styleable>
 </resources>

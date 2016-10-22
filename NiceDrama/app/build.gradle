@@ -37,6 +37,8 @@ dependencies {
     compile files('libs/Volley.jar')
     compile files('libs/Msc.jar')
     compile files('libs/Sunflower.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.alibaba:fastjson:1.2.19'
     compile files('libs/clink210.jar')
     compile 'org.greenrobot:eventbus:3.0.0'
 }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.maqianyu.nicedrama.map.quickhead.ArcMenu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:def="http://schemas.android.com/apk/res-auto"
+    def:position="right_bottom"
+    def:radius="200dp">
+
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/composer_camera"
+        android:tag="camera" />
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/composer_place"
+        android:tag="place" />
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/composer_people"
+        android:tag="people" />
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/composer_music"
+        android:tag="music" />
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/composer_sleep"
+        android:tag="sleep" />
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/composer_thought"
+        android:tag="thought" />
+
+    <!-- 中间菜单按钮 -->
+    <ImageView
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="40dp"
+        android:src="@drawable/composer_button" />
+
+</com.maqianyu.nicedrama.map.quickhead.ArcMenu>

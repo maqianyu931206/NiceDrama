@@ -2,6 +2,8 @@ package com.maqianyu.nicedrama;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 
 import com.iflytek.cloud.SpeechUtility;
 
@@ -18,9 +20,11 @@ public class MyApp extends Application {
         SpeechUtility.createUtility(MyApp.this, "appid=" + getString(R.string.app_id));
         super.onCreate();
         context = getApplicationContext();
+
     }
 
     public static Context getContext() {
         return context;
     }
+
 }

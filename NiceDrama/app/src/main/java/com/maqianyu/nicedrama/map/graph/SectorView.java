@@ -1,209 +1,143 @@
 package com.maqianyu.nicedrama.map.graph;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Looper;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-
-import com.maqianyu.nicedrama.R;
-
 /**
- * Created by dllo on 16/10/20.
+ *
+ *@auther 马迁宇对你说!
  */
 public class SectorView  extends View{
-    private Paint xLinePaint;// 坐标轴 轴线 画笔：
-    private Paint hLinePaint;// 坐标轴水平内部 虚线画笔
-    private Paint titlePaint;// 绘制文本的画笔
-    private Paint paint;// 矩形画笔 柱状图的样式信息
-    private int[] progress = { 2000, 5000, 6000, 8000, 500, 6000, 9000 };// 7
-    // 条，显示各个柱状的数据
-    private int[] aniProgress;// 实现动画的值
-    private final int TRUE = 1;// 在柱状图上显示数字
-    private int[] text;// 设置点击事件，显示哪一条柱状的信息
-    private Bitmap bitmap;
-    // 坐标轴左侧的数标
-    private String[] ySteps;
-    // 坐标轴底部的星期数
-    private String[] xWeeks;
-    private int flag;// 是否使用动画
-
-    private HistogramAnimation ani;
-
     public SectorView(Context context) {
         super(context);
-        init();
+        // TODO Auto-generated constructor stub
+        init(context, null);
     }
 
     public SectorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        // TODO Auto-generated constructor stub
+        init(context, attrs);
     }
 
-    private void init() {
-
-        ySteps = new String[] { "10k", "7.5k", "5k", "2.5k", "0" };
-        xWeeks = new String[] { "周一", "周二", "周三", "周四", "周五", "周六", "周日" };
-        text = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-        aniProgress = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-        ani = new HistogramAnimation();
-        ani.setDuration(2000);
-
-        xLinePaint = new Paint();
+    //  坐标轴 轴线 画笔：
+    private Paint axisLinePaint;
+    //  坐标轴水平内部 虚线画笔
+    private Paint hLinePaint;
+    //  绘制文本的画笔
+    private Paint titlePaint;
+    //  矩形画笔 柱状图的样式信息
+    private Paint recPaint;
+    private void init(Context context, AttributeSet attrs) {
+        axisLinePaint = new Paint();
         hLinePaint = new Paint();
         titlePaint = new Paint();
-        paint = new Paint();
-
-        // 给画笔设置颜色
-        xLinePaint.setColor(Color.DKGRAY);
+        recPaint = new Paint();
+        axisLinePaint.setColor(Color.DKGRAY);
         hLinePaint.setColor(Color.LTGRAY);
         titlePaint.setColor(Color.BLACK);
 
-        // 加载画图
-        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
     }
 
-    public void start(int flag) {
-        this.flag = flag;
-        this.startAnimation(ani);
+    //7 条
+    private int[] thisYear;
+
+    //7 条
+    private int[] lastYear;
+
+
+    /**
+     * 跟新自身的数据 需要View子类重绘。
+     *
+     * 主线程 刷新控件的时候调用：
+     * this.invalidate();  失效的意思。
+     * this.postInvalidate();  可以子线程 更新视图的方法调用。
+     *
+     * */
+    //updata this year data
+    public void updateThisData(int[] thisData) {
+        thisYear = thisData;
+//      this.invalidate(); //失效的意思。
+        this.postInvalidate();  //可以子线程 更新视图的方法调用。
+    }
+    //updata last year data
+    public void updateLastData(int[] lastData) {
+        lastYear = lastData;
+//      this.invalidate(); //失效的意思。
+        this.postInvalidate();  //可以子线程 更新视图的方法调用。
     }
 
-    @SuppressLint("DrawAllocation")
+
+    private String[] yTitlesStrings = new String[]{"80000","60000","40000","20000","0"};
+    private String[] xTitles = new String[]{"1","2","3","4","5","6","7"};
     @Override
     protected void onDraw(Canvas canvas) {
+        // TODO Auto-generated method stub
         super.onDraw(canvas);
-
         int width = getWidth();
-        int height = getHeight() - dp2px(50);
-        // 绘制底部的线条
-        canvas.drawLine(dp2px(30), height + dp2px(3), width - dp2px(30), height
-                + dp2px(3), xLinePaint);
-
-        int leftHeight = height - dp2px(5);// 左侧外周的 需要划分的高度：
-
-        int hPerHeight = leftHeight / 4;// 分成四部分
-
+        int height = getHeight();
+        // 1 绘制坐标线：
+        canvas.drawLine(100, 10, 100, 320, axisLinePaint);
+        canvas.drawLine(100, 320, width-10 , 320, axisLinePaint);
+        // 2 绘制坐标内部的水平线
+        int leftHeight = 300;// 左侧外周的 需要划分的高度：
+        int hPerHeight = leftHeight/4;
         hLinePaint.setTextAlign(Paint.Align.CENTER);
-        // 设置四条虚线
-        for (int i = 0; i < 4; i++) {
-            canvas.drawLine(dp2px(30), dp2px(10) + i * hPerHeight, width
-                    - dp2px(30), dp2px(10) + i * hPerHeight, hLinePaint);
+        for(int i=0;i<4;i++) {
+            canvas.drawLine(100, 20+i*hPerHeight, width-10, 20+i*hPerHeight, hLinePaint);
         }
 
-        // 绘制 Y 周坐标
+        // 3 绘制 Y 周坐标
+        Paint.FontMetrics metrics =titlePaint.getFontMetrics();
+        int descent = (int)metrics.descent;
         titlePaint.setTextAlign(Paint.Align.RIGHT);
-        titlePaint.setTextSize(sp2px(12));
-        titlePaint.setAntiAlias(true);
-        titlePaint.setStyle(Paint.Style.FILL);
-        // 设置左部的数字
-        for (int i = 0; i < ySteps.length; i++) {
-            canvas.drawText(ySteps[i], dp2px(25), dp2px(13) + i * hPerHeight,
-                    titlePaint);
+        for(int i=0;i<yTitlesStrings.length;i++) {
+            canvas.drawText(yTitlesStrings[i], 80, 20+i*hPerHeight+descent, titlePaint);
         }
+        // 4  绘制 X 周 做坐标
+        int xAxisLength = width-110;
+        int columCount = xTitles.length+1;
+        int step = xAxisLength/columCount;
 
-        // 绘制 X 周 做坐标
-        int xAxisLength = width - dp2px(30);
-        int columCount = xWeeks.length + 1;
-        int step = xAxisLength / columCount;
-
-        // 设置底部的数字
-        for (int i = 0; i < columCount - 1; i++) {
-            // text, baseX, baseY, textPaint
-            canvas.drawText(xWeeks[i], dp2px(25) + step * (i + 1), height
-                    + dp2px(20), titlePaint);
+        for(int i=0;i<columCount-1;i++) {
+            canvas.drawText(xTitles[i], 100+step*(i+1), 360 , titlePaint);
         }
-
-        // 绘制矩形
-        if (aniProgress != null && aniProgress.length > 0) {
-            for (int i = 0; i < aniProgress.length; i++) {// 循环遍历将7条柱状图形画出来
-                int value = aniProgress[i];
-                paint.setAntiAlias(true);// 抗锯齿效果
-                paint.setStyle(Paint.Style.FILL);
-                paint.setTextSize(sp2px(15));// 字体大小
-                paint.setColor(Color.parseColor("#6DCAEC"));// 字体颜色
-                Rect rect = new Rect();// 柱状图的形状
-
-                rect.left = step * (i + 1);
-                rect.right = dp2px(30) + step * (i + 1);
-                int rh = (int) (leftHeight - leftHeight * (value / 10000.0));
-                rect.top = rh + dp2px(10);
-                rect.bottom = height;
-
-                canvas.drawBitmap(bitmap, null, rect, paint);
-                // 是否显示柱状图上方的数字
-                if (this.text[i] == TRUE) {
-                    canvas.drawText(value + "", dp2px(15) + step * (i + 1)
-                            - dp2px(15), rh + dp2px(5), paint);
-                }
-
+        // 5 绘制矩形
+        if(thisYear != null && thisYear.length >0) {
+            int thisCount = thisYear.length;
+            for(int i=0;i<thisCount;i++) {
+                int value = thisYear[i];
+                int num = 8 - value / 10000 ;
+                recPaint.setColor(0xFF1078CF);
+                Rect rect = new Rect();
+                rect.left  = 100 + step * (i+1)  - 10;
+                rect.right = 100 + step * (i+1)  + 10;
+//              当前的相对高度：
+                int rh = (leftHeight * num) / 8 ;
+                rect.top = rh + 20;
+                rect.bottom = 320 ;
+                canvas.drawRect(rect, recPaint);
             }
         }
-
-    }
-
-    private int dp2px(int value) {
-        float v = getContext().getResources().getDisplayMetrics().density;
-        return (int) (v * value + 0.5f);
-    }
-
-    private int sp2px(int value) {
-        float v = getContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (v * value + 0.5f);
-    }
-
-    /**
-     * 设置点击事件，是否显示数字
-     */
-    public boolean onTouchEvent(MotionEvent event) {
-        int step = (getWidth() - dp2px(30)) / 8;
-        int x = (int) event.getX();
-        for (int i = 0; i < 7; i++) {
-            if (x > (dp2px(15) + step * (i + 1) - dp2px(15))
-                    && x < (dp2px(15) + step * (i + 1) + dp2px(15))) {
-                text[i] = 1;
-                for (int j = 0; j < 7; j++) {
-                    if (i != j) {
-                        text[j] = 0;
-                    }
-                }
-                if (Looper.getMainLooper() == Looper.myLooper()) {
-                    invalidate();
-                } else {
-                    postInvalidate();
-                }
+        if(lastYear != null && lastYear.length >0) {
+            int thisCount = lastYear.length;
+            for(int i=0;i<thisCount;i++) {
+                int value = lastYear[i];
+                int num = 8 - value / 10000 ;
+                recPaint.setColor(0xFFAA1122);
+                Rect rect = new Rect();
+                rect.left  = 100 + step * (i+1)  - 10;
+                rect.right = 100 + step * (i+1)  + 10;
+//              当前的相对高度：
+                int rh = (leftHeight * num) / 8 ;
+                rect.top = rh + 20;
+                rect.bottom = 320 ;
+                canvas.drawRect(rect, recPaint);
             }
-        }
-        return super.onTouchEvent(event);
-    }
-
-    /**
-     * 集成animation的一个动画类
-     *
-     * @author 李垭超
-     */
-    private class HistogramAnimation extends Animation {
-        protected void applyTransformation(float interpolatedTime,
-                                           Transformation t) {
-            super.applyTransformation(interpolatedTime, t);
-            if (interpolatedTime < 1.0f && flag == 2) {
-                for (int i = 0; i < aniProgress.length; i++) {
-                    aniProgress[i] = (int) (progress[i] * interpolatedTime);
-                }
-            } else {
-                for (int i = 0; i < aniProgress.length; i++) {
-                    aniProgress[i] = progress[i];
-                }
-            }
-            invalidate();
         }
     }
 }

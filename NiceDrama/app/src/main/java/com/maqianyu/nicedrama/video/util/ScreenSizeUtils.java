@@ -42,6 +42,12 @@ public class ScreenSizeUtils {
         params.width = width / percent;
         view.setLayoutParams(params);
     }
+    public static void setHeightScreen(View view, double percent){
+        double height = getScreenState(ScreenState.HEIGHT);
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = (int) (height * percent);
+        view.setLayoutParams(params);
+    }
 
     public static void setHeightScreen(View view, int percent){
         int height = getScreenState(ScreenState.HEIGHT);
