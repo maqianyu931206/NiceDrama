@@ -100,8 +100,7 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        getToolbarTitle().setText(R.string.voice_lis_wri);
-        getSubTitle().setText("");
+
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);

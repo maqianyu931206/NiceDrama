@@ -17,18 +17,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:24.1.1'
-    compile 'com.android.support:cardview-v7:24.1.1'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile project(':ZXingDemo14')
+    compile files('libs/Amap_2DMap_V2.9.1_20160825.jar')
+    compile files('libs/AMap_Location_V2.4.1_20160414.jar')
+    compile files('libs/AMap_Search_V3.5.0_20160927.jar')
+    compile files('libs/android-support-v4.jar')
+    compile files('libs/Volley.jar')
     compile files('libs/Msc.jar')
     compile files('libs/Sunflower.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.alibaba:fastjson:1.2.19'
+    compile files('libs/clink210.jar')
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

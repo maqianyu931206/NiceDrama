@@ -21,7 +21,6 @@
     <!-- 分割线背景色 -->
     <drawable name="line_background">#161823</drawable>
 
-    <color name="white">#FFFFFF</color>
 
     <!-- 控件按下时显示的颜色 -->
     <color name="list_backgroud_color">#2fb3cb</color>
@@ -29,5 +28,35 @@
     <color name="content_color">#737373</color>
         <!--语音页面-->
     <!--设置页面-->
+
+
+    <color name="white">#fff</color>
+    <color name="grey"> #ebebeb</color>
+    <color name="black"> #000000</color>
+    <color name="darkgrey"> #999999</color>
+    <color name="red"> #FF0000</color>
+    <color name="blue">#4c90f9</color>
+    <color name="gary">#898989</color>
+    <color name="gray_lite">#c5c5c5</color>
+    <color name="phone_bg">#f6f6f6</color>
+    <color name="transparent">#00000000</color>
+    <color name="itemlist">#f4f4f4</color>
+    <color name="watermark_hint">#ccffffff</color>
+    <color name="act_background">#efefef</color>
+
+    <!--视频界面-->
+        <!--网易视频界面-->
+    <color name="biz_audio_progress_bg">#00b2ff</color>
+    <color name="biz_audio_progress_first">#ffffff</color>
+    <color name="biz_audio_progress_second">#6b6666</color>
+
+    <color name="default_bg">#aa000000</color>
+    <color name="select_color">#00b2ff</color>
+    <color name="normal_color">#ffffffff</color>
+    <color name="divider_color">#55504a</color>
+    <!--special color-->
+    <color name="black_a10_color">#1a000000</color>
+        <!--网易视频界面-->
+    <!--视频界面-->
 
 </resources>

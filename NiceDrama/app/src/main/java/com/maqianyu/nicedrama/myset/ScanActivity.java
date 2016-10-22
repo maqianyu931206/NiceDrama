@@ -50,8 +50,7 @@ public class ScanActivity extends AbsActivity {
 
     @Override
     protected void initDatas() {
-        getToolbarTitle().setText(R.string.scan_title);
-        getSubTitle().setText("");
+
         qrCodeUrl.setVisibility(View.INVISIBLE);
         arcMenuView.setOnMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
             @Override

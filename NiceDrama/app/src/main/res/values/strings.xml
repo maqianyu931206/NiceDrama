@@ -9,6 +9,10 @@
     <!--视频界面-->
     <string name="action_settings">Settings</string>
     <!--设置页面-->
+
+    <string name="no_result">对不起，没有搜索到相关数据！</string>
+
+
     <!-- 听写 -->
     <string name="app_id">58087ef2</string>
     <string name="text_begin">请开始说话…</string>
@@ -167,4 +171,10 @@
     <string name="xml_tts_second_rb">本地合成</string>
     <string name="xml_tts_voicer">发言人</string>
     <!--设置页面-->
+
+    <!--视频界面-->
+         <!--网易视频界面-->
+    <string name="dlna_device_title">"%s"正在播放中</string>
+         <!--网易视频界面-->
+    <!--视频界面-->
 </resources>
