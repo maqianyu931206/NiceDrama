@@ -112,6 +112,7 @@ public class NENewsVideoFragment extends AbsFragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem > p) {
                     svp.setVisibility(View.VISIBLE);
+                    svp.loadAndPlay(Uri.parse(mp4), 0);
                 } else {
                     svp.setVisibility(View.GONE);
                 }
@@ -121,51 +122,12 @@ public class NENewsVideoFragment extends AbsFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getPosition(PEntity pEntity) {
         p = pEntity.getPosition();
-        Log.d("sss", "p:" + p);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getUrl(PEntity pEntity) {
         mp4 = pEntity.getUrl();
-        Log.d("sss", mp4);
     }
-
-    /**
-     * 播放器的回调函数
-     */
-    private SuperVideoPlayer.VideoPlayCallbackImpl mVideoPlayCallback = new SuperVideoPlayer.VideoPlayCallbackImpl() {
-        /**
-         * 播放器关闭按钮回调
-         */
-        @Override
-        public void onCloseVideo() {
-            svp.close();//关闭VideoView
-//            mPlayBtnView.setVisibility(View.VISIBLE);
-            svp.setVisibility(View.GONE);
-//            resetPageToPortrait();
-        }
-
-        /**
-         * 播放器横竖屏切换回调
-         */
-        @Override
-        public void onSwitchPageType() {
-            if (((AppCompatActivity) context).getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                svp.setPageType(com.maqianyu.nicedrama.video.wkvideoplayer.view.MediaController.PageType.SHRINK);
-            } else {
-                ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                svp.setPageType(com.maqianyu.nicedrama.video.wkvideoplayer.view.MediaController.PageType.EXPAND);
-            }
-        }
-
-        /**
-         * 播放完成回调
-         */
-        @Override
-        public void onPlayFinish() {
-
-        }
-    };
 
     @Override
     public void onDestroy() {
