@@ -59,6 +59,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".map.graph.ChartActivity"/>
         <activity android:name=".myset.ScanActivity" />
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />
@@ -72,6 +73,7 @@
         <!--</code>-->
         <activity android:name=".myset.TtsActivity"/>
         <activity android:name=".myset.LisAndWriActivity"/>
+        <activity android:name=".map.quickhead.QuickInfoActivity"/>
     </application>
 
 </manifest>

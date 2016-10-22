@@ -33,6 +33,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *地图的Activity
+ *@auther 马迁宇对你说!
+ */
 public class MapActivity extends AppCompatActivity implements View.OnClickListener, LocationSource, AMapLocationListener, PoiSearch.OnPoiSearchListener,
         Inputtips.InputtipsListener {
     private MapView mapView;
