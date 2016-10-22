@@ -25,7 +25,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -66,8 +66,8 @@
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/video_middle_margin"
@@ -81,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_margin="@dimen/video_middle_margin"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -244,8 +245,7 @@
                 android:id="@+id/epi_total_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="共58人" />
+                android:layout_gravity="center_vertical" />
 
             <ImageView
                 android:layout_width="wrap_content"

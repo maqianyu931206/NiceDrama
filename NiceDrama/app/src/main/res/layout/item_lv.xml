@@ -24,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@mipmap/ic_launcher"
                 android:scaleType="fitXY"
                 />
 
@@ -44,12 +43,12 @@
                 android:id="@+id/title_tv_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="@dimen/video_middle_margin"
+                android:layout_marginRight="@dimen/video_middle_margin"
+                android:layout_marginTop="@dimen/video_middle_margin"
                 android:textColor="#FFF"
                 android:text="嗯哼"
-                android:textSize="20sp" />
+                android:textSize="@dimen/video_cha_middle_more_size" />
         </FrameLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,36 +57,35 @@
                 android:id="@+id/author_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"/>
+                android:layout_margin="@dimen/video_middle_margin"/>
             <TextView
                 android:id="@+id/author_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="哈哈"
-                android:textSize="18sp"
+                android:textSize="@dimen/video_cha_middle_size"
                 android:layout_toRightOf="@id/author_img"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="@dimen/video_middle_margin"/>
             <TextView
                 android:id="@+id/item_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/video_middle_margin"
                 android:text="123"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/video_cha_middle_size"/>
             <TextView
                 android:id="@+id/item_length_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/item_count_tv"
                 android:layout_centerVertical="true"
-                android:layout_margin="20dp"
+                android:layout_marginRight="@dimen/video_big_margin"
                 android:text="123"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/video_cha_middle_size"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
