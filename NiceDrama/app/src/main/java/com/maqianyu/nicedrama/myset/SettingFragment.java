@@ -40,11 +40,6 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-<<<<<<< HEAD
-=======
-        getToolbarTitle().setText(R.string.setting);
-        getSubTitle().setText("");
->>>>>>> feature/庞美
         scanTv.setOnClickListener(this);
         translateTv.setOnClickListener(this);
         voiceTv.setOnClickListener(this);
