@@ -36,14 +36,18 @@ public class ScreenSizeUtils {
         }
     }
 
-    public static void setScreen(View view, int percent){
+    public static void setWidthScreen(View view, int percent){
         int width = getScreenState(ScreenState.WIDTH);
-        int height = getScreenState(ScreenState.HEIGHT);
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = width / percent;
-        params.height = height / percent;
         view.setLayoutParams(params);
     }
 
+    public static void setHeightScreen(View view, int percent){
+        int height = getScreenState(ScreenState.HEIGHT);
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = height / percent;
+        view.setLayoutParams(params);
+    }
 
 }
