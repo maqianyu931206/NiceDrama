@@ -1,6 +1,8 @@
 package com.maqianyu.nicedrama.video.subfragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,9 +12,11 @@ import com.maqianyu.nicedrama.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.video.util.Values;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,15 +104,28 @@ public class EpisodeFragment extends AbsFragment {
                 Gson gson = new Gson();
                 entity = gson.fromJson(str , EpisodeEntity.class);
                 datas = entity.getMovieDetail();
-//                setInfo();
-//                titleTv.setText(datas.getTitle());
-                titleTv.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        titleTv.setText(datas.getTitle());
-                    }
-                });
+                handler.sendEmptyMessage(1);
             }
         });
     }
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(msg.what == 1){
+                titleTv.setText(datas.getTitle());
+                descTv.setText(datas.getMovieDesc());
+                totalTv.setText("共" + datas.getPapaNo() + "人");
+                zanTv.setText(datas.getPlayState().getCollectionNums() + "");
+                shareTv.setText(datas.getPlayState().getShareNums() + "");
+                starTv.setText(datas.getPlayState().getLikeNums() + "");
+                Picasso.with(context).load(datas.getCoverUrl()).into(titleIv);
+//                Picasso.with(context).load(datas.getCoverUrl()).into(epiCiv);
+                Picasso.with(context).load(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl()).into(oneCiv);
+                Picasso.with(context).load(datas.getPapaInfoLists().get(1).getPapaHeadImgUrl()).into(twoCiv);
+                Picasso.with(context).load(datas.getPapaInfoLists().get(2).getPapaHeadImgUrl()).into(threeCiv);
+            }
+            return false;
+        }
+    });
 }
