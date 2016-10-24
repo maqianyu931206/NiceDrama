@@ -171,6 +171,7 @@
             android:src="@mipmap/shouhushen" />
 
         <LinearLayout
+            android:id="@+id/epi_civ_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -235,6 +236,7 @@
                     android:src="@mipmap/hg_3" />
             </FrameLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/epi_shs_enter_ll"

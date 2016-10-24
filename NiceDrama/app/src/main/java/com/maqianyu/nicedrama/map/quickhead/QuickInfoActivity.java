@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.TitleBuilder;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
 
 import java.io.IOException;

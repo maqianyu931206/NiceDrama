@@ -62,7 +62,7 @@ public class VideoFragment extends AbsFragment{
         videoTl.setupWithViewPager(videoVp);
         setDatas();
 
-        new TitleBuilder((Activity) context).setTitle("视频").setBackImgGone(true);
+        new TitleBuilder((Activity) context).setTitle("视频").setBackImgGone(true).setMoreImg(false);
 
     }
 
