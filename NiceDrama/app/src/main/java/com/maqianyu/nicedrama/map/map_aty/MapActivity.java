@@ -27,6 +27,7 @@ import com.amap.api.services.help.Tip;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,6 +109,8 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         location();//开始定位
+
+        new TitleBuilder(this).setTitle(this.getResources().getString(R.string.map)).setMoreImg(false);
     }
 
 

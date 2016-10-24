@@ -192,4 +192,18 @@
     <string name="zhuiju">+追剧</string>
 
     <string name="netIsNotGood">网络不给力</string>
+
+
+
+
+    <!--快手界面-->
+    <string name="quickhead">快手</string>
+    <string name="vedio_info">视频详情</string>
+    <string name="map">地图</string>
+    <string name="chart">图形绘制</string>
+    <string name="chart_line">折线图</string>
+    <string name="chart_zhu">柱状图</string>
+    <string name="chart_yuan">扇形图</string>
+    <string name="chart_dangqian">当前数值</string>
+
 </resources>

@@ -23,7 +23,9 @@ public class ChartActivity extends AbsActivity{
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private VPAdapter vpAdapter;
-    String str[] = new String[]{"折线图","柱状图","饼状图"};
+    String str[] = new String[]{this.getResources().getString(R.string.chart_line),
+            this.getResources().getString(R.string.chart_zhu),
+            this.getResources().getString(R.string.chart_yuan)};
 
     @Override
     protected int setLayout() {
@@ -52,12 +54,8 @@ public class ChartActivity extends AbsActivity{
         }
         tabLayout.setTabTextColors(Color.BLACK, Color.BLUE);
 
-        new TitleBuilder(this).setTitle("图形绘制").setViewColor(Color.YELLOW).setBackImg(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        new TitleBuilder(this).setTitle(this.getResources().getString(R.string.chart)).setViewColor(Color.YELLOW).setMoreImg(false);
+
     }
 
 
