@@ -16,6 +16,7 @@ import com.karics.library.zxing.android.CaptureActivity;
 import com.karics.library.zxing.encode.CodeCreator;
 import com.maqianyu.nicedrama.AbsActivity;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.TitleBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,6 +78,7 @@ public class ScanActivity extends AbsActivity {
                 }
             }
         });
+        new TitleBuilder(this).setTitle("扫一扫").setBackImgGone(false);
     }
 
     @Override

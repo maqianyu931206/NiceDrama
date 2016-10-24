@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public final class CaptureActivity extends Activity implements
 		SurfaceHolder.Callback {
 
 	private static final String TAG = CaptureActivity.class.getSimpleName();
+	private ImageView backImg;
 
 	// 相机控制
 	private CameraManager cameraManager;

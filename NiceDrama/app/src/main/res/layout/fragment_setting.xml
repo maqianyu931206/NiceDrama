@@ -2,63 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f7f4f4">
+    android:background="#f5f1f1">
+    <include layout="@layout/include_view"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#e5f4ee"
+        android:layout_marginRight="5dp">
+        <ImageView
+            android:id="@+id/sign_in_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ig_profile_photo_default"/>
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请登录"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/sign_in_img"
+            android:layout_margin="10dp"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/setting_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:dividerHeight="5dp"
         android:background="#fff"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/setting_scan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="扫一扫"
-            android:textSize="18sp"
-            android:layout_margin="7dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/setting_translate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="百度翻译"
-            android:textSize="18sp"
-            android:layout_margin="7dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/setting_voice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="语音听写"
-            android:textSize="18sp"
-            android:layout_margin="7dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/setting_voicecreate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="语音合成"
-            android:textSize="18sp"
-            android:layout_margin="7dp"/>
-    </LinearLayout>
+        android:layout_marginTop="5dp"
+        android:divider="#f5f1f1"/>
 
 </LinearLayout>

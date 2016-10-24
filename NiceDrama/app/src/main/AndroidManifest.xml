@@ -74,6 +74,7 @@
         <activity android:name=".myset.TtsActivity"/>
         <activity android:name=".myset.LisAndWriActivity"/>
         <activity android:name=".map.quickhead.QuickInfoActivity"/>
+        <activity android:name=".map.CollectionActivity"/>
     </application>
 
 </manifest>
