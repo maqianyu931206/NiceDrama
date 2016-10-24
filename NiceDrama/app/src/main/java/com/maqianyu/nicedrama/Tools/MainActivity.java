@@ -1,10 +1,11 @@
-package com.maqianyu.nicedrama;
+package com.maqianyu.nicedrama.Tools;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
+import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.map.quickhead.QuickHeadFragment;
 import com.maqianyu.nicedrama.myset.SettingFragment;
 import com.maqianyu.nicedrama.video.VideoFragment;

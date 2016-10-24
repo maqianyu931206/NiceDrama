@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.video.util.ScreenSizeUtils;
+import com.maqianyu.nicedrama.Tools.ScreenSizeUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

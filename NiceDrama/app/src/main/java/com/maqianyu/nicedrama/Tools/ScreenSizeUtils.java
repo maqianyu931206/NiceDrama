@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.video.util;
+package com.maqianyu.nicedrama.Tools;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.maqianyu.nicedrama.MyApp;
+import com.maqianyu.nicedrama.Tools.MyApp;
 
 /**
  * Created by dllo on 16/10/21.

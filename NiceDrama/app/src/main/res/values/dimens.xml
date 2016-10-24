@@ -44,8 +44,8 @@
 
     <!--剧集视频-->
     <!--字体大小-->
-    <dimen name="video_cha_middle_more_size">18sp</dimen>
-    <dimen name="video_cha_middle_size">14sp</dimen>
+    <dimen name="video_cha_middle_more_size">15sp</dimen>
+    <dimen name="video_cha_middle_size">12sp</dimen>
     <!--边距大小-->
     <dimen name="video_middle_margin">10dp</dimen>
     <dimen name="video_big_margin">20dp</dimen>

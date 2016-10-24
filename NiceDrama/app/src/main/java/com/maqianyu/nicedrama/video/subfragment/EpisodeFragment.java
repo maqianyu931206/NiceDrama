@@ -3,21 +3,18 @@ package com.maqianyu.nicedrama.video.subfragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
-import com.maqianyu.nicedrama.video.util.Values;
+import com.maqianyu.nicedrama.Tools.Values;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
@@ -83,24 +80,23 @@ public class EpisodeFragment extends AbsFragment {
     private void doAsyncPost() {
         FormBody.Builder builder = new FormBody.Builder();
         RequestBody body = builder
-                .add(Values.KEY1, Values.VALUES1)
-                .add(Values.KEY2, Values.VALUES2)
-                .add(Values.KEY3, Values.VALUES3)
-                .add(Values.KEY4, Values.VALUES4)
-                .add(Values.KEY5, Values.VALUES5)
+                .add(Values.EPI_KEY1, Values.EPI_VALUES1)
+                .add(Values.EPI_KEY2, Values.EPI_VALUES2)
+                .add(Values.EPI_KEY3, Values.EPI_VALUES3)
+                .add(Values.EPI_KEY4, Values.EPI_VALUES4)
+                .add(Values.EPI_KEY5, Values.EPI_VALUES5)
                 .build();
         Request.Builder rb = new Request.Builder();
         final Request request = rb.url(Values.EPISODEURL).post(body).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Toast.makeText(context, R.string.netIsNotGood, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
-                Log.d("ccc", str);
                 Gson gson = new Gson();
                 entity = gson.fromJson(str , EpisodeEntity.class);
                 datas = entity.getMovieDetail();
@@ -120,7 +116,7 @@ public class EpisodeFragment extends AbsFragment {
                 shareTv.setText(datas.getPlayState().getShareNums() + "");
                 starTv.setText(datas.getPlayState().getLikeNums() + "");
                 Picasso.with(context).load(datas.getCoverUrl()).into(titleIv);
-//                Picasso.with(context).load(datas.getCoverUrl()).into(epiCiv);
+                Picasso.with(context).load(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl()).into(epiCiv);
                 Picasso.with(context).load(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl()).into(oneCiv);
                 Picasso.with(context).load(datas.getPapaInfoLists().get(1).getPapaHeadImgUrl()).into(twoCiv);
                 Picasso.with(context).load(datas.getPapaInfoLists().get(2).getPapaHeadImgUrl()).into(threeCiv);

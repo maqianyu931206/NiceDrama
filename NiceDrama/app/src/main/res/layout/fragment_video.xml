@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <!--视频界面的布局-->
+    <include layout="@layout/include_view"/>
     <android.support.design.widget.TabLayout
         android:id="@+id/fra_video_tl"
         android:layout_width="match_parent"

@@ -1,11 +1,10 @@
-package com.maqianyu.nicedrama;
+package com.maqianyu.nicedrama.Tools;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.util.DisplayMetrics;
 
 import com.iflytek.cloud.SpeechUtility;
+import com.maqianyu.nicedrama.R;
 
 /**
  * Created by dllo on 16/10/20.

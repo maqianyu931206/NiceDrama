@@ -190,4 +190,6 @@
     <string name="jj_jiqing">剧情:</string>
     <string name="jj_bg">背景:</string>
     <string name="zhuiju">+追剧</string>
+
+    <string name="netIsNotGood">网络不给力</string>
 </resources>

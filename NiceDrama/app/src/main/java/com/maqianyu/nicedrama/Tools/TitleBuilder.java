@@ -1,11 +1,12 @@
-package com.maqianyu.nicedrama;
+package com.maqianyu.nicedrama.Tools;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.maqianyu.nicedrama.R;
 
 /**
  * Created by dllo on 16/10/22.

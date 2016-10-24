@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.maqianyu.nicedrama.AbsBaseAdapter;
+import com.maqianyu.nicedrama.Tools.AbsBaseAdapter;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.video.Entity.ENNEntity;
 import com.maqianyu.nicedrama.video.Entity.PEntity;

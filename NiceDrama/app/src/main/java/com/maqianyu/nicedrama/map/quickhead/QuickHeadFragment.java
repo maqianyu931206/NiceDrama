@@ -15,10 +15,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.maqianyu.nicedrama.AbsFragment;
-import com.maqianyu.nicedrama.MyApp;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.TitleBuilder;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.map.graph.ChartActivity;
 import com.maqianyu.nicedrama.map.map_aty.MapActivity;
 import java.io.IOException;
