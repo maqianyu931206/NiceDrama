@@ -50,8 +50,10 @@ public class QuickRvAdapter extends RecyclerView.Adapter<QuickRvAdapter.MyViewHo
         if (datas.get(position).getLike_count() + "" != "") {
             holder.textView.setText(datas.get(position).getLike_count() + "");
         }
-        if (datas.get(position).getHeadurls().get(0).getUrl() != "") {
+        if (datas.get(position).getHeadurls().get(0).getUrl() != null) {
             Picasso.with(context).load(datas.get(position).getHeadurls().get(0).getUrl()).into(holder.cirimg);
+        }else {
+            holder.cirimg.setImageResource(R.mipmap.ic_launcher);
         }
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {

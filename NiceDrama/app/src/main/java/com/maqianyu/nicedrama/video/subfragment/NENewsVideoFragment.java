@@ -105,7 +105,7 @@ public class NENewsVideoFragment extends AbsFragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem > p) {
                     svp.setVisibility(View.VISIBLE);
-                    svp.loadAndPlay(Uri.parse(mp4), 0);
+//                    svp.loadAndPlay(Uri.parse(mp4), 0);
                 } else {
                     svp.setVisibility(View.GONE);
                 }
