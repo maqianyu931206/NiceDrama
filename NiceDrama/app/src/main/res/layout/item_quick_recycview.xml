@@ -36,9 +36,16 @@
             android:layout_width="wrap_content"
             android:layout_marginRight="10dp"
             android:textSize="10sp"
+            android:text="ssss"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignBottom="@id/item_quick_cir_img" />
+        <ImageView
+            android:layout_toLeftOf="@id/item_quick_tv"
+            android:layout_width="16dp"
+            android:background="@mipmap/xinxing"
+            android:layout_alignParentBottom="true"
+            android:layout_height="16dp" />
     </RelativeLayout>
 
 </FrameLayout>

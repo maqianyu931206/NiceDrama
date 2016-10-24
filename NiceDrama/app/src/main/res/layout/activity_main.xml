@@ -8,47 +8,57 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_weight="12"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
-    <RadioGroup
-        android:background="#f0f"
-        android:id="@+id/radioGroup"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_weight="16" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#ececec"
+        android:orientation="horizontal">
+
 
         <RadioButton
             android:id="@+id/main_map_rbt"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@null"
             android:button="@null"
-            android:gravity="center"
-            android:text="快手" />
+            android:layout_marginTop="5dp"
+            android:drawableTop="@drawable/radio_kuaishou"
+            android:text="快手"
+            android:textSize="10sp"
+            android:textColor="@drawable/radio_textcolor" />
+
 
         <RadioButton
             android:id="@+id/main_video_rbt"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@null"
             android:button="@null"
-            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="10sp"
+            android:textColor="@drawable/radio_textcolor"
+            android:drawableTop="@drawable/radio_video"
             android:text="视频" />
 
         <RadioButton
             android:id="@+id/main_my_rbt"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@null"
             android:button="@null"
-            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="10sp"
+            android:textColor="@drawable/radio_textcolor"
+            android:drawableTop="@drawable/radio_my"
             android:text="我的" />
     </RadioGroup>
 

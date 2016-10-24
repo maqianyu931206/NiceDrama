@@ -1,6 +1,7 @@
 package com.maqianyu.nicedrama.map.quickhead;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.TitleBuilder;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
 
 import java.io.IOException;
@@ -100,6 +102,14 @@ public class QuickInfoActivity extends AbsActivity {
                 doAsyncPost();
             }
         }).start();
+
+
+        new TitleBuilder(this).setTitle("视频详情").setMoreImg(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        }).setViewColor(Color.YELLOW);
     }
     //网络请求
     private void doAsyncPost() {

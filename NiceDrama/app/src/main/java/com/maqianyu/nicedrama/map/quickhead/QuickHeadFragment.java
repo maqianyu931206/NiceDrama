@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,8 +21,10 @@ import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.map.graph.ChartActivity;
 import com.maqianyu.nicedrama.map.map_aty.MapActivity;
+
 import java.io.IOException;
 import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -31,14 +34,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- *
- *@auther 马迁宇对你说!
+ * @auther 马迁宇对你说!
  */
 
 public class QuickHeadFragment extends AbsFragment {
     private ArcMenu arcMenu;
     private RecyclerView recyclerView;
     private QuickRvAdapter quickRvAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     String key1 = "id";
     String value1 = "2";
     String key2 = "token";
@@ -80,6 +83,7 @@ public class QuickHeadFragment extends AbsFragment {
     protected void initViews() {
         recyclerView = byView(R.id.quick_recyclerView);
         arcMenu = byView(R.id.arcmenu);
+        swipeRefreshLayout = byView(R.id.swipeRefreshLayout);
     }
 
     @Override
@@ -97,6 +101,7 @@ public class QuickHeadFragment extends AbsFragment {
             }
         }).start();
 
+        //recyclerView 的点击事件
         quickRvAdapter.setRecyclerInstance(new RecyclerInstance() {
             @Override
             public void OnRnItemClikListener(int position, String str) {
@@ -110,19 +115,24 @@ public class QuickHeadFragment extends AbsFragment {
             }
         });
 
-        new TitleBuilder((Activity) context).setTitle("快手").setBackImg(new View.OnClickListener() {
+        //标题栏设置
+        new TitleBuilder((Activity) context).setTitle("快手").setBackImgGone(true).setMoreImg(false);
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                ((Activity) context).finish();
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doAsyncPost();
+                    }
+                }).start();
+                swipeRefreshLayout.setRefreshing(false);
             }
-        }).setMoreImg(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "uuuuu", Toast.LENGTH_SHORT).show();
-            }
-        }).setBackImgGone(true);
+        });
     }
 
+    //卫星菜单点击事件
     private void arcMenuonClick() {
         arcMenu.setOnMenuItemClickListener(new ArcMenu.OnMenuItemClickListener() {
             @Override
@@ -138,7 +148,7 @@ public class QuickHeadFragment extends AbsFragment {
                 }
                 if (position == 2) {
                     // 跳转到联系人界面
-                    Intent intent = new Intent(Intent.ACTION_PICK,android.provider.ContactsContract.Contacts.CONTENT_URI);
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.ContactsContract.Contacts.CONTENT_URI);
                     startActivityForResult(intent, 1);
                 }
                 if (position == 3) {
@@ -146,7 +156,7 @@ public class QuickHeadFragment extends AbsFragment {
                     startActivity(intent);
                 }
                 if (position == 4) {
-                    Intent intent = new Intent(context,ChartActivity.class);
+                    Intent intent = new Intent(context, ChartActivity.class);
                     startActivity(intent);
 
                 }
