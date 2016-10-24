@@ -13,25 +13,33 @@
             android:id="@+id/epi_title_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
 
         <ImageView
+            android:id="@+id/epi_play_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@mipmap/video_play_" />
+        <com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer
+            android:id="@+id/epi_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5">
+            android:layout_weight="1.5"
+            android:layout_marginTop="@dimen/video_middle_margin">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/epi_civ"
@@ -62,12 +70,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="谷歌"
-                    android:textSize="@dimen/video_cha_middle_size" />
+                    android:textSize="@dimen/video_cha_middle_size"
+                    />
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/video_middle_margin"
@@ -81,9 +90,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_margin="@dimen/video_middle_margin"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/epi_zan_ll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -92,6 +103,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/epi_zan_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/epi_zan" />
@@ -138,6 +150,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/epi_star_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/epi_star" />
@@ -167,6 +180,7 @@
             android:src="@mipmap/shouhushen" />
 
         <LinearLayout
+            android:id="@+id/epi_civ_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -232,6 +246,7 @@
             </FrameLayout>
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/epi_shs_enter_ll"
             android:layout_width="wrap_content"
@@ -244,8 +259,7 @@
                 android:id="@+id/epi_total_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="共58人" />
+                android:layout_gravity="center_vertical" />
 
             <ImageView
                 android:layout_width="wrap_content"

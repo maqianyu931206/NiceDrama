@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.TitleBuilder;
 import com.maqianyu.nicedrama.map.CollectionActivity;

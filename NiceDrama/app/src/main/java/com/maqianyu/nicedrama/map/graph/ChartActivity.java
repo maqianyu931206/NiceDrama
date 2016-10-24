@@ -1,22 +1,14 @@
 package com.maqianyu.nicedrama.map.graph;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.Button;
 
-import com.maqianyu.nicedrama.AbsActivity;
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.TitleBuilder;
-import com.maqianyu.nicedrama.map.graph.BrokenFragment;
-import com.maqianyu.nicedrama.map.graph.ColunmarFragment;
-import com.maqianyu.nicedrama.map.graph.SectorFragmert;
-import com.maqianyu.nicedrama.map.graph.VPAdapter;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +23,9 @@ public class ChartActivity extends AbsActivity{
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private VPAdapter vpAdapter;
-    String str[] = new String[]{"折线图","柱状图","饼状图"};
+    String str[] = new String[]{this.getResources().getString(R.string.chart_line),
+            this.getResources().getString(R.string.chart_zhu),
+            this.getResources().getString(R.string.chart_yuan)};
 
     @Override
     protected int setLayout() {
@@ -60,12 +54,8 @@ public class ChartActivity extends AbsActivity{
         }
         tabLayout.setTabTextColors(Color.BLACK, Color.BLUE);
 
-        new TitleBuilder(this).setTitle("图形绘制").setViewColor(Color.YELLOW).setBackImg(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        new TitleBuilder(this).setTitle(this.getResources().getString(R.string.chart)).setViewColor(Color.YELLOW).setMoreImg(false);
+
     }
 
 

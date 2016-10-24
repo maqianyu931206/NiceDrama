@@ -5,16 +5,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.WriterException;
 import com.karics.library.zxing.android.CaptureActivity;
 import com.karics.library.zxing.encode.CodeCreator;
-import com.maqianyu.nicedrama.AbsActivity;
+import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.TitleBuilder;
 

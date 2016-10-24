@@ -1,19 +1,9 @@
 package com.maqianyu.nicedrama.video.subfragment;
 
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.MediaController;
-import android.widget.PopupWindow;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,13 +11,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.video.Entity.ENNEntity;
 import com.maqianyu.nicedrama.video.Entity.PEntity;
 import com.maqianyu.nicedrama.video.adapter.NENewsAdapter;
-import com.maqianyu.nicedrama.video.util.ScreenSizeUtils;
-import com.maqianyu.nicedrama.video.util.Values;
+import com.maqianyu.nicedrama.Tools.Values;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
 
 import org.greenrobot.eventbus.EventBus;
@@ -105,7 +94,7 @@ public class NENewsVideoFragment extends AbsFragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem > p) {
                     svp.setVisibility(View.VISIBLE);
-                    svp.loadAndPlay(Uri.parse(mp4), 0);
+//                    svp.loadAndPlay(Uri.parse(mp4), 0);
                 } else {
                     svp.setVisibility(View.GONE);
                 }

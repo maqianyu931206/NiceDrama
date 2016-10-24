@@ -61,8 +61,8 @@
 
     <!--剧集视频的颜色-->
     <color name="video_bg">#ffffff</color>
-    <color name="video_char_color">#000000</color>
-    <color name="epi_btn_bg">#db639b</color>
+    <color name="video_char_color">#3e3c3c</color>
+    <color name="epi_btn_bg">#e662a0</color>
     <color name="epi_white">#ffffff</color>
 
 </resources>

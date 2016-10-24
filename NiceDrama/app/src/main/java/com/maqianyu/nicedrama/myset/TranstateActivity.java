@@ -1,6 +1,6 @@
 package com.maqianyu.nicedrama.myset;
 
-import com.maqianyu.nicedrama.AbsActivity;
+import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
 
 /**

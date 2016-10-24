@@ -2,7 +2,7 @@ package com.maqianyu.nicedrama.map.graph;
 
 import android.os.Bundle;
 
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class BrokenFragment extends AbsFragment {
 
     @Override
     protected void initDatas() {
-        brokenView.setPopTitle("当前数值");
+        brokenView.setPopTitle(String.valueOf(R.string.chart_dangqian));
         List<String> xList = new ArrayList<>();
         xList.add("1");
         xList.add("2");

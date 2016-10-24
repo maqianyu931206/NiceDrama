@@ -32,7 +32,7 @@ import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.sunflower.FlowerCollector;
-import com.maqianyu.nicedrama.AbsActivity;
+import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.TitleBuilder;
 import com.maqianyu.nicedrama.myset.speech.setting.IatSettings;

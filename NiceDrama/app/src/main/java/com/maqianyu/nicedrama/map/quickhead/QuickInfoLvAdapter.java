@@ -2,13 +2,10 @@ package com.maqianyu.nicedrama.map.quickhead;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.maqianyu.nicedrama.AbsBaseAdapter;
+import com.maqianyu.nicedrama.Tools.AbsBaseAdapter;
 import com.maqianyu.nicedrama.R;
-
-import java.util.List;
 
 /**
  * Created by dllo on 16/10/22.

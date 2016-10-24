@@ -1,9 +1,8 @@
 package com.maqianyu.nicedrama.map.graph;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 
 import java.util.ArrayList;

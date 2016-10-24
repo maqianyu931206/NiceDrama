@@ -1,12 +1,15 @@
 package com.maqianyu.nicedrama.video;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import com.maqianyu.nicedrama.AbsFragment;
+
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.video.adapter.VideoFraAdapter;
 import com.maqianyu.nicedrama.video.subfragment.NENewsVideoFragment;
 import com.maqianyu.nicedrama.video.subfragment.NiceDramaFragment;
@@ -52,12 +55,15 @@ public class VideoFragment extends AbsFragment{
         fragments = new ArrayList<>();
         videoFraAdapter = new VideoFraAdapter(getFragmentManager(), fragments);
         buildFragments();
-        videoTl.setTabTextColors(Color.WHITE, Color.RED);
+        videoTl.setTabTextColors(Color.BLACK, Color.RED);
         videoTl.setSelectedTabIndicatorColor(Color.RED);
         videoTl.setTabMode(TabLayout.MODE_FIXED);
         videoVp.setAdapter(videoFraAdapter);
         videoTl.setupWithViewPager(videoVp);
         setDatas();
+
+        new TitleBuilder((Activity) context).setTitle("视频").setBackImgGone(true).setMoreImg(false);
+
     }
 
     private void setDatas() {

@@ -3,7 +3,7 @@ package com.maqianyu.nicedrama.map.graph;
 import android.os.Bundle;
 import android.widget.SeekBar;
 
-import com.maqianyu.nicedrama.AbsFragment;
+import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 
 /**
