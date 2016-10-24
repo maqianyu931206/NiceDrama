@@ -32,7 +32,7 @@ public class BrokenFragment extends AbsFragment {
 
     @Override
     protected void initDatas() {
-        brokenView.setPopTitle("当前数值");
+        brokenView.setPopTitle(String.valueOf(R.string.chart_dangqian));
         List<String> xList = new ArrayList<>();
         xList.add("1");
         xList.add("2");
