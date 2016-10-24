@@ -34,7 +34,7 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.iflytek.sunflower.FlowerCollector;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.Tools.TitleBuilder;
+import com.maqianyu.nicedrama.TitleBuilder;
 import com.maqianyu.nicedrama.myset.speech.setting.IatSettings;
 import com.maqianyu.nicedrama.myset.speech.util.ApkInstaller;
 import com.maqianyu.nicedrama.myset.speech.util.FucUtil;

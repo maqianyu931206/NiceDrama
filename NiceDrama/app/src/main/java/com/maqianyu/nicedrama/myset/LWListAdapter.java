@@ -4,15 +4,15 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import com.maqianyu.nicedrama.AbsBaseAdapter;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.Tools.AbsBaseAdapter;
 
 import java.util.List;
 
 /**
  * Created by dllo on 16/10/24.
  */
-public class LWListAdapter extends AbsBaseAdapter<LWListBean,LWListAdapter.ViewHolder> {
+public class LWListAdapter extends AbsBaseAdapter<LWListBean,LWListAdapter.ViewHolder>{
     public LWListAdapter(Context context) {
         super(context);
     }
