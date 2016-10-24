@@ -14,7 +14,7 @@ import com.karics.library.zxing.android.CaptureActivity;
 import com.karics.library.zxing.encode.CodeCreator;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.TitleBuilder;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
