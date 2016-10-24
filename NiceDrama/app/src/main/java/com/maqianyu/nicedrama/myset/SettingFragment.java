@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
-import com.maqianyu.nicedrama.TitleBuilder;
+import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.map.CollectionActivity;
 import com.maqianyu.nicedrama.myset.speech.SettingLvBean;
 

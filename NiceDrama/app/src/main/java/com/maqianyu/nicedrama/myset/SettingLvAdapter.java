@@ -5,14 +5,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.maqianyu.nicedrama.AbsBaseAdapter;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.AbsBaseAdapter;
 import com.maqianyu.nicedrama.myset.speech.SettingLvBean;
 
 /**
  * Created by dllo on 16/10/24.
  */
-public class SettingLvAdapter extends AbsBaseAdapter<SettingLvBean,SettingLvAdapter.ViewHolder>{
+public class SettingLvAdapter extends AbsBaseAdapter<SettingLvBean,SettingLvAdapter.ViewHolder> {
     public SettingLvAdapter(Context context) {
         super(context);
     }
