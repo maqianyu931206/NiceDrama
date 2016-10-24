@@ -3,7 +3,9 @@ package com.maqianyu.nicedrama.video.subfragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +14,7 @@ import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
+import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -31,11 +34,18 @@ import okhttp3.Response;
 public class EpisodeFragment extends AbsFragment {
 
     private TextView titleTv, descTv, totalTv, zanTv, shareTv, starTv;
-    private ImageView titleIv;
+    private ImageView titleIv, startIv, zanIv, starIv;
+    private LinearLayout zanLl, starLl, shareLl;
     private CircleImageView epiCiv, oneCiv, twoCiv, threeCiv;
     private OkHttpClient okHttpClient;
     private EpisodeEntity.MovieDetailBean datas;
     private EpisodeEntity entity;
+    private SuperVideoPlayer svp;
+
+    // 存储点赞的状态
+    private boolean isZan;
+    private String zanCount, noZanCount;
+    private String starCount, noStarCount;
 
     public static EpisodeFragment newInstance() {
 
@@ -58,16 +68,24 @@ public class EpisodeFragment extends AbsFragment {
         descTv = byView(R.id.epi_desc_tv);
         totalTv = byView(R.id.epi_total_tv);
         zanTv = byView(R.id.epi_zan_tv);
+        zanIv = byView(R.id.epi_zan_iv);
+        zanLl = byView(R.id.epi_zan_ll);
         shareTv = byView(R.id.epi_share_tv);
         starTv = byView(R.id.epi_star_tv);
+        starIv = byView(R.id.epi_star_iv);
+        starLl = byView(R.id.epi_star_ll);
+        shareLl = byView(R.id.epi_share_ll);
         epiCiv = byView(R.id.epi_civ);
         oneCiv = byView(R.id.epi_shs_one_civ);
         twoCiv = byView(R.id.epi_shs_two_civ);
         threeCiv = byView(R.id.epi_shs_three_civ);
+        startIv = byView(R.id.epi_play_iv);
+        svp = byView(R.id.epi_video_player);
     }
 
     @Override
     protected void initDatas() {
+        isZan = false;
         okHttpClient = new OkHttpClient();
         new Thread(new Runnable() {
             @Override
@@ -75,7 +93,46 @@ public class EpisodeFragment extends AbsFragment {
                 doAsyncPost();
             }
         }).start();
+        setOnClick();
     }
+
+    private void setOnClick() {
+        startIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        zanLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isZan == false) {
+                    zanIv.setImageResource(R.mipmap.epi_zan_seleted);
+                    zanTv.setText(zanCount);
+                    isZan = true;
+                } else {
+                    zanIv.setImageResource(R.mipmap.epi_zan);
+                    zanTv.setText(noZanCount);
+                    isZan = false;
+                }
+            }
+        });
+        starLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isZan == false) {
+                    starIv.setImageResource(R.mipmap.epi_star_seleted);
+                    starTv.setText(starCount);
+                    isZan = true;
+                } else {
+                    starIv.setImageResource(R.mipmap.epi_star);
+                    starTv.setText(noStarCount);
+                    isZan = false;
+                }
+            }
+        });
+    }
+
 
     private void doAsyncPost() {
         FormBody.Builder builder = new FormBody.Builder();
@@ -98,7 +155,7 @@ public class EpisodeFragment extends AbsFragment {
             public void onResponse(Call call, Response response) throws IOException {
                 String str = response.body().string();
                 Gson gson = new Gson();
-                entity = gson.fromJson(str , EpisodeEntity.class);
+                entity = gson.fromJson(str, EpisodeEntity.class);
                 datas = entity.getMovieDetail();
                 handler.sendEmptyMessage(1);
             }
@@ -108,11 +165,18 @@ public class EpisodeFragment extends AbsFragment {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if(msg.what == 1){
+            if (msg.what == 1) {
                 titleTv.setText(datas.getTitle());
                 descTv.setText(datas.getMovieDesc());
                 totalTv.setText("共" + datas.getPapaNo() + "人");
                 zanTv.setText(datas.getPlayState().getCollectionNums() + "");
+
+                noZanCount = String.valueOf(datas.getPlayState().getCollectionNums());
+                zanCount = String.valueOf(datas.getPlayState().getCollectionNums() + 1);
+
+                noStarCount = String.valueOf(datas.getPlayState().getLikeNums());
+                starCount = String.valueOf(datas.getPlayState().getLikeNums() + 1);
+
                 shareTv.setText(datas.getPlayState().getShareNums() + "");
                 starTv.setText(datas.getPlayState().getLikeNums() + "");
                 Picasso.with(context).load(datas.getCoverUrl()).into(titleIv);

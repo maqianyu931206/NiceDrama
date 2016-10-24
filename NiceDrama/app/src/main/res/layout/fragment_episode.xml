@@ -17,10 +17,16 @@
             android:src="@mipmap/ic_launcher" />
 
         <ImageView
+            android:id="@+id/epi_play_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@mipmap/video_play_" />
+        <com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer
+            android:id="@+id/epi_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <LinearLayout
@@ -88,6 +94,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/epi_zan_ll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -96,6 +103,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/epi_zan_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/epi_zan" />
@@ -142,6 +150,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/epi_star_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/epi_star" />
