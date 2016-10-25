@@ -7,8 +7,11 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,7 +55,10 @@ public class QuickInfoActivity extends AbsActivity {
     public static String QUICK_IMGURL = "imgUrl";
     private LinearLayout pwlinearLayout;
     private Boolean a = false;
-    private String title,imgUrl;
+    private String title, imgUrl;
+    private GestureDetector gestureDetector;
+    private ImageView saveimg;
+    private ImageView shareimg;
 
     @Override
     protected int setLayout() {
@@ -100,16 +106,23 @@ public class QuickInfoActivity extends AbsActivity {
                 doAsyncPost();
             }
         }).start();
+        //标题栏设置
+        titleset();
+        // 手势滑动监听,右滑动退出
+        gestureDetectorclick();
 
+    }
+
+    //标题栏设置
+    private void titleset() {
         new TitleBuilder(this).setTitle(this.getResources().getString(R.string.vedio_info)).
                 setMoreImg(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         View view = LayoutInflater.from(QuickInfoActivity.this).inflate(R.layout.quick_info_pw, null);
                         PopupWindow pw = new PopupWindow(QuickInfoActivity.this);
                         pwlinearLayout = (LinearLayout) view.findViewById(R.id.pw_linearLayout);
-                        pw.setHeight(400);
+                        pw.setHeight(300);
                         pw.setWidth(300);
                         pw.setOutsideTouchable(true);
                         pw.setFocusable(true);
@@ -119,8 +132,8 @@ public class QuickInfoActivity extends AbsActivity {
                         int statusBarHeight = rect.top;  // 电量栏的高度
                         pw.showAtLocation(pwlinearLayout, Gravity.NO_GRAVITY,
                                 ScreenSizeUtils.getScreenState(ScreenSizeUtils.ScreenState.WIDTH), statusBarHeight);
-                        ImageView saveimg = (ImageView) view.findViewById(R.id.pw_save);
-                        ImageView shareimg = (ImageView) view.findViewById(R.id.pw_share);
+                        saveimg = (ImageView) view.findViewById(R.id.pw_save);
+                        shareimg = (ImageView) view.findViewById(R.id.pw_share);
                         // 分享按钮
                         shareclick(shareimg);
                         // 收藏按钮
@@ -128,15 +141,65 @@ public class QuickInfoActivity extends AbsActivity {
 
                     }
                 }).setViewColor(Color.YELLOW);
+
     }
 
+    private void gestureDetectorclick() {
+        gestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                Log.d("sss", "ddd------");
+                if (e2.getX() - e1.getX() > 200) {
+                    finish();
+                    Log.d("sss", "sssss左滑动");
+                    return true;
+                }
+                return false;
+            }
+
+        });
+
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        this.gestureDetector.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+    }
+
+    // 收藏
     private void saveclick(final ImageView saveimg) {
         saveimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (a == false){
-                    LiteOrmBean liteOrmBean = new LiteOrmBean(title,imgUrl);
+                if (a == false) {
+                    LiteOrmBean liteOrmBean = new LiteOrmBean(title, imgUrl, url);
                     LitOrmIntance.getIntance().insertOne(liteOrmBean);
                     saveimg.setImageResource(R.mipmap.save1);
                     Toast.makeText(QuickInfoActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
@@ -149,18 +212,18 @@ public class QuickInfoActivity extends AbsActivity {
                 }
             }
         });
-        if (LitOrmIntance.getIntance().queryOne(title).size() > 0) {
+
+        if (LitOrmIntance.getIntance().queryOne(imgUrl).size() > 0) {
             saveimg.setImageResource(R.mipmap.save1);
             a = true;
         }
     }
 
+    //分享
     private void shareclick(ImageView shareimg) {
         shareimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(QuickInfoActivity.this, "------------", Toast.LENGTH_SHORT).show();
                 OnekeyShare oks = new OnekeyShare();
                 //关闭sso授权
                 oks.disableSSOWhenAuthorize();

@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  *快手详情,RecyclerView的适配器
- *@auther 马迁宇对你说!
+  *@auther 马迁宇对你说!
  */
 public class QuickRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

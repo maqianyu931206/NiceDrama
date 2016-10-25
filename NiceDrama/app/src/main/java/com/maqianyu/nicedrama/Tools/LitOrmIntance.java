@@ -35,6 +35,7 @@ public class LitOrmIntance {
         LiteOrmBean lb = new LiteOrmBean();
         lb.setTitle(liteOrmBean.getTitle());
         lb.setImgUrl(liteOrmBean.getImgUrl());
+        lb.setUrl(liteOrmBean.getUrl());
         liteOrm.insert(lb);
     }
 

@@ -15,27 +15,23 @@ public class LiteOrmBean {
     @NotNull
     private String imgUrl;
     private String title;
+    private String url;
 
     public LiteOrmBean() {
     }
 
-    public LiteOrmBean(int id, String imgUrl, String title) {
+    public LiteOrmBean(int id, String imgUrl, String title, String url) {
         this.id = id;
         this.imgUrl = imgUrl;
         this.title = title;
+        this.url = url;
     }
 
-    public LiteOrmBean(String imgUrl, String title) {
+
+    public LiteOrmBean(String imgUrl, String title, String url) {
         this.imgUrl = imgUrl;
         this.title = title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.url = url;
     }
 
     public String getImgUrl() {
@@ -52,5 +48,13 @@ public class LiteOrmBean {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

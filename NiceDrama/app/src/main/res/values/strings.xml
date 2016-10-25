@@ -205,5 +205,6 @@
     <string name="chart_zhu">柱状图</string>
     <string name="chart_yuan">扇形图</string>
     <string name="chart_dangqian">当前数值</string>
+    <string name="save">我的收藏</string>
 
 </resources>

@@ -98,7 +98,6 @@ public class QuickHeadFragment extends AbsFragment {
                 linearLayout.setVisibility(View.GONE);
                 Intent intent = new Intent(context, QuickInfoActivity.class);
                 intent.putExtra(QuickInfoActivity.QUICK_URL, str);
-                Log.d("QuickHeadFragment", str);
                 intent.putExtra(QuickInfoActivity.QUICK_IMGURL,bean.getFeeds().get(position).getCover_thumbnail_urls().get(0).getUrl());
                 intent.putExtra(QuickInfoActivity.QUICK_TITLE,datas.get(position).getUser_name());
                 startActivity(intent);
@@ -221,7 +220,7 @@ public class QuickHeadFragment extends AbsFragment {
                 Gson gson = new Gson();
                 bean = gson.fromJson(resultStr, Bean.class);
                 datas = bean.getFeeds();
-                handler.sendEmptyMessageDelayed(1, 3000);
+                handler.sendEmptyMessageDelayed(1, 2000);
 
 
             }

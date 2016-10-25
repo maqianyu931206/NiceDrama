@@ -75,8 +75,7 @@
         <activity android:name=".myset.TtsActivity"/>
         <activity android:name=".myset.LisAndWriActivity"/>
         <activity android:name=".map.quickhead.QuickInfoActivity"/>
-
-        <activity android:name=".map.CollectionActivity"/>
+        <activity android:name=".map.quickhead.CollectionActivity"/>
 
         <activity
             android:name="com.mob.tools.MobUIShell"

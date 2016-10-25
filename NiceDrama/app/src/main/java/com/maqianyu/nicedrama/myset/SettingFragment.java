@@ -1,21 +1,18 @@
 package com.maqianyu.nicedrama.myset;
 
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
-import com.maqianyu.nicedrama.map.CollectionActivity;
+import com.maqianyu.nicedrama.map.quickhead.CollectionActivity;
 import com.maqianyu.nicedrama.myset.speech.SettingLvBean;
 
 import java.util.ArrayList;
