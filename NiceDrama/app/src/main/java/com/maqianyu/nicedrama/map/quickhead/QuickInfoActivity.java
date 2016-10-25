@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.LitOrmIntance;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
 import com.maqianyu.nicedrama.Tools.ScreenSizeUtils;
@@ -47,7 +48,11 @@ public class QuickInfoActivity extends AbsActivity {
     private QuickInfoLvAdapter quickInfoLvAdapter;
     private OkHttpClient okHttpClient;
     public static String QUICK_URL = "url";
+    public static String QUICK_TITLE = "title";
+    public static String QUICK_IMGURL = "imgUrl";
     private LinearLayout pwlinearLayout;
+    private Boolean a = false;
+    private String title,imgUrl;
 
     @Override
     protected int setLayout() {
@@ -67,6 +72,8 @@ public class QuickInfoActivity extends AbsActivity {
     protected void initDatas() {
         Intent intent = getIntent();
         url = intent.getStringExtra(QUICK_URL);
+        title = intent.getStringExtra(QUICK_TITLE);
+        imgUrl = intent.getStringExtra(QUICK_IMGURL);
         quickInfoLvAdapter = new QuickInfoLvAdapter(this);
         listView.setAdapter(quickInfoLvAdapter);
         // 设置视频播放
@@ -123,13 +130,29 @@ public class QuickInfoActivity extends AbsActivity {
                 }).setViewColor(Color.YELLOW);
     }
 
-    private void saveclick(ImageView saveimg) {
+    private void saveclick(final ImageView saveimg) {
         saveimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                if (a == false){
+                    LiteOrmBean liteOrmBean = new LiteOrmBean(title,imgUrl);
+                    LitOrmIntance.getIntance().insertOne(liteOrmBean);
+                    saveimg.setImageResource(R.mipmap.save1);
+                    Toast.makeText(QuickInfoActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                    a = true;
+                } else {
+                    LitOrmIntance.getIntance().deleteOne(title);
+                    saveimg.setImageResource(R.mipmap.save);
+                    Toast.makeText(QuickInfoActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    a = false;
+                }
             }
         });
+        if (LitOrmIntance.getIntance().queryOne(title).size() > 0) {
+            saveimg.setImageResource(R.mipmap.save1);
+            a = true;
+        }
     }
 
     private void shareclick(ImageView shareimg) {

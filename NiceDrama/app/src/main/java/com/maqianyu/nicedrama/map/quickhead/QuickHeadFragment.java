@@ -95,14 +95,18 @@ public class QuickHeadFragment extends AbsFragment {
         quickRvAdapter.setRecyclerInstance(new RecyclerInstance() {
             @Override
             public void OnRnItemClikListener(int position, String str) {
+                linearLayout.setVisibility(View.GONE);
                 Intent intent = new Intent(context, QuickInfoActivity.class);
                 intent.putExtra(QuickInfoActivity.QUICK_URL, str);
+                Log.d("QuickHeadFragment", str);
+                intent.putExtra(QuickInfoActivity.QUICK_IMGURL,bean.getFeeds().get(position).getCover_thumbnail_urls().get(0).getUrl());
+                intent.putExtra(QuickInfoActivity.QUICK_TITLE,datas.get(position).getUser_name());
                 startActivity(intent);
             }
         });
 
         //标题栏设置
-        new TitleBuilder((Activity)context).setTitle(context.getResources().getString(R.string.quickhead)).setBackImgGone(true).setMoreImg(false);
+        new TitleBuilder((Activity) context).setTitle(context.getResources().getString(R.string.quickhead)).setBackImgGone(true).setMoreImg(false);
         //下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -135,13 +139,14 @@ public class QuickHeadFragment extends AbsFragment {
                 sss = manager.findLastVisibleItemPositions(null);
                 int count = recyclerView.getAdapter().getItemCount();
                 for (int i = 0; i < sss.length; i++) {
-                    if (sss[i] == count - 1){
+                    if (sss[i] == count - 1) {
                         mLastVisibleItemPosition = sss[i];
                     }
                 }
             }
         });
     }
+
     private int[] sss;
 
     public void loadMore() {
@@ -164,7 +169,6 @@ public class QuickHeadFragment extends AbsFragment {
             }
         }.start();
     }
-
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -217,12 +221,13 @@ public class QuickHeadFragment extends AbsFragment {
                 Gson gson = new Gson();
                 bean = gson.fromJson(resultStr, Bean.class);
                 datas = bean.getFeeds();
-                handler.sendEmptyMessageDelayed(1,3000);
+                handler.sendEmptyMessageDelayed(1, 3000);
 
 
             }
         }, data);
     }
+
     //卫星菜单点击事件
     private void arcMenuonClick() {
         arcMenu.setOnMenuItemClickListener(new ArcMenu.OnMenuItemClickListener() {
