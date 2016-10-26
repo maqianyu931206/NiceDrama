@@ -70,4 +70,9 @@ public class CollectLvAdapter extends BaseAdapter {
             textView = (TextView) view.findViewById(R.id.save_item_tv);
         }
     }
+    public void remove(LiteOrmBean liteOrmBean){
+        datas.remove(liteOrmBean);
+        notifyDataSetChanged();
+    }
+
 }

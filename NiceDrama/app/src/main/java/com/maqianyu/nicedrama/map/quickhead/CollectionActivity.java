@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
@@ -18,11 +19,11 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/10/24.
- * @author 马迁宇
  *
+ * @author 马迁宇
  */
-public class CollectionActivity extends AbsActivity {
-    private ListView listView;
+public class CollectionActivity extends AbsActivity  {
+    private DeleteListView listView;
     private CollectLvAdapter collectLvAdapter;
     private SuperVideoPlayer superVideoPlayer;
     private List<LiteOrmBean> aa;
@@ -34,7 +35,7 @@ public class CollectionActivity extends AbsActivity {
 
     @Override
     protected void initViews() {
-        listView =byView(R.id.collect_listView);
+        listView = byView(R.id.collect_listView);
     }
 
     @Override
@@ -48,16 +49,24 @@ public class CollectionActivity extends AbsActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Dialog dialog = new Dialog(CollectionActivity.this);
-                View dview = LayoutInflater.from(CollectionActivity.this).inflate(R.layout.quickinfoheadview,null);
+                View dview = LayoutInflater.from(CollectionActivity.this).inflate(R.layout.quickinfoheadview, null);
                 superVideoPlayer = (SuperVideoPlayer) dview.findViewById(R.id.quick_info_superPlayer);
-                superVideoPlayer.loadAndPlay(Uri.parse(aa.get(position).getUrl()),0);
+                superVideoPlayer.loadAndPlay(Uri.parse(aa.get(position).getUrl()), 0);
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.setContentView(dview);
                 dialog.show();
+
+                LiteOrmBean bean = (LiteOrmBean) parent.getItemAtPosition(position);
+                collectLvAdapter.remove(bean);
             }
         });
         new TitleBuilder(this).setMoreImg(false).setTitle(getResources().getString(R.string.save));
-
-
+        listView.setRemoveListener(new DeleteListView.RemoveListener() {
+            @Override
+            public void removeItem(DeleteListView.RemoveDirection direction, int position) {
+                LitOrmIntance.getIntance().deleteOne(((LiteOrmBean) collectLvAdapter.getItem(position)).getTitle());
+                collectLvAdapter.remove((LiteOrmBean) collectLvAdapter.getItem(position));
+            }
+        });
     }
 }
