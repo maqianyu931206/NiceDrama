@@ -3,6 +3,7 @@ package com.maqianyu.nicedrama.video.subfragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,11 +47,14 @@ public class EpisodeFragment extends AbsFragment {
     private boolean isZan;
     private String zanCount, noZanCount;
     private String starCount, noStarCount;
+    private String key;
+    private boolean state;
 
-    public static EpisodeFragment newInstance() {
+    public static EpisodeFragment newInstance(int epiKey) {
 
         Bundle args = new Bundle();
-
+        args.putInt("key", epiKey);
+//        Log.d("ccc","epiKey" +  epiKey);
         EpisodeFragment fragment = new EpisodeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -86,6 +90,9 @@ public class EpisodeFragment extends AbsFragment {
     @Override
     protected void initDatas() {
         isZan = false;
+        state = false;
+        Bundle bundle = getArguments();
+        key = bundle.getInt("key") + "";
         okHttpClient = new OkHttpClient();
         new Thread(new Runnable() {
             @Override
@@ -138,7 +145,7 @@ public class EpisodeFragment extends AbsFragment {
         FormBody.Builder builder = new FormBody.Builder();
         RequestBody body = builder
                 .add(Values.EPI_KEY1, Values.EPI_VALUES1)
-                .add(Values.EPI_KEY2, Values.EPI_VALUES2)
+                .add(Values.EPI_KEY2, key)
                 .add(Values.EPI_KEY3, Values.EPI_VALUES3)
                 .add(Values.EPI_KEY4, Values.EPI_VALUES4)
                 .add(Values.EPI_KEY5, Values.EPI_VALUES5)
