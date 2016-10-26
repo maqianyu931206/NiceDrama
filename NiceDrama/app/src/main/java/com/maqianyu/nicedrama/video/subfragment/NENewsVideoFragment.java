@@ -73,22 +73,7 @@ public class NENewsVideoFragment extends AbsFragment {
         datas = new ArrayList<>();
         adapter = new NENewsAdapter(context);
 
-        OkHttpInstance.getAsyn(Values.NEWSURL, new OkHttpInstance.ResultCallback() {
-            @Override
-            public void onError(Call call, Exception e) {
 
-            }
-
-            @Override
-            public void onResponse(Object response) {
-                String str = response.toString();
-                Gson gson = new Gson();
-                ENNEntity entity = gson.fromJson(str, ENNEntity.class);
-                datas = entity.get视频();
-                adapter.setDatas(datas);
-                listView.setAdapter(adapter);
-            }
-        });
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -132,6 +117,27 @@ public class NENewsVideoFragment extends AbsFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getUrl(PEntity pEntity) {
         mp4 = pEntity.getUrl();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        OkHttpInstance.getAsyn(Values.NEWSURL, new OkHttpInstance.ResultCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+                String str = response.toString();
+                Gson gson = new Gson();
+                ENNEntity entity = gson.fromJson(str, ENNEntity.class);
+                datas = entity.get视频();
+                adapter.setDatas(datas);
+                listView.setAdapter(adapter);
+            }
+        });
     }
 
     @Override
