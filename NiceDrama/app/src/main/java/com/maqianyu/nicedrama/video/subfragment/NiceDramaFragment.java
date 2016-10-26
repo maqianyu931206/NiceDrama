@@ -52,16 +52,12 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
     private List<Fragment> fragments;
     private TabLayout epiTl;
     private TextView formerTv, authorTv, storyTv;
-    private OkHttpClient okHttpClient;
     private List<EpiJianEntity.DataBean> datas;
-    private int epiSums;
-    private int temp;
 
     /**
      * 滑动出现标题栏的设置量
      */
     private TextView scrollTitleTv;
-    private ImageView img;
     private ObservableScrollView scrollView;
     private int imageHeight;
     private String titleName;
@@ -93,21 +89,13 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
 
     @Override
     protected void initDatas() {
-        fragments = new ArrayList<>();
-        ThreadPoolInstance.getInstance().startThread(new Runnable() {
-            @Override
-            public void run() {
-                netDatas();
-            }
-        });
-        addFragments();
-        adapter = new EpisodeVpAdapter(getChildFragmentManager(), fragments);
+        adapter = new EpisodeVpAdapter(getChildFragmentManager());
+        epiVp.setAdapter(adapter);
+
         epiTl.setTabTextColors(Color.BLACK, Color.RED);
         epiTl.setSelectedTabIndicatorColor(Color.RED);
         epiTl.setTabMode(TabLayout.MODE_SCROLLABLE);
-        epiVp.setAdapter(adapter);
         epiTl.setupWithViewPager(epiVp);
-        setDatas();
         // 设置滑动监听
         setScrollListeners();
     }
@@ -141,6 +129,22 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
         }
     }
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    netDatas();
+                }
+            }).start();
+        } else {
+
+        }
+    }
+
     private void netDatas() {
         Map<String, String> map = new HashMap<>();
         map.put(Values.E_JKEY1, Values.E_JVALUES1);
@@ -161,11 +165,11 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
 
                 titleName = datas.get(0).getProjectName();
                 // 更新电视剧的集数
-                final  int temp = Integer.valueOf(datas.get(0).getProjectUpdateEpisode());
-//                Log.d("xxx", "temp:++++++++++++" + temp);
-                final  int epiSums = temp + 1;
-//                Log.d("xxx", "epiSums:>>>>>>>>>>" + epiSums);
-                handler.sendEmptyMessage(1);
+                int temp = Integer.valueOf(datas.get(0).getProjectUpdateEpisode());
+                Message msg = new Message();
+                msg.what = 1;
+                msg.arg1 = temp;
+                handler.sendMessage(msg);
             }
         }, map);
     }
@@ -177,20 +181,25 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 formerTv.setText(datas.get(0).getProjectDescOriginal());
                 authorTv.setText(datas.get(0).getProjectAuthor());
                 storyTv.setText(datas.get(0).getProjectDesc());
+                int epi = msg.arg1;
+                addFragments(epi);
+                adapter.setFragments(fragments);
+                setDatas(epi);
             }
             return false;
         }
     });
 
 
-    private void setDatas() {
-        for (int i = 1; i < 9; i++) {
+    private void setDatas(int epi) {
+        for (int i = 1; i <= epi; i++) {
             epiTl.getTabAt(i - 1).setText(i + "");
         }
     }
 
-    private void addFragments() {
-        for (int i = 1; i < 9; i++) {
+    private void addFragments(int epi) {
+        fragments = new ArrayList<>();
+        for (int i = 1; i <= epi; i++) {
             fragments.add(EpisodeFragment.newInstance(i));
         }
     }

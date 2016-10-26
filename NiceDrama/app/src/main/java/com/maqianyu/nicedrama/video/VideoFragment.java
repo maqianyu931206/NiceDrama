@@ -53,8 +53,9 @@ public class VideoFragment extends AbsFragment{
     protected void initDatas() {
 
         fragments = new ArrayList<>();
-        videoFraAdapter = new VideoFraAdapter(getFragmentManager(), fragments);
         buildFragments();
+        videoFraAdapter = new VideoFraAdapter(getChildFragmentManager(), fragments);
+
         videoTl.setTabTextColors(Color.BLACK, Color.RED);
         videoTl.setSelectedTabIndicatorColor(Color.RED);
         videoTl.setTabMode(TabLayout.MODE_FIXED);

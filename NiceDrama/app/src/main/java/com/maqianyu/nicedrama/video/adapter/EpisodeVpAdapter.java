@@ -14,6 +14,11 @@ public class EpisodeVpAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
 
+    public void setFragments(List<Fragment> fragments) {
+        this.fragments = fragments;
+        notifyDataSetChanged();
+    }
+
     public EpisodeVpAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
         this.fragments = fragments;

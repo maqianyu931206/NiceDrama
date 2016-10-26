@@ -164,13 +164,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <ImageView
-            android:id="@+id/epi_shs_iv"
-            android:layout_width="50dp"
-            android:layout_height="60dp"
+        <com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView
+            android:id="@+id/epi_shs_etv"
+            android:layout_width="80dp"
+            android:layout_height="120dp"
             android:layout_centerVertical="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/shouhushen" />
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:id="@+id/epi_civ_ll"
@@ -179,7 +178,7 @@
             android:orientation="horizontal"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/video_middle_margin"
-            android:layout_toRightOf="@id/epi_shs_iv">
+            android:layout_toRightOf="@id/epi_shs_etv">
 
             <FrameLayout
                 android:id="@+id/epi_shs_one"

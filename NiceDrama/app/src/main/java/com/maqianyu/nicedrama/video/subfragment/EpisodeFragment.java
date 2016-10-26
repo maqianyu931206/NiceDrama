@@ -14,11 +14,17 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.ImageLoaderTool;
+import com.maqianyu.nicedrama.Tools.LitOrmIntance;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
+import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
+import com.maqianyu.nicedrama.video.Entity.StarEntity;
 import com.maqianyu.nicedrama.video.PlayVideoActivity;
+import com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -47,14 +53,16 @@ public class EpisodeFragment extends AbsFragment {
     private EpisodeEntity.MovieDetailBean datas;
     private EpisodeEntity entity;
     private SuperVideoPlayer svp;
+    private EudemonTextView etv;
 
     // 存储点赞的状态
     private boolean isZan;
     private String zanCount, noZanCount;
     private String starCount, noStarCount;
     private String key;
-    private boolean state;
     private String detailUrl, detailTitle;
+    private LiteOrmBean liteOrmBean;
+    private String imgUrl;
 
     public static EpisodeFragment newInstance(int epiKey) {
 
@@ -90,22 +98,16 @@ public class EpisodeFragment extends AbsFragment {
         threeCiv = byView(R.id.epi_shs_three_civ);
         playIv = byView(R.id.epi_play_iv);
         svp = byView(R.id.epi_video_player);
+        etv = byView(R.id.epi_shs_etv);
     }
 
     @Override
     protected void initDatas() {
         isZan = false;
-        state = false;
         Bundle bundle = getArguments();
         key = bundle.getInt("key") + "";
-        okHttpClient = new OkHttpClient();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                doAsyncPost();
-            }
-        }).start();
-        setOnClick();
+
+
     }
 
     private void setOnClick() {
@@ -120,6 +122,12 @@ public class EpisodeFragment extends AbsFragment {
                 context.startActivity(intent);
             }
         });
+
+        if (LitOrmIntance.getIntance().queryOne(imgUrl).size() > 0) {
+            starIv.setImageResource(R.mipmap.epi_star_seleted);
+            isZan = true;
+        }
+
         zanLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,18 +142,21 @@ public class EpisodeFragment extends AbsFragment {
                 }
             }
         });
+
         starLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                liteOrmBean = new LiteOrmBean(detailTitle, imgUrl,detailUrl);
                 if (isZan == false) {
                     starIv.setImageResource(R.mipmap.epi_star_seleted);
-                    starTv.setText(starCount);
+                    LitOrmIntance.getIntance().insertOne(liteOrmBean);
                     isZan = true;
-                } else {
+                } else if (isZan == true){
                     starIv.setImageResource(R.mipmap.epi_star);
-                    starTv.setText(noStarCount);
+                    LitOrmIntance.getIntance().deleteOne(imgUrl);
                     isZan = false;
                 }
+
             }
         });
     }
@@ -173,8 +184,10 @@ public class EpisodeFragment extends AbsFragment {
 
                 detailUrl = datas.getPlayState().getStaffInfo().getMPartUrl();
                 detailTitle = datas.getTitle();
+                imgUrl = datas.getCoverUrl();
 
                 handler.sendEmptyMessage(1);
+                setOnClick();
             }
         }, map);
     }
@@ -195,14 +208,26 @@ public class EpisodeFragment extends AbsFragment {
                 starCount = String.valueOf(datas.getPlayState().getLikeNums() + 1);
 
                 shareTv.setText(datas.getPlayState().getShareNums() + "");
-                starTv.setText(datas.getPlayState().getLikeNums() + "");
-                Picasso.with(context).load(datas.getCoverUrl()).into(titleIv);
-                Picasso.with(context).load(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl()).into(epiCiv);
-                Picasso.with(context).load(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl()).into(oneCiv);
-                Picasso.with(context).load(datas.getPapaInfoLists().get(1).getPapaHeadImgUrl()).into(twoCiv);
-                Picasso.with(context).load(datas.getPapaInfoLists().get(2).getPapaHeadImgUrl()).into(threeCiv);
+//                starTv.setText(datas.getPlayState().getLikeNums() + "");
+                ImageLoaderTool.loadImage(datas.getCoverUrl(), titleIv);
+                ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl(), epiCiv);
+                ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl(), oneCiv);
+                ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(1).getPapaHeadImgUrl(), twoCiv);
+                ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(2).getPapaHeadImgUrl(), threeCiv);
             }
             return false;
+
         }
     });
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                doAsyncPost();
+            }
+        }).start();
+    }
 }
