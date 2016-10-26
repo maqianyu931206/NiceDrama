@@ -28,6 +28,8 @@ public class Values {
 
     public static final String EPI_VALUES1 = "26690576370";
     public static final String EPI_VALUES2 = "1";
+//    public static final String EPI_VALUES2_2 = "2";
+//    public static final String EPI_VALUES2_3 = "3";
     public static final String EPI_VALUES3 = "1138";
     public static final String EPI_VALUES4 = "2016101715493688672507925614387226690576370";
     public static final String EPI_VALUES5 = "10030";

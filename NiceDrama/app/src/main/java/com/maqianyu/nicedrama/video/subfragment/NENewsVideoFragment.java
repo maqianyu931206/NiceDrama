@@ -1,6 +1,8 @@
 package com.maqianyu.nicedrama.video.subfragment;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -94,7 +96,8 @@ public class NENewsVideoFragment extends AbsFragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (firstVisibleItem > p) {
                     svp.setVisibility(View.VISIBLE);
-//                    svp.loadAndPlay(Uri.parse(mp4), 0);
+                    svp.loadAndPlay(Uri.parse(mp4), 0);
+                    Log.d("uuu", "Uri.parse(mp4):" + Uri.parse(mp4));
                 } else {
                     svp.setVisibility(View.GONE);
                 }
