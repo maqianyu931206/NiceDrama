@@ -32,7 +32,10 @@ import java.util.List;
 public class SettingFragment extends AbsFragment  {
     private ListView listView;
     private String[] name = new String[]{"扫一扫", "百度翻译", "语音助手","我的收藏","清除缓存"};
-    private int[] img ={R.mipmap.ic_more_partnership,R.mipmap.ic_more_action_check_update,R.mipmap.icon_more_mobile_service,R.mipmap.ic_launcher,R.mipmap.ic_more_action_clean_cache};
+    private int[] img ={R.mipmap.ic_more_partnership,
+            R.mipmap.ic_more_action_check_update,
+            R.mipmap.icon_more_mobile_service,
+            R.mipmap.save32,R.mipmap.ic_more_action_clean_cache};
     private List<SettingLvBean>datas;
     private SettingLvAdapter settingLvAdapter;
     private String cacheSize;

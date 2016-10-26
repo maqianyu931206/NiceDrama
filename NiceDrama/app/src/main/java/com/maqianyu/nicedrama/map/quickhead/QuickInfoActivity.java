@@ -1,12 +1,20 @@
 package com.maqianyu.nicedrama.map.quickhead;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.ArrayMap;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -59,6 +67,7 @@ public class QuickInfoActivity extends AbsActivity {
     private GestureDetector gestureDetector;
     private ImageView saveimg;
     private ImageView shareimg;
+    private Broad broad;
 
     @Override
     protected int setLayout() {
@@ -82,17 +91,48 @@ public class QuickInfoActivity extends AbsActivity {
         imgUrl = intent.getStringExtra(QUICK_IMGURL);
         quickInfoLvAdapter = new QuickInfoLvAdapter(this);
         listView.setAdapter(quickInfoLvAdapter);
-        // 设置视频播放
-        superVideoPlayer.loadAndPlay(Uri.parse(url), 0);
+        // 判断WIFI状态
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            Toast.makeText(this, "Wifi状态", Toast.LENGTH_SHORT).show();
+            // 设置视频播放
+            superVideoPlayer.loadAndPlay(Uri.parse(url), 0);
+        }else {
+            Toast.makeText(this, "非WIFI状态", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(QuickInfoActivity.this);
+            builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪请忽略此条消息");
+            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    superVideoPlayer.loadAndPlay(Uri.parse(url), 0);
+                }
+            });
+            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            builder.create().show();
+        }
+
+        broad = new Broad();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        registerReceiver(broad,filter);
+
         //视频播放,设置重复播放
         superVideoPlayer.setVideoPlayCallback(new SuperVideoPlayer.VideoPlayCallbackImpl() {
             @Override
             public void onCloseVideo() {
             }
 
+
             @Override
             public void onSwitchPageType() {
             }
+
 
             @Override
             public void onPlayFinish() {
@@ -288,10 +328,44 @@ public class QuickInfoActivity extends AbsActivity {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 1) {
-                quickInfoLvAdapter.setDatas(datas);
+//                quickInfoLvAdapter.setDatas(datas);
             }
             return false;
         }
     });
+    // 定义广播接受者
+    class Broad extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);
+            if (wifiState == WifiManager.WIFI_STATE_DISABLING) {
+                //正在关闭
+            } else if (wifiState == WifiManager.WIFI_STATE_ENABLING) {
+                //正在打开
+            } else if (wifiState == WifiManager.WIFI_STATE_DISABLED) {
+                // 已经关闭
+                superVideoPlayer.pausePlay(true);//设置播放暂停
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuickInfoActivity.this);
+                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪请忽略此条消息");
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        superVideoPlayer.goOnPlay();
+                    }
+                });
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.create().show();
+            } else if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
+                //已经打开
+            } else {
+                //未知
+            }
+        }
+    }
 
 }

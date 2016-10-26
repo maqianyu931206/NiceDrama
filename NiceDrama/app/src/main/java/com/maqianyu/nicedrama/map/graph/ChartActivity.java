@@ -23,10 +23,10 @@ public class ChartActivity extends AbsActivity{
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private VPAdapter vpAdapter;
-    String str[] = new String[]{this.getResources().getString(R.string.chart_line),
-            this.getResources().getString(R.string.chart_zhu),
-            this.getResources().getString(R.string.chart_yuan)};
-
+//    String str[] = new String[]{getResources().getString(R.string.chart_line),
+//            getResources().getString(R.string.chart_zhu),
+//            getResources().getString(R.string.chart_yuan)};
+    String str[] = new String[]{"折线图","柱状图","扇形图"};
     @Override
     protected int setLayout() {
         return R.layout.fragment_map;

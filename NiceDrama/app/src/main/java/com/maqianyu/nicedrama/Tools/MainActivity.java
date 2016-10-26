@@ -2,8 +2,10 @@ package com.maqianyu.nicedrama.Tools;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.map.quickhead.QuickHeadFragment;
@@ -13,7 +15,7 @@ import com.maqianyu.nicedrama.video.VideoFragment;
 public class MainActivity extends AbsActivity {
     private FrameLayout frameLayout;
     private RadioGroup radioGroup;
-
+    private long exitTime = 0;
     @Override
     protected int setLayout() {
         return R.layout.activity_main;
@@ -48,5 +50,23 @@ public class MainActivity extends AbsActivity {
             }
         });
         radioGroup.check(R.id.main_map_rbt);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(this, "再按一次退出剧好看", Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
+        }
     }
 }

@@ -20,15 +20,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by dllo on 16/10/22.
  */
 public class QuickInfoLvAdapter extends AbsBaseAdapter<QuickInfoBean.CommentsBean, QuickInfoLvAdapter.MyViewHold> {
-
-    private static int days; //天数
-
-    private static int hours; //时
-
-    private static int minutes; //分
-
-    private static int seconds; //秒
-
     public QuickInfoLvAdapter(Context context) {
         super(context);
     }
@@ -46,11 +37,13 @@ public class QuickInfoLvAdapter extends AbsBaseAdapter<QuickInfoBean.CommentsBea
 
     @Override
     protected void onBindViewHolder(MyViewHold myViewHold, QuickInfoBean.CommentsBean itemData, int position) {
-        myViewHold.content.setText(itemData.getContent());
-        myViewHold.anthor.setText(itemData.getAuthor_name());
+//        if (itemData.getContent() != null) {
+//            myViewHold.content.setText(itemData.getContent());
+//        }
+//        if (itemData.getAuthor_name() != null) {
+//            myViewHold.anthor.setText(itemData.getAuthor_name());
+//        }
         ImageLoaderTool.loadImage(itemData.getHeadurl(), myViewHold.imageView);
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//        Date curData = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String date = itemData.getTime();
         try {
@@ -59,22 +52,18 @@ public class QuickInfoLvAdapter extends AbsBaseAdapter<QuickInfoBean.CommentsBea
             long tt2 = ddtt.getTime();
             long tt3 = tt2 - tt1;
             long tt4 = Math.abs(tt3 / 1000 / 60);
-            Log.d("ttt", "tt4 ------:" + tt4);
-            if (tt4 < 60){
+            if (tt4 < 60) {
                 myViewHold.time.setText(tt4 + "分钟前");
-            }else if (tt4 > 60 ){
+            } else if (tt4 > 60) {
                 myViewHold.time.setText(tt4 / 60 + "小时前");
             }
-            if (tt4 / 60  / 60 > 1){
-                myViewHold.time.setText(tt4 / 60 / 60  + "天前");
+            if (tt4 / 60 / 60 > 1) {
+                myViewHold.time.setText(tt4 / 60 / 60 + "天前");
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }
-
 
     class MyViewHold extends AbsBaseAdapter.BaseViewHolder {
         TextView content, anthor, time;

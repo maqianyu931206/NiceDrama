@@ -81,8 +81,8 @@ public class QuickRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             myviewHolder.textView.setText(datas.get(position).getLike_count() + "");
         }
         if (datas.get(position).getHeadurls().size() !=  0) {
-//            Picasso.with(context).load(datas.get(position).getHeadurls().get(0).getUrl()).into(myviewHolder.cirimg);
-            ImageLoaderTool.loadImage(datas.get(position).getHeadurls().get(0).getUrl(),myviewHolder.imageView);
+            Picasso.with(context).load(datas.get(position).getHeadurls().get(0).getUrl()).into(myviewHolder.cirimg);
+//            ImageLoaderTool.loadImage(datas.get(position).getHeadurls().get(0).getUrl(),myviewHolder.imageView);
         }else {
             myviewHolder.cirimg.setImageResource(R.mipmap.ic_launcher);
         }

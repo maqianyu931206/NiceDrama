@@ -1,7 +1,10 @@
 package com.maqianyu.nicedrama.map.quickhead;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -98,8 +101,8 @@ public class QuickHeadFragment extends AbsFragment {
                 linearLayout.setVisibility(View.GONE);
                 Intent intent = new Intent(context, QuickInfoActivity.class);
                 intent.putExtra(QuickInfoActivity.QUICK_URL, str);
-                intent.putExtra(QuickInfoActivity.QUICK_IMGURL,bean.getFeeds().get(position).getCover_thumbnail_urls().get(0).getUrl());
-                intent.putExtra(QuickInfoActivity.QUICK_TITLE,datas.get(position).getUser_name());
+                intent.putExtra(QuickInfoActivity.QUICK_IMGURL, bean.getFeeds().get(position).getCover_thumbnail_urls().get(0).getUrl());
+                intent.putExtra(QuickInfoActivity.QUICK_TITLE, datas.get(position).getUser_name());
                 startActivity(intent);
             }
         });
@@ -221,8 +224,6 @@ public class QuickHeadFragment extends AbsFragment {
                 bean = gson.fromJson(resultStr, Bean.class);
                 datas = bean.getFeeds();
                 handler.sendEmptyMessageDelayed(1, 2000);
-
-
             }
         }, data);
     }
@@ -236,31 +237,44 @@ public class QuickHeadFragment extends AbsFragment {
                     Intent intent = new Intent(); //调用照相机
                     intent.setAction("android.media.action.STILL_IMAGE_CAMERA");
                     startActivity(intent);
+                    ((Activity) context).overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
                 if (position == 1) {
                     Intent intent = new Intent(context, MapActivity.class);
                     startActivity(intent);
+                    ((Activity) context).overridePendingTransition(R.anim.scale_translate, R.anim.my_alpha_action);
+
                 }
                 if (position == 2) {
                     // 跳转到联系人界面
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.ContactsContract.Contacts.CONTENT_URI);
                     startActivityForResult(intent, 1);
+                    ((Activity) context).overridePendingTransition(R.anim.slide_left, R.anim.slide_right);
+
                 }
                 if (position == 3) {
                     Intent intent = new Intent("android.intent.action.MUSIC_PLAYER");
                     startActivity(intent);
+                    ((Activity) context).overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
                 }
                 if (position == 4) {
                     Intent intent = new Intent(context, ChartActivity.class);
                     startActivity(intent);
+                    ((Activity) context).overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
 
                 }
                 if (position == 5) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setType("vnd.android-dir/mms-sms");
                     startActivity(intent);
+                    ((Activity) context).overridePendingTransition(R.anim.scale_rotate, R.anim.my_alpha_action);
+
                 }
             }
         });
     }
+
+
 }
