@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.OkHttpInstance;
 import com.maqianyu.nicedrama.video.Entity.ENNEntity;
 import com.maqianyu.nicedrama.video.Entity.PEntity;
 import com.maqianyu.nicedrama.video.adapter.NENewsAdapter;
@@ -27,6 +28,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
 
 /**
  * Created by dllo on 16/10/17.
@@ -41,6 +44,7 @@ public class NENewsVideoFragment extends AbsFragment {
     private NENewsAdapter adapter;
     private RequestQueue queue;
     private SuperVideoPlayer svp;
+    private boolean isPlay;
 
     public static NENewsVideoFragment newInstance() {
 
@@ -63,28 +67,28 @@ public class NENewsVideoFragment extends AbsFragment {
 
     @Override
     protected void initDatas() {
+        isPlay = false;
         EventBus.getDefault().register(this);
 
         datas = new ArrayList<>();
         adapter = new NENewsAdapter(context);
 
-        queue = Volley.newRequestQueue(context);
-        StringRequest request = new StringRequest(Values.NEWSURL, new Response.Listener<String>() {
+        OkHttpInstance.getAsyn(Values.NEWSURL, new OkHttpInstance.ResultCallback() {
             @Override
-            public void onResponse(String response) {
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+                String str = response.toString();
                 Gson gson = new Gson();
-                ENNEntity entity = gson.fromJson(response, ENNEntity.class);
+                ENNEntity entity = gson.fromJson(str, ENNEntity.class);
                 datas = entity.get视频();
                 adapter.setDatas(datas);
                 listView.setAdapter(adapter);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
         });
-        queue.add(request);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -94,10 +98,26 @@ public class NENewsVideoFragment extends AbsFragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem > p) {
+                if (isPlay == true && firstVisibleItem > p && mp4 != null) {
                     svp.setVisibility(View.VISIBLE);
                     svp.loadAndPlay(Uri.parse(mp4), 0);
-                    Log.d("uuu", "Uri.parse(mp4):" + Uri.parse(mp4));
+                    svp.setVideoPlayCallback(new SuperVideoPlayer.VideoPlayCallbackImpl() {
+                        @Override
+                        public void onCloseVideo() {
+
+                        }
+
+                        @Override
+                        public void onSwitchPageType() {
+
+                        }
+
+                        @Override
+                        public void onPlayFinish() {
+                            svp.setVisibility(View.GONE);
+                        }
+                    });
+                    isPlay = true;
                 } else {
                     svp.setVisibility(View.GONE);
                 }
