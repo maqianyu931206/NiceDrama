@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.myset;
+package com.maqianyu.nicedrama.myset.adaper;
 
 import android.content.Context;
 import android.view.View;
@@ -6,8 +6,7 @@ import android.widget.TextView;
 
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.AbsBaseAdapter;
-
-import java.util.List;
+import com.maqianyu.nicedrama.myset.bean.LWListBean;
 
 /**
  * Created by dllo on 16/10/24.

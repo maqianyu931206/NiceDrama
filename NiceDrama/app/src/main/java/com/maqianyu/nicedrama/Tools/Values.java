@@ -90,4 +90,14 @@ public class Values {
     public static final String QUICK_INFO_VALUE8 = "3a62d8b9c5772a4afdb03213792308ed";
     //详情接口
     public static final String QUICK_INFO_URL = "http://api.ksapisrv.com/rest/photo/comment/list?lat=38.88336&lon=121.544832&ver=4.51&ud=0&sys=ANDROID_5.1&c=HUAWEI&oc=HUAWEI&net=WIFI&did=ANDROID_8321e8d1b9b162c2&mod=HUAWEI%28HUAWEI+RIO-AL00%29&app=0&language=zh-cn&country_code=CN&appver=4.51.1.2405 ";
+
+
+    /**
+     * 我的   页面的常量
+     */
+    public static final String baiduUrl = "https://www.baidu.com";//百度网址
+    public static final String translateUrl = "http://fanyi.baidu.com/";
+    public static final int REQUEST_CODE_SCAN = 0x0000;
+    public static final String DECODED_CONTENT_KEY = "codedContent";
+    public static final String DECODED_BITMAP_KEY = "codedBitmap";
 }

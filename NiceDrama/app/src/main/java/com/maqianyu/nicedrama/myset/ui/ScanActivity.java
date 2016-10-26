@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.myset;
+package com.maqianyu.nicedrama.myset.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +15,8 @@ import com.karics.library.zxing.encode.CodeCreator;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
+import com.maqianyu.nicedrama.Tools.Values;
+import com.maqianyu.nicedrama.myset.view.ArcMenuView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -60,7 +62,7 @@ public class ScanActivity extends AbsActivity {
 
                 } else if (pos == 2) {
                     Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, StaticUtil.REQUEST_CODE_SCAN);
+                    startActivityForResult(intent, Values.REQUEST_CODE_SCAN);
                 } else if (pos == 3) {
                     String url = qrCodeUrl.getText().toString();
                     try {
@@ -76,18 +78,18 @@ public class ScanActivity extends AbsActivity {
                 }
             }
         });
-        new TitleBuilder(this).setTitle("扫一扫").setBackImgGone(false);
+        new TitleBuilder(this).setTitle("扫一扫").setBackImgGone(false).setMoreImg(false);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 扫描二维码/条码回传
-        if (requestCode == StaticUtil.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+        if (requestCode == Values.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
 
-                String content = data.getStringExtra(StaticUtil.DECODED_CONTENT_KEY);
-                Bitmap bitmap = data.getParcelableExtra(StaticUtil.DECODED_BITMAP_KEY);
+                String content = data.getStringExtra(Values.DECODED_CONTENT_KEY);
+                Bitmap bitmap = data.getParcelableExtra(Values.DECODED_BITMAP_KEY);
                 qrCodeImage.setImageBitmap(bitmap);
                 /**
                  * 跳转到该地址
