@@ -65,6 +65,7 @@
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />
         <activity android:name=".map.map_aty.MapActivity"/>
+        <activity android:name=".video.PlayVideoActivity" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="8b4541e278725d876724534ee953360f" />

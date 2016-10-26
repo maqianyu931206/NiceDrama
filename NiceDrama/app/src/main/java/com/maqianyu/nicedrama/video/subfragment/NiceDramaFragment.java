@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.OkHttpInstance;
+import com.maqianyu.nicedrama.Tools.ThreadPoolInstance;
 import com.maqianyu.nicedrama.video.Entity.EpiJianEntity;
 import com.maqianyu.nicedrama.video.adapter.EpisodeVpAdapter;
 import com.maqianyu.nicedrama.Tools.Values;
@@ -27,7 +29,9 @@ import com.maqianyu.nicedrama.video.wkvideoplayer.view.ObservableScrollView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -90,13 +94,12 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
     @Override
     protected void initDatas() {
         fragments = new ArrayList<>();
-        okHttpClient = new OkHttpClient();
-        new Thread(new Runnable() {
+        ThreadPoolInstance.getInstance().startThread(new Runnable() {
             @Override
             public void run() {
                 netDatas();
             }
-        }).start();
+        });
         addFragments();
         adapter = new EpisodeVpAdapter(getChildFragmentManager(), fragments);
         epiTl.setTabTextColors(Color.BLACK, Color.RED);
@@ -139,23 +142,19 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
     }
 
     private void netDatas() {
-        FormBody.Builder builder = new FormBody.Builder();
-        RequestBody body = builder
-                .add(Values.E_JKEY1, Values.E_JVALUES1)
-                .add(Values.E_JKEY2, Values.E_JVALUES2)
-                .add(Values.E_JKEY3, Values.E_JVALUES3)
-                .build();
-        Request.Builder rb = new Request.Builder();
-        Request request = rb.url(Values.EPI_JJURL).post(body).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        Map<String, String> map = new HashMap<>();
+        map.put(Values.E_JKEY1, Values.E_JVALUES1);
+        map.put(Values.E_JKEY2, Values.E_JVALUES2);
+        map.put(Values.E_JKEY3, Values.E_JVALUES3);
+        OkHttpInstance.postAsyn(Values.EPI_JJURL, new OkHttpInstance.ResultCallback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                Toast.makeText(context, R.string.netIsNotGood, Toast.LENGTH_SHORT).show();
+            public void onError(Call call, Exception e) {
+
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String str = response.body().string();
+            public void onResponse(Object response) {
+                String str = response.toString();
                 Gson gson = new Gson();
                 EpiJianEntity entity = gson.fromJson(str, EpiJianEntity.class);
                 datas = entity.getData();
@@ -167,10 +166,8 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 final  int epiSums = temp + 1;
 //                Log.d("xxx", "epiSums:>>>>>>>>>>" + epiSums);
                 handler.sendEmptyMessage(1);
-
-
             }
-        });
+        }, map);
     }
 
     Handler handler = new Handler(new Handler.Callback() {
@@ -180,7 +177,6 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 formerTv.setText(datas.get(0).getProjectDescOriginal());
                 authorTv.setText(datas.get(0).getProjectAuthor());
                 storyTv.setText(datas.get(0).getProjectDesc());
-
             }
             return false;
         }
