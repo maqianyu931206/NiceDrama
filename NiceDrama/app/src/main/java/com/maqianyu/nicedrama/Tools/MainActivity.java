@@ -7,7 +7,7 @@ import android.widget.RadioGroup;
 
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.map.quickhead.QuickHeadFragment;
-import com.maqianyu.nicedrama.myset.SettingFragment;
+import com.maqianyu.nicedrama.myset.ui.SettingFragment;
 import com.maqianyu.nicedrama.video.VideoFragment;
 
 public class MainActivity extends AbsActivity {

@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.myset;
+package com.maqianyu.nicedrama.myset.ui;
 
 /**
  * Created by dllo on 16/10/20.

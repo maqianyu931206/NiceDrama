@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.myset;
+package com.maqianyu.nicedrama.myset.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,8 +13,8 @@ import android.os.Environment;
 import android.provider.AlarmClock;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,6 +35,9 @@ import com.iflytek.sunflower.FlowerCollector;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
+import com.maqianyu.nicedrama.Tools.Values;
+import com.maqianyu.nicedrama.myset.adaper.LWListAdapter;
+import com.maqianyu.nicedrama.myset.bean.LWListBean;
 import com.maqianyu.nicedrama.myset.speech.setting.IatSettings;
 import com.maqianyu.nicedrama.myset.speech.util.ApkInstaller;
 import com.maqianyu.nicedrama.myset.speech.util.FucUtil;
@@ -59,7 +62,7 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
     private String TAG = LisAndWriActivity.class.getSimpleName();
 
     private String[] setAlarmClock = {"闹钟", "设闹钟", "设置闹钟", "定闹钟", "去闹钟页面", "去闹钟界面", "我想定闹钟", "我要定闹钟", "定个闹钟"};
-    private String[] call = {"打电话", "拨打电话", "打一个电话","我要打电话","我想打电话","电话","去电话页面", "去拨打电话页面", "打个电话", "电话", "去打电话", "去打个电话", "去拨号"};
+    private String[] call = {"打电话", "拨打电话", "打一个电话", "我要打电话", "我想打电话", "电话", "去电话页面", "去拨打电话页面", "打个电话", "电话", "去打电话", "去打个电话", "去拨号"};
     private String[] liulan = {"去浏览器页面", "打开浏览器", "百度", "我想百度一下", "我想搜索东西", "我要搜索东西", "去搜索", "浏览器", "来个百度", "去百度"};
 
 
@@ -81,8 +84,9 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
     ApkInstaller mInstaller;
     private LinearLayout callLl, sendSmsLl, setAlarmLl, searchLl;
     private ListView listView;
-    private List<LWListBean>datas;
+    private List<LWListBean> datas;
     private LWListAdapter adapter;
+    private Toast toast;
 
     @SuppressLint("ShowToast")
     @Override
@@ -109,8 +113,7 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
         sendSmsLl.setOnClickListener(this);
         setAlarmLl.setOnClickListener(this);
         searchLl.setOnClickListener(this);
-        new TitleBuilder(this).setTitle("语音助手").setBackImgGone(false);
-
+        new TitleBuilder(this).setTitle(getResources().getString(R.string.lw_title)).setBackImgGone(false).setMoreImg(false);
 
 
         //  初始化识别无UI识别对象
@@ -164,26 +167,33 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
             // 开始听写
             // 如何判断一次听写结束：OnResult isLast=true 或者 onError
             case R.id.lw_call__ll:
-                Toast.makeText(this, "例如:给XXX打电话", Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(this, getResources().getString(R.string.lw_toast_call) + "\n" + "    " + getResources().getString(R.string.text_begin), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.NO_GRAVITY, 0, 10);//第二,第三个数字参数:代表的是据第一个参数的(X,Y)偏移量
+                toast.show();
                 startLw();
                 break;
-            case   R.id.lw_sendsms_ll:
-                Toast.makeText(this, "例如:给XXX发短信说XXX", Toast.LENGTH_SHORT).show();
+            case R.id.lw_sendsms_ll:
+                toast = Toast.makeText(this, getResources().getString(R.string.lw_toast_send) + "\n" + "        " + getResources().getString(R.string.text_begin), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.NO_GRAVITY, 0, 10);
+                toast.show();
                 startLw();
                 break;
             case R.id.lw_set_alarm_ll:
-                Toast.makeText(this, "例如:定闹钟", Toast.LENGTH_SHORT).show();
+                toast = Toast.makeText(this, getResources().getString(R.string.lw_toast_alarm) + "\n" + "  "+ getResources().getString(R.string.text_begin), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.NO_GRAVITY, 0, 10);
+                toast.show();
                 startLw();
                 break;
             case R.id.lw_search_ll:
-                Toast.makeText(this, "例如:浏览器", Toast.LENGTH_SHORT).show();
-               startLw();
+                toast = Toast.makeText(this, getResources().getString(R.string.lw_toast_search) + "\n" + "  " + getResources().getString(R.string.text_begin), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.NO_GRAVITY, 0, 10);
+                toast.show();
+                startLw();
                 break;
         }
     }
 
     private void startLw() {
-        Log.d("zzz", "点击开始");
         // 移动数据分析，收集开始听写事件
         FlowerCollector.onEvent(LisAndWriActivity.this, "iat_recognize");
 
@@ -197,7 +207,8 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
 //                     显示听写对话框
             mIatDialog.setListener(mRecognizerDialogListener);
             mIatDialog.show();
-            showTip(getString(R.string.text_begin));
+//            showTip(getString(R.string.text_begin));
+
         } else {
             // 不显示听写对话框
             ret = mIat.startListening(mRecognizerListener);
@@ -257,7 +268,6 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
             }
         }
 
-        //getResources().getString(R.string.app_id)
         @Override
         public void onVolumeChanged(int volume, byte[] data) {
             showTip(getResources().getString(R.string.lw_voice_size) + volume);//音量
@@ -318,9 +328,9 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
     private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
         public void onResult(RecognizerResult results, boolean isLast) {
             printResult(results);
-            if (isLast == true){
+            if (isLast == true) {
                 goToAtherView();
-               datas.clear();
+                datas.clear();
             }
 
         }
@@ -404,6 +414,12 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
         FlowerCollector.onPause(LisAndWriActivity.this);
         super.onPause();
     }
+
+    /**
+     * 发短信的Dialog
+     * @param smsNumber
+     * @param smsBody
+     */
     private void createSmsDialog(final String smsNumber, final String smsBody) {
         Log.d("zzz", "1111");
         new AlertDialog.Builder(this).setIcon(android.R.drawable.btn_star)
@@ -413,9 +429,9 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
                         Uri smsToUri = Uri.parse("smsto:" + smsNumber);
-                        Intent mIntent = new Intent(Intent.ACTION_SENDTO, smsToUri );
+                        Intent mIntent = new Intent(Intent.ACTION_SENDTO, smsToUri);
                         mIntent.putExtra("sms_body", smsBody);
-                        startActivity(mIntent );
+                        startActivity(mIntent);
                     }
                 })
                 .setNeutralButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -433,6 +449,12 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
                     }
                 }).show();// show很关键
     }
+
+    /**
+     * 根据关键词跳转到对应的页面
+     * @param what
+     * @param actionSetAlarm
+     */
     private void createDialogAN(String what, final String actionSetAlarm) {
         /**
          * 判断关键词是什么
@@ -470,9 +492,15 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
                     }
                 }).show();// show很关键
     }
+
+    /**
+     * 给指定号码拨号的Dialog
+     * @param action
+     * @param number
+     */
     private void createDialog(final String action, final String number) {
         new AlertDialog.Builder(this).setIcon(android.R.drawable.btn_star)
-                .setTitle("是否给" + number + "发以下内容的短信?")
+                .setTitle(getResources().getString(R.string.lw_dialog_yn) + number + getResources().getString(R.string.lw_dialog_call))
                 .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -501,6 +529,7 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
      * 点击跳转到需要的页面
      */
     private void goToAtherView() {
+        toast.cancel();
         String str = "";
         if (mResultText != null) {
             if (mResultText.getText().length() > 1) {
@@ -513,32 +542,32 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
 
             boolean clock = useLoop(setAlarmClock, str);
             if (clock == true) {
-                createDialogAN("闹钟",AlarmClock.ACTION_SET_ALARM);
+                createDialogAN(getResources().getString(R.string.lw_alarmclock), AlarmClock.ACTION_SET_ALARM);
             }
             /**
              * 拨打电话
              */
             boolean calling = useLoop(call, str);
             if (calling == true) {
-                createDialogAN("拨打电话",Intent.ACTION_CALL_BUTTON);
+                createDialogAN(getResources().getString(R.string.lw_call), Intent.ACTION_CALL_BUTTON);
             }
             /**
              * 打开浏览器
              */
             boolean search = useLoop(liulan, str);
             if (search == true) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(StaticUtil.baiduUrl));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Values.baiduUrl));
                 startActivity(intent);
             }
-            if (str.contains("搜索")||str.contains("找")) {
+            if (str.contains(getResources().getString(R.string.lw_if_search)) || str.contains(getResources().getString(R.string.lw_if_find))) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_WEB_SEARCH);
-                if (str.contains("搜索")&&str.length() >=2) {
+                if (str.contains(getResources().getString(R.string.lw_if_search)) && str.length() >= 2) {
                     String search1 = str.substring(2) + "";
                     intent.putExtra(SearchManager.QUERY, search1);
                 }
-                if (str.contains("找")&&str.length() >=1){
-                    String search2 = str.substring(1,str.length());
+                if (str.contains(getResources().getString(R.string.lw_if_find)) && str.length() >= 1) {
+                    String search2 = str.substring(1, str.length());
                     intent.putExtra(SearchManager.QUERY, search2);
                 }
                 startActivity(intent); //启动浏览器
@@ -548,40 +577,46 @@ public class LisAndWriActivity extends AbsActivity implements View.OnClickListen
         /**
          * 给指定号码打电话
          */
-        if (str.contains("给") && str.contains("打电话")) {
-//            number = mResultText.getText().toString().substring(1, str.indexOf("打"));
-//            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
-//            startActivity(intent);
-            createDialog(Intent.ACTION_DIAL,number);
+        boolean giveBl = str.contains(getResources().getString(R.string.lw_sms_give));
+        boolean sendSay = str.contains(getResources().getString(R.string.lw_sms_send_sms_say));
+        if (giveBl && str.contains(getResources().getString(R.string.lw_call_call))) {
+            number = str.substring(str.indexOf(getResources().getString(R.string.lw_sms_give)) + 1,str.indexOf(getResources().getString(R.string.lw_da)));
+            if (!str.equals(getResources().getString(R.string.lw_sms_give) + getResources().getString(R.string.lw_call_call))){
 
+            createDialog(Intent.ACTION_DIAL, number);
+            }
         }
         /**
          * 给指定号码发送指定短信
          */
         String smsNumber = "";
-
         String smsBody = "";
-
-        boolean flag1 = str.contains("发短信");
-        boolean flag2 = str.contains("给") && str.contains("发短信");
-        boolean flag3 = str.contains("发短信") && str.contains("说");
-
-        boolean flag4 = str.contains("给") && str.contains("发短信") && str.contains("说");
+        boolean flag2 = giveBl && str.contains(getResources().getString(R.string.lw_sma_send_sms));
+        boolean flag4 = giveBl && sendSay;
+        /**
+         * 字符串是发短信   发短信说...    给...发短信    给...发短信说...
+         */
+        if (str.equals(getResources().getString(R.string.lw_sma_send_sms))){
+            createSmsDialog(smsNumber, smsBody);
+        }else
+        if (sendSay && str.length() > 4){
+            smsBody = str.substring(str.indexOf(getResources().getString(R.string.lw_say)) + 1);
+            createSmsDialog(smsNumber, smsBody);
+        }else
         if (flag2 || flag4) {
-            smsNumber = str.substring(1, str.indexOf("发"));
+            smsNumber = str.substring(1, str.indexOf(getResources().getString(R.string.lw_send)));
         }
+
         if (flag4) {
-            if (str.substring(str.indexOf("说") + 1).length() > 0) {
-                smsBody = str.substring(str.indexOf("说") + 1);
+            if (str.substring(str.indexOf(getResources().getString(R.string.lw_say)) + 1).length() > 0) {
+                smsBody = str.substring(str.indexOf(getResources().getString(R.string.lw_say)) + 1);
             }
-            createSmsDialog(smsNumber,smsBody);
+            createSmsDialog(smsNumber, smsBody);
 
         }
         datas.add(new LWListBean(mResultText.getText().toString()));
-        Log.d("vvv", "datas:" + datas);
         listView.setAdapter(adapter);
         adapter.setDatas(datas);
-        str = "";
     }
 
 }

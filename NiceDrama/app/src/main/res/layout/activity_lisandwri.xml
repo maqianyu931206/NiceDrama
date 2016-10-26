@@ -30,14 +30,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:orientation="horizontal">
                     <LinearLayout
                         android:id="@+id/lw_call__ll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center"
+                        android:layout_margin="15dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1">
                         <ImageView
@@ -82,13 +82,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    >
                     <LinearLayout
                         android:id="@+id/lw_set_alarm_ll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_weight="1"
+                        android:layout_margin="15dp"
                         android:layout_gravity="center_vertical"
                         android:gravity="center">
                         <ImageView
@@ -136,6 +137,7 @@
         android:gravity="top|left"
         android:paddingBottom="20dp"
         android:textSize="20sp" />
+
     <ListView
         android:id="@+id/info_list"
         android:layout_width="wrap_content"
@@ -149,6 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:gravity="center"
         android:contentDescription="@string/xml_lw_radio_name"
         android:orientation="horizontal">
 
@@ -156,15 +159,14 @@
             android:id="@+id/iatRadioCloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:checked="true"
+            android:layout_marginRight="75dp"
             android:text="@string/xml_lw_radio_first_btn" />
 
         <RadioButton
             android:id="@+id/iatRadioLocal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/xml_lw_radio_second_btn" />
     </RadioGroup>
 

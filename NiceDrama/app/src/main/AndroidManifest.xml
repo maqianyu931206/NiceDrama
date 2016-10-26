@@ -61,7 +61,7 @@
         </activity>
 
         <activity android:name=".map.graph.ChartActivity"/>
-        <activity android:name=".myset.ScanActivity" />
+        <activity android:name=".myset.ui.ScanActivity" />
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />
         <activity android:name=".map.map_aty.MapActivity"/>
@@ -72,8 +72,8 @@
         <!--<code class="hljs xml">-->
             <!--<service android:name="com.amap.api.location.APSService" />-->
         <!--</code>-->
-        <activity android:name=".myset.TtsActivity"/>
-        <activity android:name=".myset.LisAndWriActivity"/>
+        <activity android:name=".myset.ui.TtsActivity"/>
+        <activity android:name=".myset.ui.LisAndWriActivity"/>
         <activity android:name=".map.quickhead.QuickInfoActivity"/>
 
         <activity android:name=".map.CollectionActivity"/>
