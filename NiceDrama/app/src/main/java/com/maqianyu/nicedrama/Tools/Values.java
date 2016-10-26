@@ -28,6 +28,8 @@ public class Values {
 
     public static final String EPI_VALUES1 = "26690576370";
     public static final String EPI_VALUES2 = "1";
+//    public static final String EPI_VALUES2_2 = "2";
+//    public static final String EPI_VALUES2_3 = "3";
     public static final String EPI_VALUES3 = "1138";
     public static final String EPI_VALUES4 = "2016101715493688672507925614387226690576370";
     public static final String EPI_VALUES5 = "10030";
@@ -87,5 +89,15 @@ public class Values {
     public static final String QUICK_INFO_KEY8 = "sig";
     public static final String QUICK_INFO_VALUE8 = "3b2af2e5a17e82b322408c889a665a52";
     //详情接口
-    public static final String QUICK_INFO_URL = "http://180.186.38.200/rest/photo/comment/list?lat=38.883359&lon=121.5448&ver=4.51&ud=0&sys=ANDROID_5.1&c=HUAWEI&oc=HUAWEI&net=WIFI&did=ANDROID_8321e8d1b9b162c2&mod=HUAWEI%28HUAWEI+RIO-AL00%29&app=0&language=zh-cn&country_code=CN&appver=4.51.1.2405";
+    public static final String QUICK_INFO_URL = "http://api.ksapisrv.com/rest/photo/comment/list?lat=38.88336&lon=121.544832&ver=4.51&ud=0&sys=ANDROID_5.1&c=HUAWEI&oc=HUAWEI&net=WIFI&did=ANDROID_8321e8d1b9b162c2&mod=HUAWEI%28HUAWEI+RIO-AL00%29&app=0&language=zh-cn&country_code=CN&appver=4.51.1.2405 ";
+
+
+    /**
+     * 我的   页面的常量
+     */
+    public static final String baiduUrl = "https://www.baidu.com";//百度网址
+    public static final String translateUrl = "http://fanyi.baidu.com/";
+    public static final int REQUEST_CODE_SCAN = 0x0000;
+    public static final String DECODED_CONTENT_KEY = "codedContent";
+    public static final String DECODED_BITMAP_KEY = "codedBitmap";
 }

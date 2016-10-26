@@ -1,4 +1,4 @@
-package com.maqianyu.nicedrama.myset;
+package com.maqianyu.nicedrama.myset.view;
 
 
 import android.content.Context;

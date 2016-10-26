@@ -1,13 +1,22 @@
-package com.maqianyu.nicedrama.myset.speech;
+package com.maqianyu.nicedrama.myset.bean;
 
 /**
  * Created by dllo on 16/10/24.
+ * 我的  页面ListView的实体类
+ * @author 庞美
  */
 public class SettingLvBean {
     private String name;
     private int img;
+    private String size;
 
     public SettingLvBean() {
+    }
+
+    public SettingLvBean(String name, int img,String size) {
+        this.name = name;
+        this.img = img;
+        this.size = size;
     }
 
     public SettingLvBean(String name, int img) {
@@ -29,5 +38,13 @@ public class SettingLvBean {
 
     public void setImg(int img) {
         this.img = img;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

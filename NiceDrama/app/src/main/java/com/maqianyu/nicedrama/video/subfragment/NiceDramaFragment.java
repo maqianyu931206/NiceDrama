@@ -51,6 +51,7 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
     private OkHttpClient okHttpClient;
     private List<EpiJianEntity.DataBean> datas;
     private int epiSums;
+    private int temp;
 
     /**
      * 滑动出现标题栏的设置量
@@ -69,6 +70,7 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected int setLayout() {
         return R.layout.fragment_drama_video;
@@ -88,14 +90,6 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
     @Override
     protected void initDatas() {
         fragments = new ArrayList<>();
-        adapter = new EpisodeVpAdapter(getChildFragmentManager(), fragments);
-        addFragments();
-        epiTl.setTabTextColors(Color.BLACK, Color.RED);
-        epiTl.setSelectedTabIndicatorColor(Color.RED);
-        epiTl.setTabMode(TabLayout.MODE_FIXED);
-        epiVp.setAdapter(adapter);
-        epiTl.setupWithViewPager(epiVp);
-        setDatas();
         okHttpClient = new OkHttpClient();
         new Thread(new Runnable() {
             @Override
@@ -103,6 +97,14 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 netDatas();
             }
         }).start();
+        addFragments();
+        adapter = new EpisodeVpAdapter(getChildFragmentManager(), fragments);
+        epiTl.setTabTextColors(Color.BLACK, Color.RED);
+        epiTl.setSelectedTabIndicatorColor(Color.RED);
+        epiTl.setTabMode(TabLayout.MODE_SCROLLABLE);
+        epiVp.setAdapter(adapter);
+        epiTl.setupWithViewPager(epiVp);
+        setDatas();
         // 设置滑动监听
         setScrollListeners();
     }
@@ -110,8 +112,6 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
 
     private void setScrollListeners() {
         // 获取顶部图片高度后，设置滚动监听
-//        View view = LayoutInflater.from(context).inflate(R.layout.fragment_episode, null);
-//        img = (ImageView) view.findViewById(R.id.epi_title_iv);
         ViewTreeObserver vto = epiVp.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -135,8 +135,8 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
             scrollTitleTv.setBackgroundColor(Color.argb((int) alpha, 255, 29, 26));
             scrollTitleTv.setText(titleName);
             scrollTitleTv.setVisibility(View.VISIBLE);
-        } 
-}
+        }
+    }
 
     private void netDatas() {
         FormBody.Builder builder = new FormBody.Builder();
@@ -162,8 +162,13 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
 
                 titleName = datas.get(0).getProjectName();
                 // 更新电视剧的集数
-                epiSums = Integer.valueOf(datas.get(0).getProjectUpdateEpisode());
+                final  int temp = Integer.valueOf(datas.get(0).getProjectUpdateEpisode());
+//                Log.d("xxx", "temp:++++++++++++" + temp);
+                final  int epiSums = temp + 1;
+//                Log.d("xxx", "epiSums:>>>>>>>>>>" + epiSums);
                 handler.sendEmptyMessage(1);
+
+
             }
         });
     }
@@ -175,21 +180,23 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 formerTv.setText(datas.get(0).getProjectDescOriginal());
                 authorTv.setText(datas.get(0).getProjectAuthor());
                 storyTv.setText(datas.get(0).getProjectDesc());
+
             }
             return false;
         }
     });
 
+
     private void setDatas() {
-        for (int i = 1; i < fragments.size() + 1; i++) {
-            epiTl.getTabAt(i-1).setText(i  + "");
+        for (int i = 1; i < 9; i++) {
+            epiTl.getTabAt(i - 1).setText(i + "");
         }
     }
 
     private void addFragments() {
-        fragments.add(EpisodeFragment.newInstance());
-        fragments.add(EpisodeFragment.newInstance());
-        fragments.add(EpisodeFragment.newInstance());
+        for (int i = 1; i < 9; i++) {
+            fragments.add(EpisodeFragment.newInstance(i));
+        }
     }
 
 }

@@ -170,6 +170,23 @@
     <string name="xml_tts_first_rb">在线合成</string>
     <string name="xml_tts_second_rb">本地合成</string>
     <string name="xml_tts_voicer">发言人</string>
+    <string name="lw_toast_call">例如:给XXX打电话</string>
+    <string name="lw_toast_send">例如:给XXX发短信说XXX</string>
+    <string name="lw_toast_alarm">例如:定闹钟</string>
+    <string name="lw_toast_search">例如:搜索XXX</string>
+    <string name="lw_dialog_yn">是否给</string>
+    <string name="lw_dialog_call">打电话?</string>
+    <string name="lw_if_search">搜索</string>
+    <string name="lw_if_find">找</string>
+    <string name="lw_sms_give">给</string>
+    <string name="lw_sms_send_sms_say">发短信说</string>
+    <string name="lw_call_call">打电话</string>
+    <string name="lw_sma_send_sms">发短信</string>
+    <string name="lw_say">说</string>
+    <string name="lw_send">发</string>
+    <string name="lw_title">语音助手</string>
+    <string name="lw_da">打</string>
+
     <!--设置页面-->
 
     <!--视频界面-->
