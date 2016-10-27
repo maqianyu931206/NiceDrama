@@ -1,11 +1,18 @@
 package com.maqianyu.nicedrama.video.subfragment;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+//import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.MediaController;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -42,9 +49,10 @@ public class NENewsVideoFragment extends AbsFragment {
     private ListView listView;
     private List<ENNEntity.视频Bean> datas;
     private NENewsAdapter adapter;
-    private RequestQueue queue;
     private SuperVideoPlayer svp;
     private boolean isPlay;
+    private Handler handler;
+    private SwipeRefreshLayout swipe;
 
     public static NENewsVideoFragment newInstance() {
 
@@ -63,16 +71,34 @@ public class NENewsVideoFragment extends AbsFragment {
     protected void initViews() {
         listView = byView(R.id.lv);
         svp = byView(R.id.news_svp);
+        swipe = byView(R.id.swipe_refresh_layout);
     }
 
     @Override
     protected void initDatas() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                doGet();
+            }
+        }).start();
+
+        handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == 12) {
+                    adapter.setDatas(datas);
+                }
+                return false;
+            }
+        });
+
         isPlay = false;
         EventBus.getDefault().register(this);
 
         datas = new ArrayList<>();
         adapter = new NENewsAdapter(context);
-
+        listView.setAdapter(adapter);
 
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -83,7 +109,7 @@ public class NENewsVideoFragment extends AbsFragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (isPlay == true && firstVisibleItem > p && mp4 != null) {
+                if (mp4 != null && firstVisibleItem > p) {
                     svp.setVisibility(View.VISIBLE);
                     svp.loadAndPlay(Uri.parse(mp4), 0);
                     svp.setVideoPlayCallback(new SuperVideoPlayer.VideoPlayCallbackImpl() {
@@ -100,28 +126,31 @@ public class NENewsVideoFragment extends AbsFragment {
                         @Override
                         public void onPlayFinish() {
                             svp.setVisibility(View.GONE);
+                            isPlay = true;
                         }
                     });
-                    isPlay = true;
                 } else {
                     svp.setVisibility(View.GONE);
                 }
             }
         });
-    }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getPosition(PEntity pEntity) {
-        p = pEntity.getPosition();
+
+        // 下拉刷新
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doGet();
+                    }
+                }).start();
+                swipe.setRefreshing(false);
+            }
+        });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getUrl(PEntity pEntity) {
-        mp4 = pEntity.getUrl();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void doGet() {
         OkHttpInstance.getAsyn(Values.NEWSURL, new OkHttpInstance.ResultCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -134,10 +163,20 @@ public class NENewsVideoFragment extends AbsFragment {
                 Gson gson = new Gson();
                 ENNEntity entity = gson.fromJson(str, ENNEntity.class);
                 datas = entity.get视频();
-                adapter.setDatas(datas);
-                listView.setAdapter(adapter);
+                handler.sendEmptyMessage(12);
+
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getPosition(PEntity pEntity) {
+        p = pEntity.getPosition();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getUrl(PEntity pEntity) {
+        mp4 = pEntity.getUrl();
     }
 
     @Override

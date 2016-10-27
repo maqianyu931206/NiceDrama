@@ -100,4 +100,14 @@ public class Values {
     public static final int REQUEST_CODE_SCAN = 0x0000;
     public static final String DECODED_CONTENT_KEY = "codedContent";
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
+
+    /**
+     * 下拉刷新的常量
+     */
+    public static final int RELEASE_TO_REFRESH = 0; // 下拉过程的状态值
+    public static final int PULL_TO_REFRESH = 1;  // 从下拉返回到不刷新的状态值
+    public static final int REFRESHING = 2;   // 正在刷新的状态值
+    public static final int DONE = 3;
+    public static final int LOADING = 4;
+    public static final int RATIO = 3; // 实际padding的距离与界面上移偏移量的比例
 }

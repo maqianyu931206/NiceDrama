@@ -56,10 +56,10 @@ public class PlayVideoActivity extends AbsActivity {
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    upRl.setVisibility(View.VISIBLE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                upRl.setVisibility(View.VISIBLE);
             }
         });
 

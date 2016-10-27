@@ -85,6 +85,22 @@
                 android:layout_marginRight="@dimen/video_big_margin"
                 android:text="123"
                 android:textSize="@dimen/video_cha_middle_size"/>
+            <ImageView
+                android:id="@+id/news_share_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/item_length_tv"
+                android:layout_marginRight="@dimen/video_big_margin"
+                android:src="@mipmap/epi_share"/>
+            <ImageView
+                android:id="@+id/news_collection_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/news_share_img"
+                android:layout_marginRight="@dimen/video_big_margin"
+                android:src="@mipmap/epi_star"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

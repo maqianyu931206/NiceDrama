@@ -65,4 +65,8 @@
     <color name="epi_btn_bg">#e662a0</color>
     <color name="epi_white">#ffffff</color>
 
+    <!--浅灰色-->
+    <color name="gray_color">#9e9999</color>
+    <color name="gold">#f49108</color>
+
 </resources>

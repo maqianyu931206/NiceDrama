@@ -1,6 +1,7 @@
 package com.maqianyu.nicedrama.video;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -28,6 +29,7 @@ public class VideoFragment extends AbsFragment{
     private ViewPager videoVp;
     private List<Fragment> fragments;
     private VideoFraAdapter videoFraAdapter; // 视频界面的适配器
+    private ProgressDialog dialog;
 
     public static VideoFragment newInstance() {
 
@@ -51,7 +53,6 @@ public class VideoFragment extends AbsFragment{
 
     @Override
     protected void initDatas() {
-
         fragments = new ArrayList<>();
         buildFragments();
         videoFraAdapter = new VideoFraAdapter(getChildFragmentManager(), fragments);

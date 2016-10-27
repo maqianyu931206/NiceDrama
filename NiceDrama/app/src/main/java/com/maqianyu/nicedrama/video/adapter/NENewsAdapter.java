@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.maqianyu.nicedrama.Tools.AbsBaseAdapter;
 import com.maqianyu.nicedrama.R;
+import com.maqianyu.nicedrama.Tools.LitOrmIntance;
+import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
 import com.maqianyu.nicedrama.video.Entity.ENNEntity;
 import com.maqianyu.nicedrama.video.Entity.PEntity;
 import com.maqianyu.nicedrama.video.wkvideoplayer.util.DensityUtil;
@@ -25,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
  * Created by dllo on 16/10/21.
  * 网易新闻界面的适配器
@@ -37,11 +42,13 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
     private int s;
     private String finalLength;
     private MyHolder myHolder;
+    private LiteOrmBean liteOrmBean;
 
     /**
      * 存储点击播放的状态, 用来解决listView的复用混淆
      */
     Map<Integer, Boolean> isPlay;
+    private boolean is;
 
     public NENewsAdapter(Context context) {
         super(context);
@@ -68,7 +75,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
     }
 
     @Override
-    protected void onBindViewHolder(MyHolder myHolder, ENNEntity.视频Bean itemData, final int position) {
+    protected void onBindViewHolder(final MyHolder myHolder, final ENNEntity.视频Bean itemData, final int position) {
         this.myHolder = myHolder;
         myHolder.titleTv.setText(itemData.getTitle());
         Picasso.with(context).load(itemData.getCover()).into(myHolder.flBg);
@@ -94,7 +101,47 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             }
         });
 
+        shareAndCollection(myHolder, itemData);
+
         playVideo(myHolder, itemData, position);
+    }
+
+    private void shareAndCollection(final MyHolder myHolder, final ENNEntity.视频Bean itemData) {
+        myHolder.shareImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnekeyShare oks = new OnekeyShare();
+                //关闭sso授权
+                oks.disableSSOWhenAuthorize();
+                oks.setTitle("NIceDrama");
+                oks.setTitleUrl(itemData.getTitle());
+                oks.setText("分享");
+                oks.setUrl("http://sharesdk.cn");
+                oks.setComment("评论文本");
+                oks.setSite("ShareSDK");
+                oks.setSiteUrl("http://sharesdk.cn");
+                // 启动分享GUI
+                oks.show(context);
+            }
+        });
+        myHolder.collectionImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                is = false;
+                liteOrmBean = new LiteOrmBean(itemData.getTitle(), itemData.getCover(),itemData.getMp4_url());
+                if (is == false) {
+                    myHolder.collectionImg.setImageResource(R.mipmap.epi_star_seleted);
+                    LitOrmIntance.getIntance().insertOne(liteOrmBean);
+                    Toast.makeText(context, R.string.collection_toast, Toast.LENGTH_SHORT).show();
+                    is = true;
+                } else if (is == true){
+                    myHolder.collectionImg.setImageResource(R.mipmap.epi_star);
+                    LitOrmIntance.getIntance().deleteOne(itemData.getCover());
+                    Toast.makeText(context, R.string.no_collection_toast, Toast.LENGTH_SHORT).show();
+                    is = false;
+                }
+            }
+        });
     }
 
     private void playVideo(MyHolder myHolder, ENNEntity.视频Bean itemData, int position) {
@@ -145,7 +192,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
 
     protected class MyHolder extends AbsBaseAdapter.BaseViewHolder{
         TextView title, titleTv, lengthTv, authorTv, countTv;
-        ImageView playImg, authorImg;
+        ImageView playImg, authorImg, collectionImg, shareImg;
         SuperVideoPlayer superVideoPlayer;
         ImageView flBg;
         public MyHolder(View itemView) {
@@ -162,6 +209,8 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             authorTv = (TextView) itemView.findViewById(R.id.author_tv);
             lengthTv = (TextView) itemView.findViewById(R.id.item_length_tv);
             countTv = (TextView) itemView.findViewById(R.id.item_count_tv);
+            collectionImg = (ImageView) itemView.findViewById(R.id.news_collection_img);
+            shareImg = (ImageView) itemView.findViewById(R.id.news_share_img);
         }
     }
 
