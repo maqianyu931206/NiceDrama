@@ -229,4 +229,6 @@
     <string name="no_collection_toast">收藏成功</string>
     <string name="epi_zhuiju">追剧成功</string>
     <string name="epi_no_zhuiju">取消追剧</string>
+
+    <string name="my_view_shs">守护神</string>
 </resources>
