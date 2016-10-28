@@ -6,14 +6,9 @@ import java.util.List;
  * Created by dllo on 16/10/27.
  */
 public class BrokenBean {
-
     private String reason;
-
-
-
     private ResultBean result;
     private int error_code;
-
     public String getReason() {
         return reason;
     }
@@ -39,17 +34,6 @@ public class BrokenBean {
     }
 
     public static class ResultBean {
-        /**
-         * realtime : {"city_code":"101210701","city_name":"温州","date":"2016-10-28","time":"08:00:00","week":5,"moon":"九月廿八","dataUptime":1477615027,"weather":{"temperature":"24","humidity":"96","info":"多云","img":"1"},"wind":{"direct":"北风","power":"0级","offset":null,"windspeed":null}}
-         * life : {"date":"2016-10-28","info":{"chuanyi":["热","天气热，建议着短裙、短裤、短薄外套、T恤等夏季服装。"],"ganmao":["少发","各项气象条件适宜，发生感冒机率较低。但请避免长期处于空调房间中，以防感冒。"],"kongtiao":["部分时间开启","天气热，到中午的时候您将会感到有点热，因此建议在午后较热时开启制冷空调。"],"xiche":["不宜","不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"],"yundong":["较不宜","有降水，推荐您在室内进行各种健身休闲运动，若坚持户外运动，须注意保暖并携带雨具。"],"ziwaixian":["中等","属中等强度紫外线辐射天气，外出时建议涂擦SPF高于15、PA+的防晒护肤品，戴帽子、太阳镜。"]}}
-         * weather : [{"date":"2016-10-28","info":{"day":["3","阵雨","31","东北风","微风","06:06"],"night":["3","阵雨","19","东北风","微风","17:16"]},"week":"五","nongli":"九月廿八"},{"date":"2016-10-29","info":{"dawn":["3","阵雨","19","东北风","微风","17:16"],"day":["3","阵雨","23","东北风","微风","06:06"],"night":["2","阴","18","东北风","微风","17:15"]},"week":"六","nongli":"九月廿九"},{"date":"2016-10-30","info":{"dawn":["2","阴","18","东北风","微风","17:15"],"day":["1","多云","21","东北风","微风","06:07"],"night":["1","多云","17","东北风","微风","17:14"]},"week":"日","nongli":"九月三十"},{"date":"2016-10-31","info":{"dawn":["1","多云","17","东北风","微风","17:14"],"day":["1","多云","24","东北风","微风","06:08"],"night":["2","阴","16","东北风","微风","17:13"]},"week":"一","nongli":"十月初一"},{"date":"2016-11-01","info":{"dawn":["2","阴","16","东北风","微风","17:13"],"day":["1","多云","19","东北风","微风","06:08"],"night":["1","多云","13","东北风","微风","17:13"]},"week":"二","nongli":"十月初二"}]
-         * f3h : {"temperature":[{"jg":"20161028080000","jb":"24"},{"jg":"20161028110000","jb":"28"},{"jg":"20161028140000","jb":"27"},{"jg":"20161028170000","jb":"24"},{"jg":"20161028200000","jb":"22"},{"jg":"20161028230000","jb":"20"},{"jg":"20161029020000","jb":"19"},{"jg":"20161029050000","jb":"19"},{"jg":"20161029080000","jb":"19"}],"precipitation":[{"jg":"20161028080000","jf":"0"},{"jg":"20161028110000","jf":"0"},{"jg":"20161028140000","jf":"0.1"},{"jg":"20161028170000","jf":"0.4"},{"jg":"20161028200000","jf":"0.4"},{"jg":"20161028230000","jf":"1.2"},{"jg":"20161029020000","jf":"1.5"},{"jg":"20161029050000","jf":"0.7"},{"jg":"20161029080000","jf":"0.1"}]}
-         * pm25 : {"key":"Wenzhou","show_desc":0,"pm25":{"curPm":"82","pm25":"55","pm10":"111","level":2,"quality":"良","des":"可以接受的，除极少数对某种污染物特别敏感的人以外，对公众健康没有危害。"},"dateTime":"2016年10月28日08时","cityName":"温州"}
-         * jingqu :
-         * jingqutq :
-         * date :
-         * isForeign : 0
-         */
 
         private DataBean data;
 
@@ -63,31 +47,31 @@ public class BrokenBean {
 
         public static class DataBean {
             /**
-             * city_code : 101210701
-             * city_name : 温州
+             * city_code : 101010100
+             * city_name : 北京
              * date : 2016-10-28
-             * time : 08:00:00
+             * time : 11:00:00
              * week : 5
              * moon : 九月廿八
-             * dataUptime : 1477615027
-             * weather : {"temperature":"24","humidity":"96","info":"多云","img":"1"}
-             * wind : {"direct":"北风","power":"0级","offset":null,"windspeed":null}
+             * dataUptime : 1477625823
+             * weather : {"temperature":"11","humidity":"25","info":"晴","img":"0"}
+             * wind : {"direct":"北风","power":"3级","offset":null,"windspeed":null}
              */
 
             private RealtimeBean realtime;
             /**
              * date : 2016-10-28
-             * info : {"chuanyi":["热","天气热，建议着短裙、短裤、短薄外套、T恤等夏季服装。"],"ganmao":["少发","各项气象条件适宜，发生感冒机率较低。但请避免长期处于空调房间中，以防感冒。"],"kongtiao":["部分时间开启","天气热，到中午的时候您将会感到有点热，因此建议在午后较热时开启制冷空调。"],"xiche":["不宜","不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"],"yundong":["较不宜","有降水，推荐您在室内进行各种健身休闲运动，若坚持户外运动，须注意保暖并携带雨具。"],"ziwaixian":["中等","属中等强度紫外线辐射天气，外出时建议涂擦SPF高于15、PA+的防晒护肤品，戴帽子、太阳镜。"]}
+             * info : {"chuanyi":["较冷","建议着厚外套加毛衣等服装。年老体弱者宜着大衣、呢外套加羊毛衫。"],"ganmao":["较易发","天凉，昼夜温差较大，较易发生感冒，请适当增减衣服，体质较弱的朋友请注意适当防护。"],"kongtiao":["开启制暖空调","您将感到有些冷，可以适当开启制暖空调调节室内温度，以免着凉感冒。"],"xiche":["较适宜","较适宜洗车，未来一天无雨，风力较小，擦洗一新的汽车至少能保持一天。"],"yundong":["较不宜","天气较好，但考虑风力较大，天气寒冷，推荐您进行室内运动，若在户外运动须注意保暖。"],"ziwaixian":["中等","属中等强度紫外线辐射天气，外出时建议涂擦SPF高于15、PA+的防晒护肤品，戴帽子、太阳镜。"]}
              */
 
             private LifeBean life;
             private F3hBean f3h;
             /**
-             * key : Wenzhou
+             * key : Beijing
              * show_desc : 0
-             * pm25 : {"curPm":"82","pm25":"55","pm10":"111","level":2,"quality":"良","des":"可以接受的，除极少数对某种污染物特别敏感的人以外，对公众健康没有危害。"}
-             * dateTime : 2016年10月28日08时
-             * cityName : 温州
+             * pm25 : {"curPm":"19","pm25":"6","pm10":"14","level":1,"quality":"优","des":"可正常活动。"}
+             * dateTime : 2016年10月28日11时
+             * cityName : 北京
              */
 
             private Pm25Bean pm25;
@@ -97,7 +81,7 @@ public class BrokenBean {
             private String isForeign;
             /**
              * date : 2016-10-28
-             * info : {"day":["3","阵雨","31","东北风","微风","06:06"],"night":["3","阵雨","19","东北风","微风","17:16"]}
+             * info : {"day":["0","晴","13","北风","3-4 级","06:39"],"night":["0","晴","2","","微风","17:17"]}
              * week : 五
              * nongli : 九月廿八
              */
@@ -185,16 +169,16 @@ public class BrokenBean {
                 private String moon;
                 private int dataUptime;
                 /**
-                 * temperature : 24
-                 * humidity : 96
-                 * info : 多云
-                 * img : 1
+                 * temperature : 11
+                 * humidity : 25
+                 * info : 晴
+                 * img : 0
                  */
 
                 private WeatherBean weather;
                 /**
                  * direct : 北风
-                 * power : 0级
+                 * power : 3级
                  * offset : null
                  * windspeed : null
                  */
@@ -432,13 +416,13 @@ public class BrokenBean {
 
             public static class F3hBean {
                 /**
-                 * jg : 20161028080000
-                 * jb : 24
+                 * jg : 20161028110000
+                 * jb : 11
                  */
 
                 private List<TemperatureBean> temperature;
                 /**
-                 * jg : 20161028080000
+                 * jg : 20161028110000
                  * jf : 0
                  */
 
@@ -506,15 +490,6 @@ public class BrokenBean {
             public static class Pm25Bean {
                 private String key;
                 private int show_desc;
-                /**
-                 * curPm : 82
-                 * pm25 : 55
-                 * pm10 : 111
-                 * level : 2
-                 * quality : 良
-                 * des : 可以接受的，除极少数对某种污染物特别敏感的人以外，对公众健康没有危害。
-                 */
-
                 private mPm25Bean pm25;
                 private String dateTime;
                 private String cityName;

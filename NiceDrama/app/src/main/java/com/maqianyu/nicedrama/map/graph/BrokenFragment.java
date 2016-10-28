@@ -3,10 +3,14 @@ package com.maqianyu.nicedrama.map.graph;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
+import com.maqianyu.nicedrama.Tools.Values;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,19 +61,20 @@ public class BrokenFragment extends AbsFragment {
         }).start();
 
         brokenView.setPopTitle(String.valueOf(R.string.chart_dangqian));
-//        List<String> xList = new ArrayList<>();
-//        xList.add(datas.get(0).getDate() + "1");
-//        xList.add(datas.get(1).getDate() + "1");
-//        xList.add(datas.get(2).getDate() + "1");
-//        xList.add(datas.get(3).getDate() + "1");
-//        xList.add(datas.get(4).getDate() + "1");
-//        List<String> yList = new ArrayList<>();
-//        yList.add(datas.get(0).getInfo().getDay().get(3));
-//        yList.add(datas.get(1).getInfo().getDay().get(3));
-//        yList.add(datas.get(2).getInfo().getDay().get(3));
-//        yList.add(datas.get(3).getInfo().getDay().get(3));
-//        yList.add(datas.get(4).getInfo().getDay().get(3));
-//        brokenView.setData(xList, yList);
+        List<String> xList = new ArrayList<>();
+        xList.add("1");
+        xList.add("1");
+        xList.add("1");
+        xList.add("1");
+        xList.add("1");
+        List<String> yList = new ArrayList<>();
+
+        yList.add(String.valueOf(Integer.valueOf(datas.get(0).getInfo().getDay().get(2))) + "");
+        yList.add(String.valueOf(Integer.valueOf(datas.get(1).getInfo().getDay().get(2))) + "");
+        yList.add(String.valueOf(Integer.valueOf(datas.get(2).getInfo().getDay().get(2))) + "");
+        yList.add(String.valueOf(Integer.valueOf(datas.get(3).getInfo().getDay().get(2))) + "");
+        yList.add(String.valueOf(Integer.valueOf(datas.get(4).getInfo().getDay().get(2))) + "");
+        brokenView.setData(xList, yList);
     }
 
 
@@ -99,14 +104,11 @@ public class BrokenFragment extends AbsFragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String ss = response.toString();
-                Log.d("qqq", "----" + ss);
-                Gson gson = new Gson();
-                brokenBean = gson.fromJson(ss, BrokenBean.class);
+                String ss = response.body().string();
+                BrokenBean brokenBean  = JSON.parseObject(ss,BrokenBean.class);
                 datas = brokenBean.getResult().getData().getWeather();
-                Log.d("qqq", brokenBean.getResult().getData().getWeather().get(0).getInfo().getDay().get(1));
-                Log.d("qqq", "datas.size():" + datas.size());
-                Log.d("qqq", datas.get(0).getDate());
+                Log.d("qqq", datas.get(0).getWeek());
+                Log.d("qqq", datas.get(0).getInfo().getDay().get(2));
             }
         });
     }
