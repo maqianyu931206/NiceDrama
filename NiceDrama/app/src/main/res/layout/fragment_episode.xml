@@ -159,16 +159,15 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
         <com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView
             android:id="@+id/epi_shs_etv"
-            android:layout_width="80dp"
-            android:layout_height="120dp"
-            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
         <LinearLayout
@@ -176,9 +175,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/video_middle_margin"
-            android:layout_toRightOf="@id/epi_shs_etv">
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/video_middle_margin">
 
             <FrameLayout
                 android:id="@+id/epi_shs_one"
@@ -240,8 +238,7 @@
             android:id="@+id/epi_shs_enter_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="right|center_vertical"
             android:layout_marginRight="@dimen/video_middle_margin">
 
             <TextView
@@ -256,5 +253,5 @@
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/icon_enter" />
         </LinearLayout>
-    </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>
