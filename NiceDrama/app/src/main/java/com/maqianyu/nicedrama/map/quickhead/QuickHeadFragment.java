@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -57,7 +58,9 @@ public class QuickHeadFragment extends AbsFragment {
     private Bean bean;
     private int mLastVisibleItemPosition = 0;
     private LinearLayout linearLayout;
-
+    private StaggeredGridLayoutManager manager;
+    private GridLayoutManager linearLayoutManager;
+    private int lastVisibleItem;
 
     public static QuickHeadFragment newInstance() {
         Bundle args = new Bundle();
@@ -82,8 +85,9 @@ public class QuickHeadFragment extends AbsFragment {
     @Override
     protected void initDatas() {
         arcMenuonClick();
-        final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
+        manager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+        linearLayoutManager = new GridLayoutManager(context, 2);
+        recyclerView.setLayoutManager(linearLayoutManager);
         quickRvAdapter = new QuickRvAdapter(context);
         recyclerView.setAdapter(quickRvAdapter);
         okHttpClient = new OkHttpClient();
@@ -125,69 +129,34 @@ public class QuickHeadFragment extends AbsFragment {
 
         //recycler 的滑动监听
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE &&
-                        mLastVisibleItemPosition + 1 == quickRvAdapter.getItemCount()) {
-                    loadMore();
+                if (quickRvAdapter != null && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 ==
+                        quickRvAdapter.getItemCount() || lastVisibleItem + 2 == quickRvAdapter.getItemCount()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(2000);
+                                doAsyncPost();
+                                recyclerView.smoothScrollToPosition(0);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                sss = manager.findLastVisibleItemPositions(null);
-                int count = recyclerView.getAdapter().getItemCount();
-                for (int i = 0; i < sss.length; i++) {
-                    if (sss[i] == count - 1) {
-                        mLastVisibleItemPosition = sss[i];
-                    }
-                }
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
     }
-
-    private int[] sss;
-
-    public void loadMore() {
-        quickRvAdapter.setLoadStatus(QuickRvAdapter.LoadStatus.LOADING_MORE);
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            doAsyncPost();
-                            quickRvAdapter.setLoadStatus(QuickRvAdapter.LoadStatus.CLICK_LOAD_MORE);
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        ((Activity) context).getMenuInflater().inflate(R.menu.a, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -214,7 +183,6 @@ public class QuickHeadFragment extends AbsFragment {
         OkHttpInstance.postAsyn(Values.QUICK_POST_URL, new OkHttpInstance.ResultCallback() {
             @Override
             public void onError(Call call, Exception e) {
-
             }
 
             @Override
@@ -223,7 +191,7 @@ public class QuickHeadFragment extends AbsFragment {
                 Gson gson = new Gson();
                 bean = gson.fromJson(resultStr, Bean.class);
                 datas = bean.getFeeds();
-                handler.sendEmptyMessageDelayed(1, 2000);
+                handler.sendEmptyMessageDelayed(1, 1500);
             }
         }, data);
     }

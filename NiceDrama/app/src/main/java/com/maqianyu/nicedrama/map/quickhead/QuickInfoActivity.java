@@ -80,7 +80,6 @@ public class QuickInfoActivity extends AbsActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.quickinfoheadview, null);
         superVideoPlayer = (SuperVideoPlayer) view.findViewById(R.id.quick_info_superPlayer);
         listView.addHeaderView(view);
-
     }
 
     @Override

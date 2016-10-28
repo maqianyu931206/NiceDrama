@@ -64,8 +64,7 @@ public class ColumaView extends View {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        if (widthMode == MeasureSpec.AT_MOST
-                || heightMode == MeasureSpec.AT_MOST) {
+        if (widthMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.AT_MOST) {
             width = 800;
             height = 800;
         }
