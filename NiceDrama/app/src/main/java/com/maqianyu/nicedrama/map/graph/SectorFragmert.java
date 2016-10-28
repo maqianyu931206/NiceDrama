@@ -56,24 +56,19 @@ public class SectorFragmert extends AbsFragment implements SeekBar.OnSeekBarChan
             case 0:
                 sectorView.updateThisData(lastData0);
                 sectorView.updateLastData(thisData0);
-
                 break;
             case 1:
                 sectorView.updateThisData(lastData1);
                 sectorView.updateLastData(thisData1);
-
                 break;
             case 2:
                 sectorView.updateThisData(lastData2);
                 sectorView.updateLastData(thisData2);
-
                 break;
             case 3:
                 sectorView.updateThisData(lastData3);
                 sectorView.updateLastData(thisData3);
-
                 break;
-
             default:
                 break;
         }

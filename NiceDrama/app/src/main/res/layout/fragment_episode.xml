@@ -21,11 +21,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@mipmap/video_play_" />
+
         <com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer
             android:id="@+id/epi_video_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </FrameLayout>
 
     <LinearLayout
@@ -37,8 +38,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:layout_marginTop="@dimen/video_middle_margin">
+            android:layout_marginTop="@dimen/video_middle_margin"
+            android:layout_weight="1.5">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/epi_civ"
@@ -66,8 +67,7 @@
                     android:id="@+id/epi_desc_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/video_cha_middle_size"
-                    />
+                    android:textSize="@dimen/video_cha_middle_size" />
             </LinearLayout>
 
             <Button
@@ -85,8 +85,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/video_middle_margin"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -159,102 +159,105 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView
             android:id="@+id/epi_shs_etv"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_centerVertical="true"
+            android:layout_weight="0.6"
             android:scaleType="fitXY" />
 
-        <LinearLayout
-            android:id="@+id/epi_civ_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/video_middle_margin"
-            android:layout_toRightOf="@id/epi_shs_etv">
+        <FrameLayout
+            android:id="@+id/epi_shs_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical">
 
-            <FrameLayout
-                android:id="@+id/epi_shs_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/epi_shs_one_civ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:src="@mipmap/hg_1" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/epi_shs_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/video_middle_margin">
+                    android:layout_margin="5dp"
+                    android:layout_weight="1" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/epi_shs_two_civ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_margin="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:src="@mipmap/hg_2" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/epi_shs_three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/video_middle_margin">
+                    android:layout_weight="1" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/epi_shs_three_civ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_margin="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_weight="1" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hg_1" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@mipmap/hg_2" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:src="@mipmap/hg_3" />
-            </FrameLayout>
-        </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
 
-
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/epi_shs_enter_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/video_middle_margin">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
+
+            <ImageView
+                android:id="@+id/qqq"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_enter" />
             <TextView
                 android:id="@+id/epi_total_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_toLeftOf="@id/qqq"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_enter" />
-        </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>
