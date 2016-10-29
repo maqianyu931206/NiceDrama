@@ -1,5 +1,6 @@
 package com.maqianyu.nicedrama.map.quickhead;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -22,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -68,6 +71,9 @@ public class QuickInfoActivity extends AbsActivity {
     private ImageView saveimg;
     private ImageView shareimg;
     private Broad broad;
+    long firClick;
+    long secClick;
+    private View viewvvv;
 
     @Override
     protected int setLayout() {
@@ -80,6 +86,7 @@ public class QuickInfoActivity extends AbsActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.quickinfoheadview, null);
         superVideoPlayer = (SuperVideoPlayer) view.findViewById(R.id.quick_info_superPlayer);
         listView.addHeaderView(view);
+        viewvvv = byView(R.id.view);
     }
 
     @Override
@@ -97,7 +104,7 @@ public class QuickInfoActivity extends AbsActivity {
             Toast.makeText(this, "Wifi状态", Toast.LENGTH_SHORT).show();
             // 设置视频播放
             superVideoPlayer.loadAndPlay(Uri.parse(url), 0);
-        }else {
+        } else {
             Toast.makeText(this, "非WIFI状态", Toast.LENGTH_SHORT).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(QuickInfoActivity.this);
             builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪请忽略此条消息");
@@ -119,7 +126,7 @@ public class QuickInfoActivity extends AbsActivity {
         broad = new Broad();
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        registerReceiver(broad,filter);
+        registerReceiver(broad, filter);
 
         //视频播放,设置重复播放
         superVideoPlayer.setVideoPlayCallback(new SuperVideoPlayer.VideoPlayCallbackImpl() {
@@ -150,6 +157,20 @@ public class QuickInfoActivity extends AbsActivity {
         // 手势滑动监听,右滑动退出
         gestureDetectorclick();
 
+        class onDoubleClick implements View.OnTouchListener {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEvent.ACTION_DOWN == event.getAction()) {
+                    firClick = secClick;
+                    secClick = (int) System.currentTimeMillis();
+                    if (secClick - firClick < 1000) {
+                        Toast.makeText(QuickInfoActivity.this, "双击", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return false;
+            }
+        }
+
     }
 
     //标题栏设置
@@ -159,18 +180,22 @@ public class QuickInfoActivity extends AbsActivity {
                     @Override
                     public void onClick(View v) {
                         View view = LayoutInflater.from(QuickInfoActivity.this).inflate(R.layout.quick_info_pw, null);
+                        pwlinearLayout = (LinearLayout) view.findViewById(R.id.pw_linearLayout);
                         PopupWindow pw = new PopupWindow(QuickInfoActivity.this);
                         pwlinearLayout = (LinearLayout) view.findViewById(R.id.pw_linearLayout);
-                        pw.setHeight(300);
-                        pw.setWidth(300);
+                        WindowManager windowManger = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+                        DisplayMetrics metrics = new DisplayMetrics();
+                        windowManger.getDefaultDisplay().getMetrics(metrics);
+                        int screenWidth = metrics.widthPixels / 8;
+                        int screeHeight = metrics.heightPixels / 6;
+                        pwlinearLayout.setMinimumWidth(screenWidth);
+                        pwlinearLayout.setMinimumHeight(screeHeight);
+                        pw.setWidth(screenWidth);
+                        pw.setHeight(screeHeight);
                         pw.setOutsideTouchable(true);
                         pw.setFocusable(true);
                         pw.setContentView(view);
-                        Rect rect = new Rect();
-                        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-                        int statusBarHeight = rect.top;  // 电量栏的高度
-                        pw.showAtLocation(pwlinearLayout, Gravity.NO_GRAVITY,
-                                ScreenSizeUtils.getScreenState(ScreenSizeUtils.ScreenState.WIDTH), statusBarHeight);
+                        pw.showAtLocation(pwlinearLayout, Gravity.NO_GRAVITY, screenWidth * 8, metrics.heightPixels / 15);
                         saveimg = (ImageView) view.findViewById(R.id.pw_save);
                         shareimg = (ImageView) view.findViewById(R.id.pw_share);
                         // 分享按钮
@@ -187,12 +212,22 @@ public class QuickInfoActivity extends AbsActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
-                return false;
+                if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                    firClick = secClick;
+                    secClick = System.currentTimeMillis();
+                    if (secClick - firClick < 1000) {
+                        LiteOrmBean liteOrmBean = new LiteOrmBean(title, imgUrl, url);
+                        LitOrmIntance.getIntance().insertOne(liteOrmBean);
+                        Toast.makeText(QuickInfoActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                        a = true;
+
+                    }
+                }
+                return true;
             }
 
             @Override
             public void onShowPress(MotionEvent e) {
-
             }
 
             @Override
@@ -207,23 +242,21 @@ public class QuickInfoActivity extends AbsActivity {
 
             @Override
             public void onLongPress(MotionEvent e) {
-
+                LitOrmIntance.getIntance().deleteOne(title);
+                saveimg.setImageResource(R.mipmap.save);
+                Toast.makeText(QuickInfoActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                a = false;
             }
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.d("sss", "ddd------");
                 if (e2.getX() - e1.getX() > 200) {
                     finish();
-                    Log.d("sss", "sssss左滑动");
                     return true;
                 }
                 return false;
             }
-
         });
-
-
     }
 
     @Override
@@ -332,8 +365,9 @@ public class QuickInfoActivity extends AbsActivity {
             return false;
         }
     });
+
     // 定义广播接受者
-    class Broad extends BroadcastReceiver{
+    class Broad extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);

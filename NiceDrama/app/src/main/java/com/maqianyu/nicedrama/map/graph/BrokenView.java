@@ -82,8 +82,7 @@ public class BrokenView extends View {
     private void init(Context context) {
         alphaLinePaint = new Paint();
         alphaLinePaint.setStyle(Paint.Style.FILL);
-        alphaLinePaint.setColor(context.getResources().getColor(
-                android.R.color.white));
+        alphaLinePaint.setColor(context.getResources().getColor(android.R.color.white));
         alphaLinePaint.setAntiAlias(true);
         alphaLinePaint.setAlpha(150);
 
@@ -91,7 +90,7 @@ public class BrokenView extends View {
         linePaint.setStyle(Paint.Style.FILL);
         linePaint.setColor(context.getResources().getColor(android.R.color.holo_blue_dark));
         linePaint.setAntiAlias(true);
-        linePaint.setStrokeWidth((float) 2.0);
+        linePaint.setStrokeWidth((float) 3.0);
 
         textPaint = new Paint();
         textPaint.setTextAlign(Paint.Align.CENTER);

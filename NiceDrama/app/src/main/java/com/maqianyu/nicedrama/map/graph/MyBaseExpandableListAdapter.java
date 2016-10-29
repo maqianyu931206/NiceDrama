@@ -17,6 +17,7 @@ import java.util.Map;
 
 /**
  * Created by dllo on 16/10/28.
+ * ExpandableListView的适配器
  */
 public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter  {
     private Context mContext;

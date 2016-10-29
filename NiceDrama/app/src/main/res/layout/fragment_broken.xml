@@ -22,6 +22,11 @@
             android:layout_height="200dp"
             android:background="#b1aeab" />
 
+        <TextView
+            android:id="@+id/wendubianhua"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <ExpandableListView
             android:id="@+id/expandableListView"
             android:layout_width="wrap_content"
@@ -54,7 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="穿衣指数 :" />
+                android:text="穿衣指南 :" />
 
             <TextView
                 android:id="@+id/chuanyi_tv"
@@ -71,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="感冒指数 :" />
+                android:text="感冒指南 :" />
 
             <TextView
                 android:id="@+id/ganmao_tv"
@@ -88,7 +93,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="空调指数 :" />
+                android:text="空调指南 :" />
 
             <TextView
                 android:id="@+id/kongtiao_tv"
@@ -106,7 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="洗车指数 :" />
+                android:text="洗车指南 :" />
 
             <TextView
                 android:id="@+id/xiche_tv"
@@ -124,7 +129,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="运动指数 :" />
+                android:text="运动指南 :" />
 
             <TextView
                 android:id="@+id/yundong_tv"

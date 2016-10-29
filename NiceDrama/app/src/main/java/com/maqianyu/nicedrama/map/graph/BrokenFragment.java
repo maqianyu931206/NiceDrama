@@ -3,22 +3,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.alibaba.fastjson.JSON;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,9 +33,8 @@ public class BrokenFragment extends AbsFragment {
     private List<BrokenBean.ResultBean.DataBean.WeatherBean> datas;
     private BrokenView brokenView;
     private Handler handler;
-    private TextView cityTv, chuanyiTv, ganmaoTv, kongtiaoTv, xicheTv, yundongTv, citytime;
+    private TextView  chuanyiTv, ganmaoTv, kongtiaoTv, xicheTv, yundongTv, citytime,bianhuaTv;
     private ExpandableListView expandableListView;
-
     private ExpandableListView expandList;
     private List<String> groupData;//group的数据源
     private Map<Integer, List<ChildItem>> childData;//child的数据源
@@ -49,6 +42,7 @@ public class BrokenFragment extends AbsFragment {
     private String strUTF8;
     private String get_url;
     private String str = "大连";
+    private int a = 0;
     public static BrokenFragment newInstance() {
         Bundle args = new Bundle();
         BrokenFragment fragment = new BrokenFragment();
@@ -71,6 +65,7 @@ public class BrokenFragment extends AbsFragment {
         yundongTv = byView(R.id.yundong_tv);
         citytime = byView(R.id.city_time);
         expandableListView = byView(R.id.expandableListView);
+        bianhuaTv = byView(R.id.wendubianhua);
     }
 
     @Override
@@ -101,8 +96,13 @@ public class BrokenFragment extends AbsFragment {
                     yList.add(datas.get(3).getInfo().getDay().get(2) + "");
                     yList.add(datas.get(4).getInfo().getDay().get(2) + "");
                     brokenView.setData(xList, yList);
+                    bianhuaTv.setText("温度变化:  " +
+                            datas.get(0).getInfo().getDay().get(2) +"°C , "+
+                    datas.get(1).getInfo().getDay().get(2) + "°C , "+
+                    datas.get(2).getInfo().getDay().get(2) + "°C , "+
+                    datas.get(3).getInfo().getDay().get(2) + "°C , "+
+                    datas.get(4).getInfo().getDay().get(2)  + "°C  ");
                 }
-
                 if (msg.what == 102) {
                     BrokenBean.ResultBean.DataBean brokenBean = (BrokenBean.ResultBean.DataBean) msg.obj;
                     chuanyiTv.setText(brokenBean.getLife().getInfo().getChuanyi().get(1));
@@ -122,26 +122,39 @@ public class BrokenFragment extends AbsFragment {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                int groupheight = 0;
-                int height = 0;
-                View listItem = myAdapter.getGroupView(0, true, null, expandableListView);
-                listItem.measure(0, 0);
-                groupheight += listItem.getMeasuredHeight();
-                for (int i = 0; i < myAdapter.getChildrenCount(0); i++) {
-                    View childview = myAdapter.getChildView(0, i, true, null, expandableListView);
-                    childview.measure(0, 0);
-                    groupheight += childview.getMeasuredHeight();
+                if (a == 0) {
+                    int groupheight = 0;
+                    View listItem = myAdapter.getGroupView(0, true, null, expandableListView);
+                    listItem.measure(0, 0);
+                    groupheight += listItem.getMeasuredHeight();
+                    for (int i = 0; i < myAdapter.getChildrenCount(0); i++) {
+                        View childview = myAdapter.getChildView(0, i, true, null, expandableListView);
+                        childview.measure(0, 0);
+                        groupheight += childview.getMeasuredHeight();
+                    }
+                    ViewGroup.LayoutParams params = expandableListView.getLayoutParams();
+                    params.height = groupheight + (expandableListView.getDividerHeight() * (myAdapter.getGroupCount() - 1));
+                    expandableListView.setLayoutParams(params);
+                    a = 1;
+                }else
+                if (a == 1){
+                    int groupheight = 0;
+                    View listItem = myAdapter.getGroupView(0, true, null, expandableListView);
+                    listItem.measure(0, 0);
+                    groupheight += listItem.getMeasuredHeight();
+                    ViewGroup.LayoutParams params = expandableListView.getLayoutParams();
+                    params.height = groupheight + (expandableListView.getDividerHeight() * (myAdapter.getGroupCount() - 1));
+                    expandableListView.setLayoutParams(params);
+                    a = 0;
                 }
-                ViewGroup.LayoutParams params = expandableListView.getLayoutParams();
-                params.height = groupheight + (expandableListView.getDividerHeight() * (myAdapter.getGroupCount() - 1));
-                expandableListView.setLayoutParams(params);
                 return false;
+
             }
         });
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String[] strings = new String[]{"沈阳","北京","温州","上海","重庆","上海"};
+                String[] strings = new String[]{"沈阳","北京","温州","上海","青岛","重庆"};
                 for (int i = 0; i < strings.length ; i++){
                     if (childPosition == i){
                         str = strings[i];
@@ -193,10 +206,7 @@ public class BrokenFragment extends AbsFragment {
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
+            public void onFailure(Call call, IOException e) {}
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String ss = response.body().string();
@@ -210,9 +220,7 @@ public class BrokenFragment extends AbsFragment {
                 message2.what = 102;
                 message2.obj = brokenBean.getResult().getData();
                 handler.sendMessage(message2);
-
             }
         });
     }
-
 }
