@@ -97,8 +97,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".myset.ui.LogInActivity"/>
+        <activity android:name=".myset.ui.RegisterActivity"/>
 
 
     </application>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
 </manifest>

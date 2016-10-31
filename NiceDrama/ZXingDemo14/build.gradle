@@ -23,4 +23,9 @@ dependencies {
     compile files('libs/core-3.0.0.jar')
     compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     compile 'com.android.support:design:24.1.1'
+    compile files('/Users/dllo/Desktop/GitCode/NiceDrama1/NiceDrama/app/libs/MobTools-2016.1012.1447.jar')
+    compile files('libs/MobCommons-2016.1012.1447.jar')
+    compile files('libs/MobTools-2016.1012.1447.jar')
+    compile files('libs/MobCommons-2016.1012.144.jar')
+    compile files('libs/MobTools-2016.1012.144.jar')
 }
