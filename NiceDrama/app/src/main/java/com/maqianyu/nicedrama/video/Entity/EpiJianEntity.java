@@ -84,6 +84,7 @@ public class EpiJianEntity {
         private String downloadLinkAndroid;
         private String downloadLinkIos;
         private String projectOriginalUrl;
+        private String projectOwnerHeadImgUrl;
         private String projectAuthor;
         private String projectDesc;
         private String projectDescOriginal;
@@ -199,6 +200,14 @@ public class EpiJianEntity {
 
         public void setProjectOriginalUrl(String projectOriginalUrl) {
             this.projectOriginalUrl = projectOriginalUrl;
+        }
+
+        public String getProjectOwnerHeadImgUrl() {
+            return projectOwnerHeadImgUrl;
+        }
+
+        public void setProjectOwnerHeadImgUrl(String projectOwnerHeadImgUrl) {
+            this.projectOwnerHeadImgUrl = projectOwnerHeadImgUrl;
         }
 
         public String getProjectAuthor() {

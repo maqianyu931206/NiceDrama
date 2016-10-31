@@ -2,6 +2,7 @@ package com.maqianyu.nicedrama.video.subfragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,10 +24,13 @@ import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
 import com.maqianyu.nicedrama.Tools.ThreadPoolInstance;
+import com.maqianyu.nicedrama.video.Entity.EBAuthorImgEntity;
 import com.maqianyu.nicedrama.video.Entity.EpiJianEntity;
 import com.maqianyu.nicedrama.video.adapter.EpisodeVpAdapter;
 import com.maqianyu.nicedrama.Tools.Values;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.ObservableScrollView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +58,8 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
     private TabLayout epiTl;
     private TextView formerTv, authorTv, storyTv;
     private List<EpiJianEntity.DataBean> datas;
+    private String authorImg;
+    private EventBus eventBus;
 
     /**
      * 滑动出现标题栏的设置量
@@ -96,6 +103,7 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
         epiTl.setSelectedTabIndicatorColor(Color.RED);
         epiTl.setTabMode(TabLayout.MODE_SCROLLABLE);
         epiTl.setupWithViewPager(epiVp);
+
         // 设置滑动监听
         setScrollListeners();
     }
@@ -163,6 +171,7 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 EpiJianEntity entity = gson.fromJson(str, EpiJianEntity.class);
                 datas = entity.getData();
 
+                authorImg = datas.get(0).getProjectOwnerHeadImgUrl();
                 titleName = datas.get(0).getProjectName();
                 // 更新电视剧的集数
                 int temp = Integer.valueOf(datas.get(0).getProjectUpdateEpisode());
@@ -185,6 +194,11 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
                 addFragments(epi);
                 adapter.setFragments(fragments);
                 setDatas(epi);
+
+                eventBus = new EventBus();
+                EBAuthorImgEntity entity = new EBAuthorImgEntity();
+                entity.setAuthorImgUrl(authorImg);
+                eventBus.post(entity);
             }
             return false;
         }

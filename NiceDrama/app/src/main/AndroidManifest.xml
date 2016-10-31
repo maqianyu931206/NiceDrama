@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.maqianyu.nicedrama">
 
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -12,10 +16,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
@@ -45,7 +46,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.maqianyu.nicedrama.Tools.MyApp"
+        android:name=".Tools.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
@@ -58,35 +59,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".map.graph.ChartActivity"/>
+        <activity android:name=".map.graph.ChartActivity" />
         <activity android:name=".myset.ui.ScanActivity" />
         <activity android:name="com.karics.library.zxing.android.CaptureActivity" />
         <activity android:name="com.karics.library.zxing.android.PreferencesActivity" />
-        <activity android:name=".map.map_aty.MapActivity"/>
+        <activity android:name=".map.map_aty.MapActivity" />
         <activity android:name=".video.PlayVideoActivity" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="8b4541e278725d876724534ee953360f" />
-        <service android:name="com.amap.api.location.APSService" />
-        <!--<code class="hljs xml">-->
-            <!--<service android:name="com.amap.api.location.APSService" />-->
-        <!--</code>-->
-        <activity android:name=".myset.ui.TtsActivity"/>
-        <activity android:name=".myset.ui.LisAndWriActivity"/>
-        <activity android:name=".map.quickhead.QuickInfoActivity"/>
-        <activity android:name=".map.quickhead.CollectionActivity"/>
 
+        <service android:name="com.amap.api.location.APSService" />
+        <!-- <code class="hljs xml"> -->
+        <!-- <service android:name="com.amap.api.location.APSService" /> -->
+        <!-- </code> -->
+        <activity android:name=".myset.ui.TtsActivity" />
+        <activity android:name=".myset.ui.LisAndWriActivity" />
+        <activity android:name=".map.quickhead.QuickInfoActivity" />
+        <activity android:name=".map.quickhead.CollectionActivity" />
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent100371282" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -94,11 +96,10 @@
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

@@ -1,9 +1,19 @@
 package com.maqianyu.nicedrama.video.adapter;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,9 +43,10 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 /**
  * Created by dllo on 16/10/21.
  * 网易新闻界面的适配器
+ *
  * @author 张宏迪
  */
-public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAdapter.MyHolder>{
+public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAdapter.MyHolder> {
 
     private int height;
     private int minute;
@@ -43,6 +54,9 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
     private String finalLength;
     private MyHolder myHolder;
     private LiteOrmBean liteOrmBean;
+    DownloadManager downManager ;
+    private DownLoadCompleteReceiver receiver;
+    long id;
 
     /**
      * 存储点击播放的状态, 用来解决listView的复用混淆
@@ -66,13 +80,14 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
 
     @Override
     protected int setItemLayout() {
-        return R.layout.item_lv ;
+        return R.layout.item_lv;
     }
 
     @Override
     protected MyHolder onCreatViewHolder(View convertView) {
         return new MyHolder(convertView);
     }
+
 
     @Override
     protected void onBindViewHolder(final MyHolder myHolder, final ENNEntity.视频Bean itemData, final int position) {
@@ -88,22 +103,80 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
          */
         cleanTime(myHolder, itemData);
 
-        myHolder.playImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isPlay.get(position) == true) {
-                    isPlay.put(position, false);
-                    notifyDataSetChanged();
-                } else if (isPlay.get(position) == false) {
-                    isPlay.put(position, true);
-                    notifyDataSetChanged();
-                }
+        if (isPlay.get(position) == true) {
+            isPlay.put(position, false);
+            notifyDataSetChanged();
+        } else if (isPlay.get(position) == false) {
+            isPlay.put(position, true);
+            notifyDataSetChanged();
+        }
+
+        // 判断当前网络状态
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            if (networkInfo.getType() == (ConnectivityManager.TYPE_WIFI)) {
+                myHolder.playImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        isPlay.put(position,true);
+
+                        playVideo(myHolder, itemData, position);
+                        Toast.makeText(context, "Wifi状态", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } else if (networkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
+                Toast.makeText(context, "当前处于移动数据状态", Toast.LENGTH_SHORT).show();
+                myHolder.superVideoPlayer.pausePlay(true);//设置播放暂停
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪随意");
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.goOnPlay();
+                    }
+                });
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.close();
+                    }
+                });
+                builder.create().show();
             }
-        });
+        } else {
+            Toast.makeText(context, "当前无网络连接", Toast.LENGTH_SHORT).show();
+        }
+
 
         shareAndCollection(myHolder, itemData);
 
-        playVideo(myHolder, itemData, position);
+        myHolder.downLoadImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+                filter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+                receiver = new DownLoadCompleteReceiver();
+                context.registerReceiver(receiver, filter);
+
+                downManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(itemData.getMp4_url()));
+                //设置在什么网络情况下进行下载
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+                //设置通知栏标题
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+                request.setTitle("下载");
+                request.setDescription("视频下载中...");
+                request.setAllowedOverRoaming(false);
+                //设置文件存放目录
+                request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, "videoDownLoad");
+                //将下载请求添加至downManager,注意enqueue方法的编号为当前
+                id = downManager.enqueue(request);
+            }
+        });
     }
 
     private void shareAndCollection(final MyHolder myHolder, final ENNEntity.视频Bean itemData) {
@@ -128,13 +201,13 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             @Override
             public void onClick(View v) {
                 is = false;
-                liteOrmBean = new LiteOrmBean(itemData.getTitle(), itemData.getCover(),itemData.getMp4_url());
+                liteOrmBean = new LiteOrmBean(itemData.getTitle(), itemData.getCover(), itemData.getMp4_url());
                 if (is == false) {
                     myHolder.collectionImg.setImageResource(R.mipmap.epi_star_seleted);
                     LitOrmIntance.getIntance().insertOne(liteOrmBean);
                     Toast.makeText(context, R.string.collection_toast, Toast.LENGTH_SHORT).show();
                     is = true;
-                } else if (is == true){
+                } else if (is == true) {
                     myHolder.collectionImg.setImageResource(R.mipmap.epi_star);
                     LitOrmIntance.getIntance().deleteOne(itemData.getCover());
                     Toast.makeText(context, R.string.no_collection_toast, Toast.LENGTH_SHORT).show();
@@ -190,15 +263,17 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
         }
     }
 
-    protected class MyHolder extends AbsBaseAdapter.BaseViewHolder{
+    protected class MyHolder extends AbsBaseAdapter.BaseViewHolder {
         TextView title, titleTv, lengthTv, authorTv, countTv;
-        ImageView playImg, authorImg, collectionImg, shareImg;
+        ImageView playImg, authorImg, collectionImg, shareImg, downLoadImg;
         SuperVideoPlayer superVideoPlayer;
         ImageView flBg;
+
         public MyHolder(View itemView) {
             super(itemView);
             initItemView(itemView);
         }
+
         private void initItemView(View itemView) {
             title = (TextView) itemView.findViewById(R.id.title_tv);
             titleTv = (TextView) itemView.findViewById(R.id.title_tv_);
@@ -211,6 +286,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             countTv = (TextView) itemView.findViewById(R.id.item_count_tv);
             collectionImg = (ImageView) itemView.findViewById(R.id.news_collection_img);
             shareImg = (ImageView) itemView.findViewById(R.id.news_share_img);
+            downLoadImg = (ImageView) itemView.findViewById(R.id.news_download_img);
         }
     }
 
@@ -292,4 +368,53 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             myHolder.superVideoPlayer.setPageType(MediaController.PageType.SHRINK);
         }
     }
+
+    class Borad extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);
+            if (wifiState == WifiManager.WIFI_STATE_DISABLING) {
+                //正在关闭
+            } else if (wifiState == WifiManager.WIFI_STATE_ENABLING) {
+                //正在打开
+            } else if (wifiState == WifiManager.WIFI_STATE_DISABLED) {
+                // 已经关闭
+                myHolder.superVideoPlayer.pausePlay(true);//设置播放暂停
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪随意");
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.goOnPlay();
+                    }
+                });
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.close();
+                    }
+                });
+                builder.create().show();
+            } else if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
+                //已经打开
+            } else {
+                //未知
+            }
+        }
+    }
+
+    private class DownLoadCompleteReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)){
+                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                Toast.makeText(context, "下载完成!", Toast.LENGTH_SHORT).show();
+                context.unregisterReceiver(receiver);
+            }else if(intent.getAction().equals(DownloadManager.ACTION_NOTIFICATION_CLICKED)){
+                Toast.makeText(context, "别瞎点!!!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

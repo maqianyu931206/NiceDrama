@@ -110,4 +110,21 @@ public class Values {
     public static final int DONE = 3;
     public static final int LOADING = 4;
     public static final int RATIO = 3; // 实际padding的距离与界面上移偏移量的比例
+
+    /**
+     * 追剧界面
+     */
+    public static final String CHASE_URL = "http://appserver.jnwtv.com:8080/jnwtv-client/projectcartoon/getmorelivecartooninfo";
+    public static final String CHASE_KEY1 = "sortOrder";
+    public static final String CHASE_KEY2 = "account";
+    public static final String CHASE_KEY3 = "piId";
+    public static final String CHASE_KEY4 = "token";
+    public static final String CHASE_KEY5 = "pageNow";
+    public static final String CHASE_KEY6 = "upperRange";
+    public static final String CHASE_VALUE1 = "desc";
+    public static final String CHASE_VALUE2 = "26690576370";
+    public static final String CHASE_VALUE3 = "10030";
+    public static final String CHASE_VALUE4 = "2016101715493688672507925614387226690576370";
+    public static final String CHASE_VALUE5 = "1";
+    public static final String CHASE_VALUE6 = "14";
 }

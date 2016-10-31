@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import com.maqianyu.nicedrama.Tools.ImageLoaderTool;
 import com.maqianyu.nicedrama.Tools.LitOrmIntance;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
 import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
+import com.maqianyu.nicedrama.video.ChaseEpiActivity;
+import com.maqianyu.nicedrama.video.Entity.EBAuthorImgEntity;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
 import com.maqianyu.nicedrama.video.Entity.StarEntity;
@@ -25,6 +29,10 @@ import com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -47,6 +55,7 @@ public class EpisodeFragment extends AbsFragment {
 
     private TextView titleTv, descTv, totalTv, zanTv, shareTv, starTv;
     private ImageView titleIv, playIv, zanIv, starIv;
+    private Button zhuijuBtn;
     private LinearLayout zanLl, starLl, shareLl;
     private CircleImageView epiCiv, oneCiv, twoCiv, threeCiv;
     private EpisodeEntity.MovieDetailBean datas;
@@ -54,7 +63,9 @@ public class EpisodeFragment extends AbsFragment {
     private SuperVideoPlayer svp;
     private EudemonTextView etv;
 
-    // 存储点赞的状态
+    /**
+     * 存储点赞的状态
+     */
     private boolean isZan;
     private String zanCount, noZanCount;
     private String starCount, noStarCount;
@@ -62,6 +73,8 @@ public class EpisodeFragment extends AbsFragment {
     private String detailUrl, detailTitle;
     private LiteOrmBean liteOrmBean;
     private String imgUrl;
+    private String authorImg;
+
 
     public static EpisodeFragment newInstance(int epiKey) {
 
@@ -98,6 +111,7 @@ public class EpisodeFragment extends AbsFragment {
         playIv = byView(R.id.epi_play_iv);
         svp = byView(R.id.epi_video_player);
         etv = byView(R.id.epi_shs_etv);
+        zhuijuBtn = byView(R.id.epi_zhuiju_btn);
     }
 
     @Override
@@ -106,10 +120,35 @@ public class EpisodeFragment extends AbsFragment {
         Bundle bundle = getArguments();
         key = bundle.getInt("key") + "";
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                doAsyncPost();
+            }
+        }).start();
 
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getImgUrl(EBAuthorImgEntity entity) {
+        authorImg = entity.getAuthorImgUrl();
     }
 
     private void setOnClick() {
+        /**
+         * 追剧按钮的点击事件
+         */
+        zhuijuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goTo(ChaseEpiActivity.class);
+            }
+        });
+
+        /**
+         * 播放按钮的点击事件
+         */
         playIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +166,9 @@ public class EpisodeFragment extends AbsFragment {
             isZan = true;
         }
 
+        /**
+         * 点赞按钮的点击事件
+         */
         zanLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +184,9 @@ public class EpisodeFragment extends AbsFragment {
             }
         });
 
+        /**
+         * 收藏按钮的点击事件
+         */
         starLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +205,10 @@ public class EpisodeFragment extends AbsFragment {
 
             }
         });
+
+        /**
+         * 分享按钮的点击事件
+         */
         shareLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +291,7 @@ public class EpisodeFragment extends AbsFragment {
                 shareTv.setText(datas.getPlayState().getShareNums() + "");
 //                starTv.setText(datas.getPlayState().getLikeNums() + "");
                 ImageLoaderTool.loadImage(datas.getCoverUrl(), titleIv);
-                ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl(), epiCiv);
+                ImageLoaderTool.loadImage(authorImg, epiCiv);
                 ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl(), oneCiv);
                 ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(1).getPapaHeadImgUrl(), twoCiv);
                 ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(2).getPapaHeadImgUrl(), threeCiv);
@@ -253,13 +302,8 @@ public class EpisodeFragment extends AbsFragment {
     });
 
     @Override
-    public void onResume() {
-        super.onResume();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                doAsyncPost();
-            }
-        }).start();
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
