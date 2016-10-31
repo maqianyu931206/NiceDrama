@@ -1,24 +1,18 @@
 package com.maqianyu.nicedrama.video.subfragment;
 
-import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.util.Log;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.widget.MediaController;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
@@ -100,7 +94,25 @@ public class NENewsVideoFragment extends AbsFragment {
         adapter = new NENewsAdapter(context);
         listView.setAdapter(adapter);
 
+        setBottomPlay();
 
+        // 下拉刷新
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doGet();
+                    }
+                }).start();
+                swipe.setRefreshing(false);
+            }
+        });
+
+    }
+
+    private void setBottomPlay() {
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -132,20 +144,6 @@ public class NENewsVideoFragment extends AbsFragment {
                 } else {
                     svp.setVisibility(View.GONE);
                 }
-            }
-        });
-
-        // 下拉刷新
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        doGet();
-                    }
-                }).start();
-                swipe.setRefreshing(false);
             }
         });
     }
@@ -183,5 +181,10 @@ public class NENewsVideoFragment extends AbsFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().isRegistered(this);
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
     }
 }

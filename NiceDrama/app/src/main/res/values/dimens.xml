@@ -18,18 +18,18 @@
 
 
     <!--设置页面-->
-        <!--语音页面-->
+    <!--语音页面-->
     <!-- 分割线高度 -->
     <dimen name="line_height">1dp</dimen>
     <dimen name="margin_">10dp</dimen>
     <dimen name="pading_">5dp</dimen>
     <dimen name="btn_size">22sp</dimen>
     <dimen name="txt_size">18sp</dimen>
-       <!--语音页面-->
+    <!--语音页面-->
     <!--设置页面-->
 
     <!--视频界面-->
-       <!--网易视频界面-->
+    <!--网易视频界面-->
     <!-- MEDIA CONTROLLER -->
     <dimen name="media_controller_text_size">14sp</dimen>
     <dimen name="media_controller_seekbar_width">32dip</dimen>
@@ -39,7 +39,7 @@
     <dimen name="media_controller_view_height">48dip</dimen>
     <dimen name="media_controller_button_height">52dip</dimen>
     <dimen name="media_controller_button_width">71dip</dimen>
-       <!--网易视频界面-->
+    <!--网易视频界面-->
     <!--视频界面-->
 
     <!--剧集视频-->

@@ -41,6 +41,7 @@ public class EudemonTextView extends TextView {
         paint.setStrokeWidth(10);
         canvas.rotate(-45);
         canvas.drawRect(rect, paint);
+        canvas.save();
         canvas.restore();
         Path path = new Path();
         path.moveTo(10f, (float)(height/2));
