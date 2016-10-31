@@ -1,8 +1,12 @@
 package com.maqianyu.nicedrama;
 
+import android.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -51,6 +55,18 @@ public class MainActivity extends AbsActivity {
             }
         });
         radioGroup.check(R.id.main_map_rbt);
+        int id = getIntent().getIntExtra("id", 0);
+        String a = getIntent().getStringExtra("name");
+        if (id==1) {
+            Fragment fragmen = new Fragment();
+            android.app.FragmentManager fmanger =getFragmentManager();
+            android.app.FragmentTransaction ftran =fmanger.beginTransaction();
+            ftran.replace(R.id.frameLayout,fragmen);
+            ftran.commit();
+            radioGroup.check(R.id.main_my_rbt);
+        }
+
+
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

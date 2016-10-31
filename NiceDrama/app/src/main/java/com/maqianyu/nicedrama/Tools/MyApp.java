@@ -16,6 +16,8 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
 
+import cn.smssdk.SMSSDK;
+
 /**
  * Created by dllo on 16/10/20.
  * @author  庞美
@@ -50,7 +52,7 @@ public class MyApp extends Application {
         ImageLoader.getInstance().init(config);
         // 如果不想修改缓存路径,内存磁盘等缓存内容,可以使用默认的
 //        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-
+        SMSSDK.initSDK(this, "185c379681eb8", "034e384c1d8def59d9ca92a58fa4a3d5");
 
     }
 

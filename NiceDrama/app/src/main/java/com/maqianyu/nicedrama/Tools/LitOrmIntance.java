@@ -4,6 +4,7 @@ import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.assit.QueryBuilder;
 import com.litesuits.orm.db.assit.WhereBuilder;
 import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
+import com.maqianyu.nicedrama.myset.bean.LiteOrmLogInBean;
 
 import java.util.List;
 
@@ -57,4 +58,39 @@ public class LitOrmIntance {
         lb.where("title = ?", new Object[]{title});
         return  liteOrm.query(lb);
     }
+    /*************登录*******************/
+    /**
+     * 插入一条数据
+     */
+    public void insert(LiteOrmLogInBean sq) {
+        liteOrm.insert(sq);
+    }
+    /**
+     * 根据条件查询
+     */
+    public List<LiteOrmLogInBean> queryByName(String name) {
+        QueryBuilder<LiteOrmLogInBean> qb = new QueryBuilder<>(LiteOrmLogInBean.class);
+        qb.where("name = ?", name);
+        return liteOrm.query(qb);
+    }
+
+    /**
+     * 根据电话号码查询
+     * @param number
+     * @return
+     */
+    public List<LiteOrmLogInBean> queryByNumber(String number) {
+        QueryBuilder<LiteOrmLogInBean> qb = new QueryBuilder<>(LiteOrmLogInBean.class);
+        qb.where("number = ?", number);
+        return liteOrm.query(qb);
+    }
+    /**
+     * 按条件删除
+     */
+    public void deleteByName(String name) {
+        WhereBuilder wb = new WhereBuilder(LiteOrmLogInBean.class);
+        wb.where("name = ?", name);
+        liteOrm.delete(wb);
+    }
+
 }
