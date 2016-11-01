@@ -19,7 +19,6 @@ import com.maqianyu.nicedrama.Tools.ImageLoaderTool;
 import com.maqianyu.nicedrama.Tools.LitOrmIntance;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
 import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
-import com.maqianyu.nicedrama.video.ChaseEpiActivity;
 import com.maqianyu.nicedrama.video.Entity.EBAuthorImgEntity;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
@@ -142,7 +141,7 @@ public class EpisodeFragment extends AbsFragment {
         zhuijuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goTo(ChaseEpiActivity.class);
+
             }
         });
 
