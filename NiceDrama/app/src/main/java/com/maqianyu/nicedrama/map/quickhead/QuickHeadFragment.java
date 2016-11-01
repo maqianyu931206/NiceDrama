@@ -1,10 +1,7 @@
 package com.maqianyu.nicedrama.map.quickhead;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,12 +12,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
@@ -31,31 +24,24 @@ import com.maqianyu.nicedrama.Tools.Values;
 import com.maqianyu.nicedrama.map.graph.ChartActivity;
 import com.maqianyu.nicedrama.map.map_aty.MapActivity;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * @auther 马迁宇对你说!
+ * 快手页面的Fragment
  */
-
 public class QuickHeadFragment extends AbsFragment {
     private ArcMenu arcMenu;
     private RecyclerView recyclerView;
     private QuickRvAdapter quickRvAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private OkHttpClient okHttpClient;
-    private List<Bean.FeedsBean> datas;
-    private Bean bean;
+    private List<QuickHeadBean.FeedsBean> datas;
+    private QuickHeadBean bean;
     private int mLastVisibleItemPosition = 0;
     private LinearLayout linearLayout;
     private StaggeredGridLayoutManager manager;
@@ -189,7 +175,7 @@ public class QuickHeadFragment extends AbsFragment {
             public void onResponse(Object response) {
                 String resultStr = response.toString();
                 Gson gson = new Gson();
-                bean = gson.fromJson(resultStr, Bean.class);
+                bean = gson.fromJson(resultStr, QuickHeadBean.class);
                 datas = bean.getFeeds();
                 handler.sendEmptyMessageDelayed(1, 1500);
             }
@@ -202,47 +188,45 @@ public class QuickHeadFragment extends AbsFragment {
             @Override
             public void onItemClick(View view, int position) {
                 if (position == 0) {
-                    Intent intent = new Intent(); //调用照相机
+                    //调用照相机
+                    Intent intent = new Intent();
                     intent.setAction("android.media.action.STILL_IMAGE_CAMERA");
                     startActivity(intent);
                     ((Activity) context).overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 }
                 if (position == 1) {
+                    // 到地图页面
                     Intent intent = new Intent(context, MapActivity.class);
                     startActivity(intent);
                     ((Activity) context).overridePendingTransition(R.anim.scale_translate, R.anim.my_alpha_action);
-
                 }
                 if (position == 2) {
                     // 跳转到联系人界面
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.ContactsContract.Contacts.CONTENT_URI);
                     startActivityForResult(intent, 1);
                     ((Activity) context).overridePendingTransition(R.anim.slide_left, R.anim.slide_right);
-
                 }
                 if (position == 3) {
+                    //跳转到本地音乐
                     Intent intent = new Intent("android.intent.action.MUSIC_PLAYER");
                     startActivity(intent);
                     ((Activity) context).overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-
                 }
                 if (position == 4) {
+                    //到图形绘制页面
                     Intent intent = new Intent(context, ChartActivity.class);
                     startActivity(intent);
                     ((Activity) context).overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-
-
                 }
                 if (position == 5) {
+                    //调用系统短信页面
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setType("vnd.android-dir/mms-sms");
                     startActivity(intent);
                     ((Activity) context).overridePendingTransition(R.anim.scale_rotate, R.anim.my_alpha_action);
-
                 }
             }
         });
     }
-
 
 }

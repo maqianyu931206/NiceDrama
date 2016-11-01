@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/10/24.
- *ww我的收藏页面
+ *我的收藏页面
  * @author 马迁宇
  */
 public class CollectionActivity extends AbsActivity {

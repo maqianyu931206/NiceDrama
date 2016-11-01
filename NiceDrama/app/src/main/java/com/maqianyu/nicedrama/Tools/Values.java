@@ -71,26 +71,6 @@ public class Values {
     public static final String QUICK_KEY9 = "sig";
     public static final String QUICK_VALUE9 = "decffcca5ed8febe5390ec5f597e13e7";
 
-    // 快手详情接口
-    public static final String QUICK_INFO_KEY1 = "order";
-    public static final String QUICK_INFO_VALUE1 = "desc";
-    public static final String QUICK_INFO_KEY2 = "token";
-    public static final String QUICK_INFO_VALUE2 = "";
-    public static final String QUICK_INFO_KEY3 = "client_key";
-    public static final String QUICK_INFO_VALUE3 = "3c2cd3f3";
-    public static final String QUICK_INFO_KEY4 = "photo_id";
-    public static final String QUICK_INFO_VALUE4 = "1184787381";
-    public static final String QUICK_INFO_KEY5 = "user_id";
-    public static final String QUICK_INFO_VALUE5 = "8348534";
-    public static final String QUICK_INFO_KEY6 = "pcursor";
-    public static final String QUICK_INFO_VALUE6 = "";
-    public static final String QUICK_INFO_KEY7 = "os";
-    public static final String QUICK_INFO_VALUE7 = "android";
-    public static final String QUICK_INFO_KEY8 = "sig";
-    public static final String QUICK_INFO_VALUE8 = "3b2af2e5a17e82b322408c889a665a52";
-    //详情接口
-    public static final String QUICK_INFO_URL = "http://api.ksapisrv.com/rest/photo/comment/list?lat=38.88336&lon=121.544832&ver=4.51&ud=0&sys=ANDROID_5.1&c=HUAWEI&oc=HUAWEI&net=WIFI&did=ANDROID_8321e8d1b9b162c2&mod=HUAWEI%28HUAWEI+RIO-AL00%29&app=0&language=zh-cn&country_code=CN&appver=4.51.1.2405 ";
-
 
     /**
      * 我的   页面的常量
@@ -100,7 +80,6 @@ public class Values {
     public static final int REQUEST_CODE_SCAN = 0x0000;
     public static final String DECODED_CONTENT_KEY = "codedContent";
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
-
     /**
      * 下拉刷新的常量
      */

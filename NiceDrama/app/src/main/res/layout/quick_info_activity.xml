@@ -5,8 +5,10 @@
     android:layout_height="match_parent">
     <include layout="@layout/include_view"/>
 
-    <ListView
-        android:id="@+id/item_quick_listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+    <com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer
+        android:id="@+id/quick_info_superPlayer"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_height="500dp" />
 </LinearLayout>

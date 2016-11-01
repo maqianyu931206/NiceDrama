@@ -56,11 +56,6 @@ import okhttp3.OkHttpClient;
 public class QuickInfoActivity extends AbsActivity {
     private SuperVideoPlayer superVideoPlayer;
     private String url;
-    private ListView listView;
-    private QuickInfoBean bean;
-    private List<QuickInfoBean.CommentsBean> datas;
-    private QuickInfoLvAdapter quickInfoLvAdapter;
-    private OkHttpClient okHttpClient;
     public static String QUICK_URL = "url";
     public static String QUICK_TITLE = "title";
     public static String QUICK_IMGURL = "imgUrl";
@@ -73,7 +68,6 @@ public class QuickInfoActivity extends AbsActivity {
     private Broad broad;
     long firClick;
     long secClick;
-    private View viewvvv;
 
     @Override
     protected int setLayout() {
@@ -82,11 +76,7 @@ public class QuickInfoActivity extends AbsActivity {
 
     @Override
     protected void initViews() {
-        listView = byView(R.id.item_quick_listView);
-        View view = LayoutInflater.from(this).inflate(R.layout.quickinfoheadview, null);
-        superVideoPlayer = (SuperVideoPlayer) view.findViewById(R.id.quick_info_superPlayer);
-        listView.addHeaderView(view);
-        viewvvv = byView(R.id.view);
+        superVideoPlayer =byView(R.id.quick_info_superPlayer);
     }
 
     @Override
@@ -95,8 +85,6 @@ public class QuickInfoActivity extends AbsActivity {
         url = intent.getStringExtra(QUICK_URL);
         title = intent.getStringExtra(QUICK_TITLE);
         imgUrl = intent.getStringExtra(QUICK_IMGURL);
-        quickInfoLvAdapter = new QuickInfoLvAdapter(this);
-        listView.setAdapter(quickInfoLvAdapter);
         // 判断WIFI状态
         ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
@@ -145,32 +133,10 @@ public class QuickInfoActivity extends AbsActivity {
                 superVideoPlayer.loadAndPlay(Uri.parse(url), 0);
             }
         });
-        okHttpClient = new OkHttpClient();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                doAsyncPost();
-            }
-        }).start();
         //标题栏设置
         titleset();
         // 手势滑动监听,右滑动退出
         gestureDetectorclick();
-
-        class onDoubleClick implements View.OnTouchListener {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEvent.ACTION_DOWN == event.getAction()) {
-                    firClick = secClick;
-                    secClick = (int) System.currentTimeMillis();
-                    if (secClick - firClick < 1000) {
-                        Toast.makeText(QuickInfoActivity.this, "双击", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                return false;
-            }
-        }
-
     }
 
     //标题栏设置
@@ -202,7 +168,6 @@ public class QuickInfoActivity extends AbsActivity {
                         shareclick(shareimg);
                         // 收藏按钮
                         saveclick(saveimg);
-
                     }
                 }).setViewColor(Color.YELLOW);
 
@@ -212,15 +177,15 @@ public class QuickInfoActivity extends AbsActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
+                // 双击收藏
                 if (e.getAction() == MotionEvent.ACTION_DOWN) {
                     firClick = secClick;
                     secClick = System.currentTimeMillis();
                     if (secClick - firClick < 1000) {
                         LiteOrmBean liteOrmBean = new LiteOrmBean(title, imgUrl, url);
                         LitOrmIntance.getIntance().insertOne(liteOrmBean);
-                        Toast.makeText(QuickInfoActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_success), Toast.LENGTH_SHORT).show();
                         a = true;
-
                     }
                 }
                 return true;
@@ -244,7 +209,7 @@ public class QuickInfoActivity extends AbsActivity {
             public void onLongPress(MotionEvent e) {
                 LitOrmIntance.getIntance().deleteOne(title);
                 saveimg.setImageResource(R.mipmap.save);
-                Toast.makeText(QuickInfoActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_fail), Toast.LENGTH_SHORT).show();
                 a = false;
             }
 
@@ -274,12 +239,12 @@ public class QuickInfoActivity extends AbsActivity {
                     LiteOrmBean liteOrmBean = new LiteOrmBean(title, imgUrl, url);
                     LitOrmIntance.getIntance().insertOne(liteOrmBean);
                     saveimg.setImageResource(R.mipmap.save1);
-                    Toast.makeText(QuickInfoActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_success), Toast.LENGTH_SHORT).show();
                     a = true;
                 } else {
                     LitOrmIntance.getIntance().deleteOne(title);
                     saveimg.setImageResource(R.mipmap.save);
-                    Toast.makeText(QuickInfoActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_fail), Toast.LENGTH_SHORT).show();
                     a = false;
                 }
             }
@@ -326,45 +291,6 @@ public class QuickInfoActivity extends AbsActivity {
         });
     }
 
-    //网络请求
-    private void doAsyncPost() {
-        Map<String, String> data = new ArrayMap<>();
-        data.put(Values.QUICK_INFO_KEY1, Values.QUICK_INFO_VALUE1);
-        data.put(Values.QUICK_INFO_KEY2, Values.QUICK_INFO_VALUE2);
-        data.put(Values.QUICK_INFO_KEY3, Values.QUICK_INFO_VALUE3);
-        data.put(Values.QUICK_INFO_KEY4, Values.QUICK_INFO_VALUE4);
-        data.put(Values.QUICK_INFO_KEY5, Values.QUICK_INFO_VALUE5);
-        data.put(Values.QUICK_INFO_KEY6, Values.QUICK_INFO_VALUE6);
-        data.put(Values.QUICK_INFO_KEY7, Values.QUICK_INFO_VALUE7);
-        data.put(Values.QUICK_INFO_KEY8, Values.QUICK_INFO_VALUE8);
-        OkHttpInstance.postAsyn(Values.QUICK_INFO_URL, new OkHttpInstance.ResultCallback() {
-            @Override
-            public void onError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(Object response) {
-                String resultStr = response.toString();
-                Gson gson = new Gson();
-                bean = gson.fromJson(resultStr, QuickInfoBean.class);
-                datas = bean.getComments();
-                handler.sendEmptyMessage(1);
-
-            }
-        }, data);
-
-    }
-
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            if (msg.what == 1) {
-//                quickInfoLvAdapter.setDatas(datas);
-            }
-            return false;
-        }
-    });
 
     // 定义广播接受者
     class Broad extends BroadcastReceiver {

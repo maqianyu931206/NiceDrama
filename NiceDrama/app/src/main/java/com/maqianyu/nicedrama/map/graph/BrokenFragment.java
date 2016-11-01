@@ -3,6 +3,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -35,7 +36,6 @@ public class BrokenFragment extends AbsFragment {
     private Handler handler;
     private TextView  chuanyiTv, ganmaoTv, kongtiaoTv, xicheTv, yundongTv, citytime,bianhuaTv;
     private ExpandableListView expandableListView;
-    private ExpandableListView expandList;
     private List<String> groupData;//group的数据源
     private Map<Integer, List<ChildItem>> childData;//child的数据源
     private MyBaseExpandableListAdapter myAdapter;
@@ -43,6 +43,9 @@ public class BrokenFragment extends AbsFragment {
     private String get_url;
     private String str = "大连";
     private int a = 0;
+    private static final int MESSAGE_ONE = 0x101;
+    private static final int MESSAGE_TWO = 0x102;
+
     public static BrokenFragment newInstance() {
         Bundle args = new Bundle();
         BrokenFragment fragment = new BrokenFragment();
@@ -80,7 +83,7 @@ public class BrokenFragment extends AbsFragment {
 
             @Override
             public boolean handleMessage(Message msg) {
-                if (msg.what == 101) {
+                if (msg.what == MESSAGE_ONE) {
                     datas = (List<BrokenBean.ResultBean.DataBean.WeatherBean>) msg.obj;
                     brokenView.setPopTitle(getResources().getString(R.string.chart_dangqian));
                     List<String> xList = new ArrayList<>();
@@ -96,29 +99,28 @@ public class BrokenFragment extends AbsFragment {
                     yList.add(datas.get(3).getInfo().getDay().get(2) + "");
                     yList.add(datas.get(4).getInfo().getDay().get(2) + "");
                     brokenView.setData(xList, yList);
-                    bianhuaTv.setText("温度变化:  " +
+                    bianhuaTv.setText( getResources().getString(R.string.chart_line_change) + ":  " +
                             datas.get(0).getInfo().getDay().get(2) +"°C , "+
                     datas.get(1).getInfo().getDay().get(2) + "°C , "+
                     datas.get(2).getInfo().getDay().get(2) + "°C , "+
                     datas.get(3).getInfo().getDay().get(2) + "°C , "+
                     datas.get(4).getInfo().getDay().get(2)  + "°C  ");
                 }
-                if (msg.what == 102) {
+                if (msg.what == MESSAGE_TWO) {
                     BrokenBean.ResultBean.DataBean brokenBean = (BrokenBean.ResultBean.DataBean) msg.obj;
                     chuanyiTv.setText(brokenBean.getLife().getInfo().getChuanyi().get(1));
                     ganmaoTv.setText(brokenBean.getLife().getInfo().getGanmao().get(1));
                     kongtiaoTv.setText(brokenBean.getLife().getInfo().getKongtiao().get(1));
                     xicheTv.setText(brokenBean.getLife().getInfo().getXiche().get(1));
                     yundongTv.setText(brokenBean.getLife().getInfo().getYundong().get(1));
-                    citytime.setText(brokenBean.getRealtime().getDate() + "--" + brokenBean.getRealtime().getTime());
+                    citytime.setText(brokenBean.getRealtime().getDate());
                 }
                 return false;
             }
         });
-
-
+        //二级列表设置数据
         expanlistviewsetData();
-
+        //父菜单点击事件
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -151,6 +153,11 @@ public class BrokenFragment extends AbsFragment {
 
             }
         });
+
+
+
+
+        //子菜单点击事件
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -161,10 +168,18 @@ public class BrokenFragment extends AbsFragment {
                         expanlistviewsetData();
                         groupData.set(0,str);
                         getData();
+                        int groupheight = 0;
+                        View listItem = myAdapter.getGroupView(0, true, null, expandableListView);
+                        listItem.measure(0, 0);
+                        groupheight += listItem.getMeasuredHeight();
+                        ViewGroup.LayoutParams params = expandableListView.getLayoutParams();
+                        params.height = groupheight + (expandableListView.getDividerHeight() * (myAdapter.getGroupCount() - 1));
+                        expandableListView.setLayoutParams(params);
+                        a = 0;
                         break;
                     }
                 }
-                return true;
+                return expandableListView.callOnClick();
             }
         });
     }
@@ -173,12 +188,12 @@ public class BrokenFragment extends AbsFragment {
         groupData = new ArrayList<String>();
         groupData.add(str);
         List<ChildItem> childerItem = new ArrayList<>();
-        ChildItem childerData1 = new ChildItem("沈阳");
-        ChildItem childerData2 = new ChildItem("北京");
-        ChildItem childerData3 = new ChildItem("温州");
-        ChildItem childerData4 = new ChildItem("上海");
-        ChildItem childerData5 = new ChildItem("青岛");
-        ChildItem childerData6 = new ChildItem("重庆");
+        ChildItem childerData1 = new ChildItem(getResources().getString(R.string.chart_line_shenyang));
+        ChildItem childerData2 = new ChildItem(getResources().getString(R.string.chart_line_beijing));
+        ChildItem childerData3 = new ChildItem(getResources().getString(R.string.chart_line_wenzhou));
+        ChildItem childerData4 = new ChildItem(getResources().getString(R.string.chart_line_shanghai));
+        ChildItem childerData5 = new ChildItem(getResources().getString(R.string.chart_line_qingdao));
+        ChildItem childerData6 = new ChildItem(getResources().getString(R.string.chart_line_chongqing));
         childerItem.add(childerData1);
         childerItem.add(childerData2);
         childerItem.add(childerData3);
@@ -197,7 +212,6 @@ public class BrokenFragment extends AbsFragment {
         try {
             strUTF8 = URLDecoder.decode(str, "UTF-8");
             get_url = "http://op.juhe.cn/onebox/weather/query?cityname=" + strUTF8 + "&key=ee37a0f2b6df91221e66c8e2d8fc7b2a";
-            Log.d("hhh", strUTF8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -213,14 +227,15 @@ public class BrokenFragment extends AbsFragment {
                 BrokenBean brokenBean = JSON.parseObject(ss, BrokenBean.class);
                 datas = brokenBean.getResult().getData().getWeather();
                 Message message = new Message();
-                message.what = 101;
+                message.what = MESSAGE_ONE;
                 message.obj = datas;
                 handler.sendMessage(message);
                 Message message2 = new Message();
-                message2.what = 102;
+                message2.what = MESSAGE_TWO;
                 message2.obj = brokenBean.getResult().getData();
                 handler.sendMessage(message2);
             }
         });
     }
+
 }
