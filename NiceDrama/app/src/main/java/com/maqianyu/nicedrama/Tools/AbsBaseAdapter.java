@@ -70,7 +70,6 @@ public abstract class AbsBaseAdapter<T, VH extends AbsBaseAdapter.BaseViewHolder
 
     public static class BaseViewHolder {
         protected View itemView;
-
         protected BaseViewHolder(View itemView) {
             this.itemView = itemView;
         }

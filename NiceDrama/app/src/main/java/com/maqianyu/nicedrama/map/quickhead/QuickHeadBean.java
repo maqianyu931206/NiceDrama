@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by dllo on 16/10/22.
  */
-public class Bean {
+public class QuickHeadBean {
 
     private int result;
     private String pcursor;
@@ -54,17 +54,17 @@ public class Bean {
 
     private List<FeedsBean> feeds;
 
-    public static Bean objectFromData(String str) {
+    public static QuickHeadBean objectFromData(String str) {
 
-        return new Gson().fromJson(str, Bean.class);
+        return new Gson().fromJson(str, QuickHeadBean.class);
     }
 
-    public static Bean objectFromData(String str, String key) {
+    public static QuickHeadBean objectFromData(String str, String key) {
 
         try {
             JSONObject jsonObject = new JSONObject(str);
 
-            return new Gson().fromJson(jsonObject.getString(str), Bean.class);
+            return new Gson().fromJson(jsonObject.getString(str), QuickHeadBean.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -72,19 +72,19 @@ public class Bean {
         return null;
     }
 
-    public static List<Bean> arrayBeanFromData(String str) {
+    public static List<QuickHeadBean> arrayBeanFromData(String str) {
 
-        Type listType = new TypeToken<ArrayList<Bean>>() {
+        Type listType = new TypeToken<ArrayList<QuickHeadBean>>() {
         }.getType();
 
         return new Gson().fromJson(str, listType);
     }
 
-    public static List<Bean> arrayBeanFromData(String str, String key) {
+    public static List<QuickHeadBean> arrayBeanFromData(String str, String key) {
 
         try {
             JSONObject jsonObject = new JSONObject(str);
-            Type listType = new TypeToken<ArrayList<Bean>>() {
+            Type listType = new TypeToken<ArrayList<QuickHeadBean>>() {
             }.getType();
 
             return new Gson().fromJson(jsonObject.getString(str), listType);
