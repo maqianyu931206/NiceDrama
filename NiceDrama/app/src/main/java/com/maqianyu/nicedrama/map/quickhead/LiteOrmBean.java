@@ -7,6 +7,7 @@ import com.litesuits.orm.db.enums.AssignType;
 
 /**
  * Created by dllo on 16/10/25.
+ * 收藏的实体类
  */
 @Table("nicedrama")
 public class LiteOrmBean {

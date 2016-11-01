@@ -2,7 +2,6 @@ package com.maqianyu.nicedrama.map.quickhead;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,7 @@ import android.widget.TextView;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.ImageLoaderTool;
 import com.maqianyu.nicedrama.Tools.ScreenSizeUtils;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +25,7 @@ public class QuickRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private LoadStatus mLoadStatus = LoadStatus.CLICK_LOAD_MORE;//上拉加载的状态
     private static final int VIEW_TYPE_FOOTER = 0;
     private static final int VIEW_TYPE_ITEM = 1;
-    private List<Bean.FeedsBean> datas;
+    private List<QuickHeadBean.FeedsBean> datas;
     private Context context;
     private RecyclerInstance recyclerInstance;
 
@@ -36,7 +33,7 @@ public class QuickRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.recyclerInstance = recyclerInstance;
     }
 
-    public void setDatas(List<Bean.FeedsBean> datas) {
+    public void setDatas(List<QuickHeadBean.FeedsBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }

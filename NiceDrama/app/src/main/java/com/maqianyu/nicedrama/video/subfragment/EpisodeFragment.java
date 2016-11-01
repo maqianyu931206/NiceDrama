@@ -22,30 +22,20 @@ import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
 import com.maqianyu.nicedrama.video.Entity.EBAuthorImgEntity;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
-import com.maqianyu.nicedrama.video.Entity.StarEntity;
 import com.maqianyu.nicedrama.video.PlayVideoActivity;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by dllo on 16/10/22.
@@ -136,6 +126,7 @@ public class EpisodeFragment extends AbsFragment {
 
     private void setOnClick() {
         /**
+<<<<<<< HEAD
          * 追剧按钮的点击事件
          */
         zhuijuBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +137,8 @@ public class EpisodeFragment extends AbsFragment {
         });
 
         /**
+=======
+>>>>>>> 17e5e580a4320928819f70424b9731e2bef361b7
          * 播放按钮的点击事件
          */
         playIv.setOnClickListener(new View.OnClickListener() {

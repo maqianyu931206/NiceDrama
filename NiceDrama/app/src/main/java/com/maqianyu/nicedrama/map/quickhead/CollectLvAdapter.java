@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/10/25.
+ * 我的收藏页面listView的适配器
  */
 public class CollectLvAdapter extends BaseAdapter {
     private Context context;
@@ -63,13 +64,12 @@ public class CollectLvAdapter extends BaseAdapter {
     class MyCollViewHolder {
         ImageView imageView;
         TextView textView;
-
         public MyCollViewHolder(View view) {
-
             imageView = (ImageView) view.findViewById(R.id.save_item_img);
             textView = (TextView) view.findViewById(R.id.save_item_tv);
         }
     }
+    //删除一条数据
     public void remove(LiteOrmBean liteOrmBean){
         datas.remove(liteOrmBean);
         notifyDataSetChanged();
