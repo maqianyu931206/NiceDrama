@@ -6,17 +6,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.widget.FrameLayout;
+import android.widget.RadioGroup;
 
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
-import com.maqianyu.nicedrama.video.adapter.VideoFraAdapter;
 import com.maqianyu.nicedrama.video.subfragment.NENewsVideoFragment;
 import com.maqianyu.nicedrama.video.subfragment.NiceDramaFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.maqianyu.nicedrama.video.subfragment.NicePlayFragment;
 
 /**
  * Created by dllo on 16/10/17.
@@ -24,11 +25,8 @@ import java.util.List;
  */
 public class VideoFragment extends AbsFragment{
 
-
-    private TabLayout videoTl;
-    private ViewPager videoVp;
-    private List<Fragment> fragments;
-    private VideoFraAdapter videoFraAdapter; // 视频界面的适配器
+    private RadioGroup radioGroup;
+    private FrameLayout frameLayout;
     private ProgressDialog dialog;
 
     public static VideoFragment newInstance() {
@@ -47,35 +45,34 @@ public class VideoFragment extends AbsFragment{
 
     @Override
     protected void initViews() {
-        videoTl = byView(R.id.fra_video_tl);
-        videoVp = byView(R.id.fra_video_vp);
+        frameLayout = byView(R.id.fra_video_fl);
+        radioGroup = byView(R.id.video_rg);
     }
 
     @Override
     protected void initDatas() {
-        fragments = new ArrayList<>();
-        buildFragments();
-        videoFraAdapter = new VideoFraAdapter(getChildFragmentManager(), fragments);
-
-        videoTl.setTabTextColors(Color.BLACK, Color.RED);
-        videoTl.setSelectedTabIndicatorColor(Color.RED);
-        videoTl.setTabMode(TabLayout.MODE_FIXED);
-        videoVp.setAdapter(videoFraAdapter);
-        videoTl.setupWithViewPager(videoVp);
-        setDatas();
-
         new TitleBuilder((Activity) context).setTitle("视频").setBackImgGone(true).setMoreImg(false);
 
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                FragmentManager fm = getChildFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                switch (checkedId) {
+                    case R.id.news_rb:
+                        ft.replace(R.id.fra_video_fl, NENewsVideoFragment.newInstance());
+                        break;
+                    case R.id.epi_rb:
+                        ft.replace(R.id.fra_video_fl, NiceDramaFragment.newInstance());
+                        break;
+                    case R.id.play_rb:
+                        ft.replace(R.id.fra_video_fl, NicePlayFragment.newInstance());
+                        break;
+                }
+                ft.commit();
+            }
+        });
+        radioGroup.check(R.id.news_rb);
     }
 
-    private void setDatas() {
-        for (int i = 0; i < fragments.size(); i++) {
-            videoTl.getTabAt(i).setText(context.getResources().getStringArray(R.array.tab_titles)[i]);
-        }
-    }
-
-    private void buildFragments() {
-        fragments.add(NENewsVideoFragment.newInstance());
-        fragments.add(NiceDramaFragment.newInstance());
-    }
 }
