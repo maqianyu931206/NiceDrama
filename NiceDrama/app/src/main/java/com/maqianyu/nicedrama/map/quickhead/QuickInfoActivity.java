@@ -89,7 +89,6 @@ public class QuickInfoActivity extends AbsActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            Toast.makeText(this, "Wifi状态", Toast.LENGTH_SHORT).show();
             // 设置视频播放
             superVideoPlayer.loadAndPlay(Uri.parse(url), 0);
         } else {
