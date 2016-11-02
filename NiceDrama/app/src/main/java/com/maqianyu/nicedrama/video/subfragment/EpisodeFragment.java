@@ -25,7 +25,6 @@ import com.maqianyu.nicedrama.Tools.Values;
 import com.maqianyu.nicedrama.video.PlayVideoActivity;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -44,7 +43,6 @@ public class EpisodeFragment extends AbsFragment {
 
     private TextView titleTv, descTv, totalTv, zanTv, shareTv, starTv;
     private ImageView titleIv, playIv, zanIv, starIv;
-    private Button zhuijuBtn;
     private LinearLayout zanLl, starLl, shareLl;
     private CircleImageView epiCiv, oneCiv, twoCiv, threeCiv;
     private EpisodeEntity.MovieDetailBean datas;
@@ -100,7 +98,6 @@ public class EpisodeFragment extends AbsFragment {
         playIv = byView(R.id.epi_play_iv);
         svp = byView(R.id.epi_video_player);
         etv = byView(R.id.epi_shs_etv);
-        zhuijuBtn = byView(R.id.epi_zhuiju_btn);
     }
 
     @Override
@@ -270,7 +267,6 @@ public class EpisodeFragment extends AbsFragment {
                 starCount = String.valueOf(datas.getPlayState().getLikeNums() + 1);
 
                 shareTv.setText(datas.getPlayState().getShareNums() + "");
-//                starTv.setText(datas.getPlayState().getLikeNums() + "");
                 ImageLoaderTool.loadImage(datas.getCoverUrl(), titleIv);
                 ImageLoaderTool.loadImage(authorImg, epiCiv);
                 ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl(), oneCiv);

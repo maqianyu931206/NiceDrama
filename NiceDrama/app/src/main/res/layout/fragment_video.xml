@@ -7,15 +7,45 @@
     <!--视频界面的布局-->
     <include layout="@layout/include_view"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/fra_video_vp"
+    <FrameLayout
+        android:id="@+id/fra_video_fl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"/>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/fra_video_tl"
+    <RadioGroup
+        android:id="@+id/video_rg"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/news_rb"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:text="看视频"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            />
+        <RadioButton
+            android:id="@+id/epi_rb"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:text="看剧集"
+            android:textSize="16sp"
+            android:gravity="center"/>
+        <RadioButton
+            android:id="@+id/play_rb"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:text="玩游戏"
+            android:textSize="16sp"
+            android:gravity="center"/>
+    </RadioGroup>
 </LinearLayout>
