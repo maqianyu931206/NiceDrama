@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:button="@null"
-            android:text="看视频"
+            android:text="视频看"
             android:textSize="16sp"
             android:gravity="center"
             android:layout_height="match_parent"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:button="@null"
-            android:text="看剧集"
+            android:text="剧集宝"
             android:textSize="16sp"
             android:gravity="center"/>
         <RadioButton
@@ -44,7 +44,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:button="@null"
-            android:text="玩游戏"
+            android:text="一百块"
             android:textSize="16sp"
             android:gravity="center"/>
     </RadioGroup>

@@ -94,7 +94,7 @@ public class NENewsVideoFragment extends AbsFragment {
         adapter = new NENewsAdapter(context);
         listView.setAdapter(adapter);
 
-        setBottomPlay();
+//        setBottomPlay();
 
         // 下拉刷新
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

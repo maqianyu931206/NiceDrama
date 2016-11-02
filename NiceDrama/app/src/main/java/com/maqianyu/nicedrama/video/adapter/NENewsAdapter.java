@@ -122,7 +122,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
 //                        isPlay.put(position,true);
 
                         playVideo(myHolder, itemData, position);
-                        Toast.makeText(context, "Wifi状态", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "Wifi状态", Toast.LENGTH_SHORT).show();
                     }
                 });
 
