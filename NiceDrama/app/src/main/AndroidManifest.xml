@@ -51,8 +51,10 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme = "@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".lock.LockActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,10 +102,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".myset.ui.LogInActivity"/>
-        <activity android:name=".myset.ui.RegisterActivity"/>
+        <activity android:name=".myset.ui.LogInActivity" />
+        <activity android:name=".myset.ui.RegisterActivity" />
 
     </application>
+
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />

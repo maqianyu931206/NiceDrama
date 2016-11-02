@@ -59,7 +59,6 @@ public class ScanActivity extends AbsActivity {
                 //1  保存    2  扫描     3 生成     4写地址
                 if (pos == 1) {
                     saveQrCodePicture(bitmap);
-
                 } else if (pos == 2) {
                     Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
                     startActivityForResult(intent, Values.REQUEST_CODE_SCAN);
@@ -71,7 +70,6 @@ public class ScanActivity extends AbsActivity {
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
-
                 } else if (pos == 4) {
                     qrCodeUrl.setVisibility(View.VISIBLE);
                     qrCodeUrl.setText("");
@@ -87,7 +85,6 @@ public class ScanActivity extends AbsActivity {
         // 扫描二维码/条码回传
         if (requestCode == Values.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (data != null) {
-
                 String content = data.getStringExtra(Values.DECODED_CONTENT_KEY);
                 Bitmap bitmap = data.getParcelableExtra(Values.DECODED_BITMAP_KEY);
                 qrCodeImage.setImageBitmap(bitmap);
