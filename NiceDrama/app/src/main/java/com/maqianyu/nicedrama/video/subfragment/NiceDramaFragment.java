@@ -1,8 +1,5 @@
 package com.maqianyu.nicedrama.video.subfragment;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,12 +7,8 @@ import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,12 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by dllo on 16/10/17.
@@ -96,6 +83,13 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
 
     @Override
     protected void initDatas() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                netDatas();
+            }
+        }).start();
+
         adapter = new EpisodeVpAdapter(getChildFragmentManager());
         epiVp.setAdapter(adapter);
 
@@ -134,22 +128,6 @@ public class NiceDramaFragment extends AbsFragment implements ObservableScrollVi
             scrollTitleTv.setBackgroundColor(Color.argb((int) alpha, 255, 29, 26));
             scrollTitleTv.setText(titleName);
             scrollTitleTv.setVisibility(View.VISIBLE);
-        }
-    }
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    netDatas();
-                }
-            }).start();
-        } else {
-
         }
     }
 

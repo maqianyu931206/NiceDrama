@@ -3,8 +3,9 @@
 
     <!--视频界面-->
     <string-array name="tab_titles">
-        <item>新闻看</item>
-        <item>剧好看</item>
+        <item>看新闻</item>
+        <item>看剧集</item>
+        <item>玩游戏</item>
     </string-array>
     <!--视频界面-->
     <string name="action_settings">Settings</string>

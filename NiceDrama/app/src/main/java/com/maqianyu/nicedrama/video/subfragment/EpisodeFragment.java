@@ -22,30 +22,19 @@ import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
 import com.maqianyu.nicedrama.video.Entity.EBAuthorImgEntity;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
-import com.maqianyu.nicedrama.video.Entity.StarEntity;
 import com.maqianyu.nicedrama.video.PlayVideoActivity;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.EudemonTextView;
 import com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by dllo on 16/10/22.
@@ -54,7 +43,6 @@ public class EpisodeFragment extends AbsFragment {
 
     private TextView titleTv, descTv, totalTv, zanTv, shareTv, starTv;
     private ImageView titleIv, playIv, zanIv, starIv;
-    private Button zhuijuBtn;
     private LinearLayout zanLl, starLl, shareLl;
     private CircleImageView epiCiv, oneCiv, twoCiv, threeCiv;
     private EpisodeEntity.MovieDetailBean datas;
@@ -110,7 +98,6 @@ public class EpisodeFragment extends AbsFragment {
         playIv = byView(R.id.epi_play_iv);
         svp = byView(R.id.epi_video_player);
         etv = byView(R.id.epi_shs_etv);
-        zhuijuBtn = byView(R.id.epi_zhuiju_btn);
     }
 
     @Override
@@ -280,7 +267,6 @@ public class EpisodeFragment extends AbsFragment {
                 starCount = String.valueOf(datas.getPlayState().getLikeNums() + 1);
 
                 shareTv.setText(datas.getPlayState().getShareNums() + "");
-//                starTv.setText(datas.getPlayState().getLikeNums() + "");
                 ImageLoaderTool.loadImage(datas.getCoverUrl(), titleIv);
                 ImageLoaderTool.loadImage(authorImg, epiCiv);
                 ImageLoaderTool.loadImage(datas.getPapaInfoLists().get(0).getPapaHeadImgUrl(), oneCiv);
