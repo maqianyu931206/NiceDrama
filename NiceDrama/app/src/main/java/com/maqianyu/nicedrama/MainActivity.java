@@ -83,7 +83,7 @@ public class MainActivity extends AbsActivity {
 
     public void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Toast.makeText(this, "再按一次退出剧好看", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "再按一次退出娱乐宝", Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
             finish();
