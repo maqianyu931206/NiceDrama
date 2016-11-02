@@ -116,7 +116,9 @@ public class EpisodeFragment extends AbsFragment {
             }
         }).start();
 
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -126,19 +128,6 @@ public class EpisodeFragment extends AbsFragment {
 
     private void setOnClick() {
         /**
-<<<<<<< HEAD
-         * 追剧按钮的点击事件
-         */
-        zhuijuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        /**
-=======
->>>>>>> 17e5e580a4320928819f70424b9731e2bef361b7
          * 播放按钮的点击事件
          */
         playIv.setOnClickListener(new View.OnClickListener() {
