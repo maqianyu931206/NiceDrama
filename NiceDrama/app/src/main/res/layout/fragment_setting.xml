@@ -6,26 +6,21 @@
     <include layout="@layout/include_view"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="170dp"
         android:background="@drawable/bg_profile">
         <ImageView
             android:id="@+id/sign_in_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/ig_profile_photo_default"/>
-        <TextView
-        android:id="@+id/user_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sign_in_img"
-        android:layout_centerHorizontal="true" />
         <TextView
             android:id="@+id/user_signin__tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录"
-            android:layout_below="@id/user_name_tv"
+            android:layout_margin="10dp"
+            android:layout_below="@id/sign_in_img"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
 

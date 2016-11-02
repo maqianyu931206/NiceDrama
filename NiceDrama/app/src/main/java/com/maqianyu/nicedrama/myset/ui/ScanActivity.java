@@ -7,16 +7,15 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.WriterException;
-import com.karics.library.zxing.android.CaptureActivity;
 import com.karics.library.zxing.encode.CodeCreator;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
 import com.maqianyu.nicedrama.Tools.Values;
-import com.maqianyu.nicedrama.myset.view.ArcMenuView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,11 +29,11 @@ import java.io.IOException;
  */
 public class ScanActivity extends AbsActivity {
     private Bitmap bitmap = null;
-
+    private TextView createTv;
     ImageView qrCodeImage;
     EditText qrCodeUrl;
 
-    private ArcMenuView arcMenuView;
+   
 
     @Override
     protected int setLayout() {
@@ -45,25 +44,18 @@ public class ScanActivity extends AbsActivity {
     protected void initViews() {
         qrCodeImage = byView(R.id.ECoder_image);
         qrCodeUrl = byView(R.id.ECoder_input);
-        arcMenuView = byView(R.id.arcmenu2);
+        createTv = byView(R.id.create_code);
 
     }
 
     @Override
     protected void initDatas() {
-
-        qrCodeUrl.setVisibility(View.INVISIBLE);
-        arcMenuView.setOnMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
+        
+        new TitleBuilder(this).setTitle(getResources().getString(R.string.create_code)).setBackImgGone(false).setMoreImg(false);
+        createTv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view, int pos) {
-                //1  保存    2  扫描     3 生成     4写地址
-                if (pos == 1) {
-                    saveQrCodePicture(bitmap);
-
-                } else if (pos == 2) {
-                    Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, Values.REQUEST_CODE_SCAN);
-                } else if (pos == 3) {
+            public void onClick(View v) {
+                if (createTv.getText().toString().equals(getResources().getString(R.string.create_code))){
                     String url = qrCodeUrl.getText().toString();
                     try {
                         bitmap = CodeCreator.createQRCode(url);
@@ -71,14 +63,16 @@ public class ScanActivity extends AbsActivity {
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
+                    createTv.setText(getResources().getString(R.string.create_save_img));
 
-                } else if (pos == 4) {
-                    qrCodeUrl.setVisibility(View.VISIBLE);
+                }else
+                if (createTv.getText().toString().equals(getResources().getString(R.string.create_save_img))){
+                    saveQrCodePicture(bitmap);
+                    createTv.setText(getResources().getString(R.string.create_code));
                     qrCodeUrl.setText("");
                 }
             }
         });
-        new TitleBuilder(this).setTitle("扫一扫").setBackImgGone(false).setMoreImg(false);
     }
 
     @Override

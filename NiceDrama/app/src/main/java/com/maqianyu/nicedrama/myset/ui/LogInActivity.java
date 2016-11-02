@@ -1,12 +1,11 @@
 package com.maqianyu.nicedrama.myset.ui;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import android.os.Message;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,21 +16,19 @@ import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.Tools.LitOrmIntance;
 import com.maqianyu.nicedrama.Tools.MD5Util;
-import com.maqianyu.nicedrama.Tools.ThreadPoolInstance;
 import com.maqianyu.nicedrama.Tools.TitleBuilder;
-import com.maqianyu.nicedrama.Tools.Values;
 import com.maqianyu.nicedrama.myset.bean.LiteOrmLogInBean;
-
-import java.util.List;
+import com.maqianyu.nicedrama.myset.load.NewtonCradleLoading;
 
 /**
  * Created by dllo on 16/10/28.
  */
-public class LogInActivity extends AbsActivity implements View.OnClickListener{
+public class LogInActivity extends AbsActivity implements View.OnClickListener {
     private EditText nameEt, passwordEt;
     private Button loginBtn;
     private TextView registerTv;
-    private ProgressDialog progressDialog;
+    private NewtonCradleLoading newtonCradleLoading;
+    private Handler handler;
 
     @Override
     protected int setLayout() {
@@ -44,15 +41,32 @@ public class LogInActivity extends AbsActivity implements View.OnClickListener{
         passwordEt = byView(R.id.signin_psw_et);
         loginBtn = byView(R.id.signin_login_btn);
         registerTv = byView(R.id.signin_register_tv);
-
+        newtonCradleLoading = byView(R.id.newton_cradle_loading);
     }
 
     @Override
     protected void initDatas() {
         loginBtn.setOnClickListener(this);
         registerTv.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        new TitleBuilder(this).setTitle("登陆").setBackImgGone(false).setMoreImg(false);
+        new TitleBuilder(this).setTitle(getResources().getString(R.string.login_login)).setBackImgGone(false).setMoreImg(false);
+        newtonCradleLoading.setVisibility(View.INVISIBLE);
+        handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                switch (msg.what) {
+                    case 0:
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = (float) 1.0; //0.0-1.0
+                        getWindow().setAttributes(lp);
+                        newtonCradleLoading.stop();
+                        newtonCradleLoading.setVisibility(View.INVISIBLE);
+                        break;
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -64,33 +78,37 @@ public class LogInActivity extends AbsActivity implements View.OnClickListener{
                 String name = MD5Util.encrypt(names);
                 String password = MD5Util.encrypt(psws);
                 if (names.isEmpty() && psws.isEmpty()) {
-                    Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.login_name_psw_p), Toast.LENGTH_SHORT).show();
                 } else if (names.isEmpty()) {
-                    Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.login_name_p), Toast.LENGTH_SHORT).show();
                 } else if (!names.isEmpty() && psws.isEmpty()) {
-                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.login_psw_p), Toast.LENGTH_SHORT).show();
                 } else if (!names.isEmpty() && !psws.isEmpty()) {
                     if (LitOrmIntance.getIntance().queryByName(name).size() > 0) {
                         boolean flag1 = LitOrmIntance.getIntance().queryByName(name).get(0).getPassword().equals(password);
-                        progressDialog.setMessage("正在登陆中...");
-                        progressDialog.show();
+                        newtonCradleLoading.setVisibility(View.VISIBLE);
+                        newtonCradleLoading.start();
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = (float) 0.7; //0.0-1.0
+                        getWindow().setAttributes(lp);
 
-                            if (flag1) {
-                                String number = LitOrmIntance.getIntance().queryByName(name).get(0).getNumber();
-                                LitOrmIntance.getIntance().deleteByName(name);
-                                LitOrmIntance.getIntance().insert(new LiteOrmLogInBean(name, password, number, true));
+
+                        if (flag1) {
+                            String number = LitOrmIntance.getIntance().queryByName(name).get(0).getNumber();
+                            LitOrmIntance.getIntance().deleteByName(name);
+                            LitOrmIntance.getIntance().insert(new LiteOrmLogInBean(name, password, number, true));
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
                                         Thread.sleep(3000);
-                                        progressDialog.dismiss();
+                                        handler.sendEmptyMessage(0);
                                         Looper.prepare();
-                                        Toast.makeText(LogInActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LogInActivity.this, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 
                                         Intent intent1 = new Intent(LogInActivity.this, MainActivity.class);
-                                        intent1.putExtra("id", 1);
-                                        intent1.putExtra("name", names);
+                                        intent1.putExtra(MainActivity.ID, 1);
+                                        intent1.putExtra(MainActivity.NAME, names);
                                         startActivity(intent1);
                                         Looper.loop();
                                     } catch (InterruptedException e) {
@@ -100,29 +118,27 @@ public class LogInActivity extends AbsActivity implements View.OnClickListener{
                             }).start();
 
 
+                        } else {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(3000);
+                                        Looper.prepare();
+                                        handler.sendEmptyMessage(0);
+                                        Toast.makeText(LogInActivity.this, getResources().getString(R.string.login_error_psw), Toast.LENGTH_SHORT).show();
+                                        Looper.loop();
 
-                            } else {
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            Thread.sleep(3000);
-                                            progressDialog.dismiss();
-                                            Looper.prepare();
-                                            Toast.makeText(LogInActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
-                                            Looper.loop();
-
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
                                     }
-                                }).start();
-
+                                }
+                            }).start();
 
 
                         }
                     } else {
-                        Toast.makeText(this, "用户名错误", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.login_erroe_name), Toast.LENGTH_SHORT).show();
                     }
                 }
 

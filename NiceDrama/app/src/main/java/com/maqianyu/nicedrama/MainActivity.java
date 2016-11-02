@@ -1,17 +1,13 @@
 package com.maqianyu.nicedrama;
 
 import android.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.AbsActivity;
 import com.maqianyu.nicedrama.map.quickhead.QuickHeadFragment;
 import com.maqianyu.nicedrama.myset.ui.SettingFragment;
@@ -86,4 +82,7 @@ public class MainActivity extends AbsActivity {
             System.exit(0);
         }
     }
+
+    public static final String  ID = "id";
+    public static final String NAME = "name";
 }

@@ -1,6 +1,5 @@
 package com.maqianyu.nicedrama.myset.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,7 +64,7 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
         registerYesTv.setOnClickListener(this);
         getCodeTv.setOnClickListener(this);
         registerTv.setOnClickListener(this);
-        new TitleBuilder(this).setTitle("注册").setBackImgGone(false).setMoreImg(false);
+        new TitleBuilder(this).setTitle(getResources().getString(R.string.register_register)).setBackImgGone(false).setMoreImg(false);
         initSDK();
 
     }
@@ -97,7 +96,7 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
                  * 在数据库中查询是否有该手机号,如果有,提示该手机号码已注册
                  */
                 if (LitOrmIntance.getIntance().queryByNumber(MD5Util.encrypt(userPhone)).size() > 0) {
-                    Toast.makeText(this, "该手机号码已注册", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.register_phone_ed), Toast.LENGTH_SHORT).show();
                 } else {
                     /**
                      * 当输入的手机号码不是11位或不是以1开头的,提示手机号码错误,
@@ -110,20 +109,20 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
                     password = MD5Util.encrypt(psws);
                     name = MD5Util.encrypt(names);
                     if (names.isEmpty()) {
-                        Toast.makeText(this, "请输入昵称", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.register_name_p), Toast.LENGTH_SHORT).show();
                     } else if (LitOrmIntance.getIntance().queryByName(name).size() != 0) {
-                        Toast.makeText(this, "用户名重复,请重新输入", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.register_name_again), Toast.LENGTH_SHORT).show();
                     } else if (!psws.equals(rePsws)) {
-                        Toast.makeText(this, "两次输入的密码不一致,请重新输入", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.register_phone_dis_p), Toast.LENGTH_SHORT).show();
                     } else if (psws.isEmpty() && rePsws.isEmpty()) {
-                        Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.login_psw_p), Toast.LENGTH_SHORT).show();
                     } else if (!PhoneNumberUtil.isPhoneNum(userPhone)) {
-                        Toast.makeText(this, "手机号码错误", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.register_error_phine), Toast.LENGTH_SHORT).show();
                     } else {
                         new AlertDialog.Builder(RegisterActivity.this)
-                                .setTitle("发送短信")
-                                .setMessage("我们将把验证码发送到以下号码:\n" + "+86:" + userPhone)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                .setTitle(getResources().getString(R.string.register_send_msg))
+                                .setMessage(getResources().getString(R.string.register_send_phone) + "\n" + "+86:" + userPhone)
+                                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         SMSSDK.getVerificationCode("86", userPhone);
@@ -145,7 +144,12 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
                                             }
                                         }).start();
                                     }
-                                })
+                                }).setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
                                 .create()
                                 .show();
                     }
@@ -180,19 +184,19 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
 
         if (psws.equals(rePsws) && !psws.isEmpty() && !names.isEmpty()) {
             if (LitOrmIntance.getIntance().queryByName(name).size() != 0) {
-                Toast.makeText(this, "用户名重复,请重新输入", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.register_name_again), Toast.LENGTH_SHORT).show();
 
             } else {
                 SMSSDK.submitVerificationCode("86", userPhone, smsCodeEt.getText().toString());//对验证码进行验证->回调函数
             }
         } else if (names.isEmpty()) {
-            Toast.makeText(this, "请输入昵称", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.register_name_p), Toast.LENGTH_SHORT).show();
         } else if (LitOrmIntance.getIntance().queryByName(name).size() != 0) {
-            Toast.makeText(this, "用户名重复,请重新输入", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.register_name_again), Toast.LENGTH_SHORT).show();
         } else if (!psws.equals(rePsws)) {
-            Toast.makeText(this, "两次输入的密码不一致,请重新输入", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.register_phone_dis_p), Toast.LENGTH_SHORT).show();
         } else if (psws.isEmpty() && rePsws.isEmpty()) {
-            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.login_psw_p), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -206,7 +210,7 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
                     break;
                 case CODE_REPEAT://重新发送
                     getCodeTv.setEnabled(true);
-                    getCodeTv.setText("获取验证码");
+                    getCodeTv.setText(getResources().getString(R.string.register_get_code));
                     getCodeTv.setClickable(true);
                     break;
                 case SMSDDK_HANDLER:
@@ -218,7 +222,7 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
                         //验证码验证成功
                         if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                             boolean type = false;
-                            Toast.makeText(RegisterActivity.this, "验证成功", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, getResources().getString(R.string.reister_yanzheng_sus), Toast.LENGTH_LONG).show();
                             String userPhones = MD5Util.encrypt(userPhone);
                             LitOrmIntance.getIntance().insert(new LiteOrmLogInBean(name, password, userPhones, type));
                             Intent intent = new Intent(RegisterActivity.this, LogInActivity.class);
@@ -228,8 +232,7 @@ public class RegisterActivity extends AbsActivity implements View.OnClickListene
                         }
                         //已发送验证码
                         else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                            Toast.makeText(getApplicationContext(), "验证码已经发送",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.register_code_sended), Toast.LENGTH_SHORT).show();
                         } else {
                             ((Throwable) data).printStackTrace();
                         }
