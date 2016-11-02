@@ -19,7 +19,6 @@ import com.maqianyu.nicedrama.Tools.ImageLoaderTool;
 import com.maqianyu.nicedrama.Tools.LitOrmIntance;
 import com.maqianyu.nicedrama.Tools.OkHttpInstance;
 import com.maqianyu.nicedrama.map.quickhead.LiteOrmBean;
-import com.maqianyu.nicedrama.video.ChaseEpiActivity;
 import com.maqianyu.nicedrama.video.Entity.EBAuthorImgEntity;
 import com.maqianyu.nicedrama.video.Entity.EpisodeEntity;
 import com.maqianyu.nicedrama.Tools.Values;
@@ -127,7 +126,9 @@ public class EpisodeFragment extends AbsFragment {
             }
         }).start();
 
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -136,16 +137,6 @@ public class EpisodeFragment extends AbsFragment {
     }
 
     private void setOnClick() {
-        /**
-         * 追剧按钮的点击事件
-         */
-        zhuijuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goTo(ChaseEpiActivity.class);
-            }
-        });
-
         /**
          * 播放按钮的点击事件
          */
