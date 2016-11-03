@@ -166,7 +166,7 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
                     if (LitOrmIntance.getIntance().queryByName(namesIn).get(0).isType() == false) {
 //                        tv.setText("");
                         signInTv.setText(getResources().getString(R.string.login_login));
-                        signImg.setImageResource(R.mipmap.ig_profile_photo_default);
+                        signImg.setImageResource(R.mipmap.yulebao);
                     }
 
                 }
