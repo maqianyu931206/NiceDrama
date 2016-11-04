@@ -2,14 +2,10 @@ package com.maqianyu.nicedrama.myset.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.karics.library.zxing.android.CaptureActivity;
 import com.maqianyu.nicedrama.R;
 import com.maqianyu.nicedrama.Tools.AbsFragment;
 
@@ -51,7 +48,6 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
     private List<SettingLvBean> datas;
     private SettingLvAdapter settingLvAdapter;
     private String cacheSize;
-    private TextView tv;
     private TextView signInTv;
     private String nameIn;
     private String namesIn;
@@ -73,7 +69,6 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
     @Override
     protected void initViews() {
         listView = byView(R.id.setting_lv);
-        tv = byView(R.id.user_name_tv);//昵称
         signInTv = byView(R.id.user_signin__tv);//登录
         signImg = byView(R.id.sign_in_img);
     }
@@ -89,7 +84,12 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new TitleBuilder((Activity) context).setTitle("我的").setBackImgGone(true).setMoreImg(false);
+        new TitleBuilder((Activity) context).setTitle("我的").setBackImgGone(true).setMoreImg(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goTo(ScanActivity.class);
+            }
+        });
         datas = new ArrayList<>();
         settingLvAdapter = new SettingLvAdapter(context);
         listView.setAdapter(settingLvAdapter);
@@ -102,7 +102,9 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        goTo(ScanActivity.class);
+//                        goTo(ScanActivity.class);
+                        Intent intent1 = new Intent(context, CaptureActivity.class);
+                        startActivityForResult(intent1, Values.REQUEST_CODE_SCAN);
                         break;
                     case 1:
                         Intent intent = new Intent();
@@ -117,7 +119,7 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
                         goTo(CollectionActivity.class);
                         break;
                     case 4:
-                        Toast.makeText(context, "清除缓存成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, getResources().getString(R.string.clear_cache_scs), Toast.LENGTH_SHORT).show();
                         settingLvAdapter.setSelectesIndex(4);
                         break;
                 }
@@ -131,8 +133,8 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
 
             namesIn = MD5Util.encrypt(nameIn);
             if (LitOrmIntance.getIntance().queryByName(namesIn).get(0).isType()) {
-                signInTv.setText("已登录");
-                tv.setText(nameIn);
+                signInTv.setText(nameIn);
+//                tv.setText(nameIn);
                 signImg.setImageResource(R.drawable.christmas_her_head);
             }
         }
@@ -152,9 +154,9 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
     }
 
     private void logInOrNot() {
-        if (signInTv.getText().toString().equals("已登录")) {
+        if (!signInTv.getText().toString().equals(getResources().getString(R.string.login_login))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setMessage("是否退出登录?").setPositiveButton("是", new DialogInterface.OnClickListener() {
+            builder.setMessage(getResources().getString(R.string.logout_or_not)).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String number = LitOrmIntance.getIntance().queryByName(namesIn).get(0).getNumber();
@@ -162,14 +164,14 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
                     LitOrmIntance.getIntance().deleteByName(namesIn);
                     LitOrmIntance.getIntance().insert(new LiteOrmLogInBean(namesIn, password, number, false));
                     if (LitOrmIntance.getIntance().queryByName(namesIn).get(0).isType() == false) {
-                        tv.setText("");
-                        signInTv.setText("登录");
-                        signImg.setImageResource(R.mipmap.ig_profile_photo_default);
+//                        tv.setText("");
+                        signInTv.setText(getResources().getString(R.string.login_login));
+                        signImg.setImageResource(R.mipmap.yulebao);
                     }
 
                 }
             });
-            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -178,7 +180,7 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
             builder.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setMessage("是否登录?").setPositiveButton("是", new DialogInterface.OnClickListener() {
+            builder.setMessage(getResources().getString(R.string.login_or_not)).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(context, LogInActivity.class);
@@ -186,7 +188,7 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
 
                 }
             });
-            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 

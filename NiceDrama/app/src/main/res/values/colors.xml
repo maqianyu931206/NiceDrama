@@ -65,4 +65,10 @@
     <color name="gray_color">#9e9999</color>
     <color name="gold">#f49108</color>
 
+
+    <color name="book_loading_background">#ffffff</color>
+    <color name="book_loading_book">#ff33b5e5</color>
+    <color name="book_loading_page">#ffffff</color>
+    <color name="blues">#ff33b5e5</color>
+
 </resources>

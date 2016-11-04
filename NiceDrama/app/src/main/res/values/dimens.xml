@@ -50,4 +50,9 @@
     <dimen name="video_middle_margin">10dp</dimen>
     <dimen name="video_big_margin">20dp</dimen>
     <dimen name="video_small_margin">5dp</dimen>
+
+
+    <dimen name="book_border">10dp</dimen>
+    <dimen name="page_border">5dp</dimen>
+    <dimen name="book_padding">15dp</dimen>
 </resources>
