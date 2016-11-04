@@ -1,5 +1,6 @@
 package com.maqianyu.nicedrama.map.quickhead;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.net.Uri;
 import android.util.Log;
@@ -21,7 +22,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/10/24.
- *我的收藏页面
+ * 我的收藏页面
  * @author 马迁宇
  */
 public class CollectionActivity extends AbsActivity {
@@ -50,11 +51,12 @@ public class CollectionActivity extends AbsActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
                 dialog = new Dialog(CollectionActivity.this);
                 View dview = LayoutInflater.from(CollectionActivity.this).inflate(R.layout.quickinfoheadview, null);
                 superVideoPlayer = (SuperVideoPlayer) dview.findViewById(R.id.quick_info_superPlayer);
-                superVideoPlayer.loadAndPlay(Uri.parse(aa.get(position).getUrl()), 0);
+                aa = LitOrmIntance.getIntance().getQueryAll(LiteOrmBean.class);
+                superVideoPlayer.loadAndPlay(Uri.parse(aa.get(position).getUrl()), 1);
+                //播放器的监听
                 superVideoPlayer.setVideoPlayCallback(new SuperVideoPlayer.VideoPlayCallbackImpl() {
                     @Override
                     public void onCloseVideo() {
@@ -75,6 +77,7 @@ public class CollectionActivity extends AbsActivity {
                     }
                 });
                 dialog.setCanceledOnTouchOutside(true);
+                dialog.setTitle(aa.get(position).getImgUrl());
                 dialog.setContentView(dview);
                 dialog.show();
                 LiteOrmBean bean = (LiteOrmBean) parent.getItemAtPosition(position);

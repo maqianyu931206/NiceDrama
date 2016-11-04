@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by dllo on 16/10/22.
+ * 快手显示页面的实体类
  */
 public class QuickHeadBean {
 
