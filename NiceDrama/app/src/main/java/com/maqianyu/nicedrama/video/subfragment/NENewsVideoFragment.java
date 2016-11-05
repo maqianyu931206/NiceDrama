@@ -104,6 +104,7 @@ public class NENewsVideoFragment extends AbsFragment {
                     @Override
                     public void run() {
                         doGet();
+                        listView.smoothScrollToPosition(11);
                     }
                 }).start();
                 swipe.setRefreshing(false);
@@ -162,7 +163,6 @@ public class NENewsVideoFragment extends AbsFragment {
                 ENNEntity entity = gson.fromJson(str, ENNEntity.class);
                 datas = entity.get视频();
                 handler.sendEmptyMessage(12);
-
             }
         });
     }

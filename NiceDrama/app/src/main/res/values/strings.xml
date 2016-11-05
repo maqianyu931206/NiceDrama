@@ -284,4 +284,8 @@
     <string name="login_or_not">是否登录?</string>
     <string name="logout_or_not">是否退出登录?</string>
     <string name="clear_cache_scs">清除缓存成功</string>
+
+    <string name="news_rb">新闻看</string>
+    <string name="epi_rb">剧集看</string>
+    <string name="play_rb">玩玩看</string>
 </resources>
