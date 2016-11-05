@@ -135,7 +135,7 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
             if (LitOrmIntance.getIntance().queryByName(namesIn).get(0).isType()) {
                 signInTv.setText(nameIn);
 //                tv.setText(nameIn);
-                signImg.setImageResource(R.drawable.christmas_her_head);
+                signImg.setImageResource(R.mipmap.yulebao);
             }
         }
     }
@@ -166,7 +166,7 @@ public class SettingFragment extends AbsFragment implements View.OnClickListener
                     if (LitOrmIntance.getIntance().queryByName(namesIn).get(0).isType() == false) {
 //                        tv.setText("");
                         signInTv.setText(getResources().getString(R.string.login_login));
-                        signImg.setImageResource(R.mipmap.yulebao);
+                        signImg.setImageResource(R.mipmap.ig_profile_photo_default);
                     }
 
                 }

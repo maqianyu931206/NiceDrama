@@ -116,8 +116,6 @@ public class LogInActivity extends AbsActivity implements View.OnClickListener {
                                     }
                                 }
                             }).start();
-
-
                         } else {
                             new Thread(new Runnable() {
                                 @Override
