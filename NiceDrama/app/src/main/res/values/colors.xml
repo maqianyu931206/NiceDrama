@@ -3,8 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
-
     <!--Status bar color-->
     <color name="statusColor">#ff0000</color>
     <!-- toolBar color -->
@@ -21,14 +19,12 @@
     <!-- 分割线背景色 -->
     <drawable name="line_background">#161823</drawable>
 
-
     <!-- 控件按下时显示的颜色 -->
     <color name="list_backgroud_color">#2fb3cb</color>
     <color name="title_color">#0f8ec5</color>
     <color name="content_color">#737373</color>
         <!--语音页面-->
     <!--设置页面-->
-
 
     <color name="white">#fff</color>
     <color name="grey"> #ebebeb</color>

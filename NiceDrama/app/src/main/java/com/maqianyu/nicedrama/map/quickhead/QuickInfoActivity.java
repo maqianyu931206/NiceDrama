@@ -182,9 +182,13 @@ public class QuickInfoActivity extends AbsActivity {
                     secClick = System.currentTimeMillis();
                     if (secClick - firClick < 1000) {
                         LiteOrmBean liteOrmBean = new LiteOrmBean(title, imgUrl, url);
+                        if (a == false){
                         LitOrmIntance.getIntance().insertOne(liteOrmBean);
                         Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_success), Toast.LENGTH_SHORT).show();
                         a = true;
+                        }else if (a == true || LitOrmIntance.getIntance().queryOne(imgUrl).size() > 0){
+                            Toast.makeText(QuickInfoActivity.this, "已经收藏过了 !", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
                 return true;
@@ -206,10 +210,14 @@ public class QuickInfoActivity extends AbsActivity {
 
             @Override
             public void onLongPress(MotionEvent e) {
-                LitOrmIntance.getIntance().deleteOne(title);
-                saveimg.setImageResource(R.mipmap.save);
-                Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_fail), Toast.LENGTH_SHORT).show();
-                a = false;
+                if (LitOrmIntance.getIntance().queryOne(imgUrl).size() > 0) {
+                    LitOrmIntance.getIntance().deleteOne(title);
+                    saveimg.setImageResource(R.mipmap.save);
+                    Toast.makeText(QuickInfoActivity.this, getResources().getString(R.string.save_fail), Toast.LENGTH_SHORT).show();
+                    a = false;
+                }else {
+                    Toast.makeText(QuickInfoActivity.this, "还没有收藏过,双击收藏吧", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

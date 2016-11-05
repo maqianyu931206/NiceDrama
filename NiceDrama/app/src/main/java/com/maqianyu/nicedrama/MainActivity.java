@@ -66,6 +66,7 @@ public class MainActivity extends AbsActivity {
 
 
     }
+    //点击两次退出应用
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

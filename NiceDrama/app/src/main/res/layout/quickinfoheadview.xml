@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <com.maqianyu.nicedrama.video.wkvideoplayer.view.SuperVideoPlayer
+        android:id="@+id/quick_info_superPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

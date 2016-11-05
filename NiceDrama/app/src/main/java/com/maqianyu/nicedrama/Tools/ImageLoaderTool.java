@@ -23,6 +23,4 @@ public class ImageLoaderTool {
     public static void loadImage(String url, ImageView imageView) {
         ImageLoader.getInstance().displayImage(url, imageView, options);
     }
-
-
 }

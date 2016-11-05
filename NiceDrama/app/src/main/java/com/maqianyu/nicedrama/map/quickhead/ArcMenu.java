@@ -16,6 +16,7 @@ import com.maqianyu.nicedrama.R;
 
 /**
  * Created by dllo on 16/10/22.
+ * 卫星菜单
  */
 public class ArcMenu extends ViewGroup implements View.OnClickListener {
     private static final String TAG = "quw.ArcMenu";

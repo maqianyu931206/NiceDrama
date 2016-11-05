@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * 快手详情,RecyclerView的适配器
- *
  * @auther 马迁宇对你说!
  */
 public class QuickRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -82,7 +81,7 @@ public class QuickRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (datas.get(position).getHeadurls().size() != 0) {
             ImageLoaderTool.loadImage(datas.get(position).getHeadurls().get(0).getUrl(), myviewHolder.cirimg);
         } else {
-            myviewHolder.cirimg.setImageResource(R.mipmap.ic_launcher);
+            myviewHolder.cirimg.setImageResource(R.mipmap.yulebao);
         }
 
         myviewHolder.imageView.setOnClickListener(new View.OnClickListener() {
