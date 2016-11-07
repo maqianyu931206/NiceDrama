@@ -15,7 +15,7 @@ import com.maqianyu.nicedrama.Tools.MyApp;
 public class ScreenSizeUtils {
 
     public enum ScreenState{
-        WIDTH , HEIGHT;
+        WIDTH , HEIGHT
     }
 
     public static int getScreenState(ScreenState screenState) {

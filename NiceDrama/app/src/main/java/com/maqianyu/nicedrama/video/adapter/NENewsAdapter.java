@@ -93,6 +93,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
     protected void onBindViewHolder(final MyHolder myHolder, final ENNEntity.视频Bean itemData, final int position) {
         this.myHolder = myHolder;
         myHolder.titleTv.setText(itemData.getTitle());
+        myHolder.title.setText(itemData.getTitle());
         Picasso.with(context).load(itemData.getCover()).into(myHolder.flBg);
         Picasso.with(context).load(itemData.getTopicImg()).into(myHolder.authorImg);
         myHolder.authorTv.setText(itemData.getTopicName());
@@ -230,7 +231,7 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
 
     private void playVideo(MyHolder myHolder, ENNEntity.视频Bean itemData, int position) {
         if (isPlay.get(position) == true) {
-//            myHolder.superVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
+            myHolder.superVideoPlayer.setVideoPlayCallback(mVideoPlayCallback);
             myHolder.playImg.setVisibility(View.GONE);
             myHolder.titleTv.setVisibility(View.GONE);
             myHolder.superVideoPlayer.setVisibility(View.VISIBLE);
@@ -297,119 +298,119 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
         }
     }
 
-//    /**
-//     * 播放器的回调函数
-//     */
-//    private SuperVideoPlayer.VideoPlayCallbackImpl mVideoPlayCallback = new SuperVideoPlayer.VideoPlayCallbackImpl() {
-//        /**
-//         * 播放器关闭按钮回调
-//         */
-//        @Override
-//        public void onCloseVideo() {
-//            myHolder.superVideoPlayer.close();//关闭VideoView
-//            myHolder.playImg.setVisibility(View.VISIBLE);
-//            myHolder.superVideoPlayer.setVisibility(View.GONE);
-//            resetPageToPortrait();
-//        }
-//
-//        /**
-//         * 播放器横竖屏切换回调
-//         */
-//        @Override
-//        public void onSwitchPageType() {
-//            if (((AppCompatActivity) context).getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-//                ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//                myHolder.superVideoPlayer.setPageType(MediaController.PageType.SHRINK);
-//            } else {
-//                ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//                myHolder.superVideoPlayer.setPageType(MediaController.PageType.EXPAND);
-//            }
-//        }
-//
-//        /**
-//         * 播放完成回调
-//         */
-//        @Override
-//        public void onPlayFinish() {
-//
-//        }
-//    };
-//
-//    /***
-//     * 旋转屏幕之后回调
-//     *
-//     * @param newConfig newConfig
-//     */
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        ((AppCompatActivity) context).onConfigurationChanged(newConfig);
-//        if (null == myHolder.superVideoPlayer) return;
-//        /***
-//         * 根据屏幕方向重新设置播放器的大小
-//         */
-//        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            ((AppCompatActivity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            ((AppCompatActivity) context).getWindow().getDecorView().invalidate();
-//            float height = DensityUtil.getWidthInPx(context);
-//            float width = DensityUtil.getHeightInPx(context);
-//            myHolder.superVideoPlayer.getLayoutParams().height = (int) width;
-//            myHolder.superVideoPlayer.getLayoutParams().width = (int) height;
-//        } else if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            final WindowManager.LayoutParams attrs = ((AppCompatActivity) context).getWindow().getAttributes();
-//            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            ((AppCompatActivity) context).getWindow().setAttributes(attrs);
-//            ((AppCompatActivity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//            float width = DensityUtil.getWidthInPx(context);
-//            float height = DensityUtil.dip2px(context, 200.f);
-//            myHolder.superVideoPlayer.getLayoutParams().height = (int) height;
-//            myHolder.superVideoPlayer.getLayoutParams().width = (int) width;
-//        }
-//    }
-//
-//    /***
-//     * 恢复屏幕至竖屏
-//     */
-//    private void resetPageToPortrait() {
-//        if (((AppCompatActivity) context).getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-//            ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//            myHolder.superVideoPlayer.setPageType(MediaController.PageType.SHRINK);
-//        }
-//    }
-//
-//    class Borad extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(final Context context, Intent intent) {
-//            int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);
-//            if (wifiState == WifiManager.WIFI_STATE_DISABLING) {
-//                //正在关闭
-//            } else if (wifiState == WifiManager.WIFI_STATE_ENABLING) {
-//                //正在打开
-//            } else if (wifiState == WifiManager.WIFI_STATE_DISABLED) {
-//                // 已经关闭
-//                myHolder.superVideoPlayer.pausePlay(true);//设置播放暂停
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪随意");
-//                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        myHolder.superVideoPlayer.goOnPlay();
-//                    }
-//                });
-//                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        myHolder.superVideoPlayer.close();
-//                    }
-//                });
-//                builder.create().show();
-//            } else if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
-//                //已经打开
-//            } else {
-//                //未知
-//            }
-//        }
-//    }
+    /**
+     * 播放器的回调函数
+     */
+    private SuperVideoPlayer.VideoPlayCallbackImpl mVideoPlayCallback = new SuperVideoPlayer.VideoPlayCallbackImpl() {
+        /**
+         * 播放器关闭按钮回调
+         */
+        @Override
+        public void onCloseVideo() {
+            myHolder.superVideoPlayer.close();//关闭VideoView
+            myHolder.playImg.setVisibility(View.VISIBLE);
+            myHolder.superVideoPlayer.setVisibility(View.GONE);
+            resetPageToPortrait();
+        }
+
+        /**
+         * 播放器横竖屏切换回调
+         */
+        @Override
+        public void onSwitchPageType() {
+            if (((AppCompatActivity) context).getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                myHolder.superVideoPlayer.setPageType(MediaController.PageType.SHRINK);
+            } else {
+                ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                myHolder.superVideoPlayer.setPageType(MediaController.PageType.EXPAND);
+            }
+        }
+
+        /**
+         * 播放完成回调
+         */
+        @Override
+        public void onPlayFinish() {
+
+        }
+    };
+
+    /***
+     * 旋转屏幕之后回调
+     *
+     * @param newConfig newConfig
+     */
+    public void onConfigurationChanged(Configuration newConfig) {
+        ((AppCompatActivity) context).onConfigurationChanged(newConfig);
+        if (null == myHolder.superVideoPlayer) return;
+        /***
+         * 根据屏幕方向重新设置播放器的大小
+         */
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ((AppCompatActivity) context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            ((AppCompatActivity) context).getWindow().getDecorView().invalidate();
+            float height = DensityUtil.getWidthInPx(context);
+            float width = DensityUtil.getHeightInPx(context);
+            myHolder.superVideoPlayer.getLayoutParams().height = (int) width;
+            myHolder.superVideoPlayer.getLayoutParams().width = (int) height;
+        } else if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            final WindowManager.LayoutParams attrs = ((AppCompatActivity) context).getWindow().getAttributes();
+            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            ((AppCompatActivity) context).getWindow().setAttributes(attrs);
+            ((AppCompatActivity) context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            float width = DensityUtil.getWidthInPx(context);
+            float height = DensityUtil.dip2px(context, 200.f);
+            myHolder.superVideoPlayer.getLayoutParams().height = (int) height;
+            myHolder.superVideoPlayer.getLayoutParams().width = (int) width;
+        }
+    }
+
+    /***
+     * 恢复屏幕至竖屏
+     */
+    private void resetPageToPortrait() {
+        if (((AppCompatActivity) context).getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            ((AppCompatActivity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            myHolder.superVideoPlayer.setPageType(MediaController.PageType.SHRINK);
+        }
+    }
+
+    class Borad extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);
+            if (wifiState == WifiManager.WIFI_STATE_DISABLING) {
+                //正在关闭
+            } else if (wifiState == WifiManager.WIFI_STATE_ENABLING) {
+                //正在打开
+            } else if (wifiState == WifiManager.WIFI_STATE_DISABLED) {
+                // 已经关闭
+                myHolder.superVideoPlayer.pausePlay(true);//设置播放暂停
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪随意");
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.goOnPlay();
+                    }
+                });
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.close();
+                    }
+                });
+                builder.create().show();
+            } else if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
+                //已经打开
+            } else {
+                //未知
+            }
+        }
+    }
 
     private class DownLoadCompleteReceiver extends BroadcastReceiver {
         @Override
