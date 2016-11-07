@@ -40,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
-                android:maxLength="8"
-                android:hint="小于八位,由字母和数字组成"
+                android:maxLength="7"
+                android:hint="请输入昵称"
                 android:textSize="14sp" />
         </LinearLayout>
 
