@@ -112,10 +112,10 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
         }
 
         // 判断当前网络状态
-//        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-//        if (networkInfo != null && networkInfo.isConnected()) {
-//            if (networkInfo.getType() == (ConnectivityManager.TYPE_WIFI)) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            if (networkInfo.getType() == (ConnectivityManager.TYPE_WIFI)) {
                 myHolder.playImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -137,28 +137,28 @@ public class NENewsAdapter extends AbsBaseAdapter<ENNEntity.视频Bean, NENewsAd
             myHolder.superVideoPlayer.close();
         }
 //
-//            } else if (networkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
-//                Toast.makeText(context, "当前处于移动数据状态", Toast.LENGTH_SHORT).show();
-//                myHolder.superVideoPlayer.pausePlay(true);//设置播放暂停
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪随意");
-//                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        myHolder.superVideoPlayer.goOnPlay();
-//                    }
-//                });
-//                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        myHolder.superVideoPlayer.close();
-//                    }
-//                });
-//                builder.create().show();
-//            }
-//        } else {
-//            Toast.makeText(context, "当前无网络连接", Toast.LENGTH_SHORT).show();
-//        }
+            } else if (networkInfo.getType() == (ConnectivityManager.TYPE_MOBILE)) {
+                Toast.makeText(context, "当前处于移动数据状态", Toast.LENGTH_SHORT).show();
+                myHolder.superVideoPlayer.pausePlay(true);//设置播放暂停
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("当前为非WIFI状态,是否继续播放视频,土豪随意");
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.goOnPlay();
+                    }
+                });
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myHolder.superVideoPlayer.close();
+                    }
+                });
+                builder.create().show();
+            }
+        } else {
+            Toast.makeText(context, "当前无网络连接", Toast.LENGTH_SHORT).show();
+        }
 
 
         shareAndCollection(myHolder, itemData);
